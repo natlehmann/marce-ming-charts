@@ -1,4 +1,4 @@
-package main.java.com.bmat.digitalcharts.admin.controllers;
+package com.bmat.digitalcharts.admin.controllers;
 
 import javax.servlet.http.HttpSession;
 

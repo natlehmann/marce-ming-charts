@@ -12,7 +12,7 @@
     
 	<div id="buscaBot">
 		<a href='<c:url value="/home"/>' class="classname">
-			VOLVER<img src='<c:url value="/images/flecha.png" />' width="17" height="19" />
+			VOLVER
 		</a>
 	</div>
 	
