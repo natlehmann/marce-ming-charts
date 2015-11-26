@@ -9,14 +9,14 @@ public class LoginController {
 
 	@RequestMapping("/login")
 	public String login() {
-		return "/admin/login";
+		return "admin/login";
 	}
 	
 	@RequestMapping("/login-error")
 	public String loginError(ModelMap model) {
 		
 		model.addAttribute("msg", "El usuario o la contraseña no son válidos. Intente nuevamente por favor.");
-		return "/admin/login";
+		return "admin/login";
 	}
 
 }

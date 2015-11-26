@@ -29,7 +29,7 @@ public class HomeController {
 	
 	@RequestMapping("/admin")
 	public String adminHome() {
-		return "/admin/home";
+		return "admin/home";
 	}
 
 }
