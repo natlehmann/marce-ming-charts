@@ -1,2 +1,5 @@
 /bin
 /configuracion
+settings.xml
+.settings/
+/target
