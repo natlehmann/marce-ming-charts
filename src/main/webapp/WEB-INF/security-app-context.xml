@@ -18,7 +18,7 @@
     <http use-expressions="true">
         <intercept-url pattern="/" access="permitAll" />
 	    <intercept-url pattern="/admin/**" access="hasRole('administrador')" />
-	    <intercept-url pattern="/**" access="hasAnyRole('administrador','usuario')" />
+	    <intercept-url pattern="/**" access="hasAnyRole('administrador')" />
         <form-login login-page="/login" authentication-failure-url="/login-error" default-target-url="/home" />
         <logout logout-url="/logout" logout-success-url="/login"/>
     </http>
