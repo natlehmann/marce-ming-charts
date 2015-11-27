@@ -12,7 +12,7 @@ import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 @Service
 public class SummaryReportService {
 
-	public SummaryReport getSummaryReport(Long countryId, Integer weekFrom) {
+	public SummaryReport getSummaryReport(Long countryId, Integer year, Integer weekFrom) {
 		// TODO Auto-generated method stub
 		SummaryReport r = new SummaryReport();
 		r.setDateFrom(new Date());

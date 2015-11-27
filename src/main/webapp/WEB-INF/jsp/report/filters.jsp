@@ -8,13 +8,25 @@
 
 	<form action='<c:url value="/report/export"/>' method="post">
 	
+		<h2>Year</h2>
+		
+		<div class="dropdown">
+			<select name="year">
+				<c:forEach items="${years}" var="year">
+					<option value="${year}">
+						${year}
+					</option>
+				</c:forEach>
+			</select>
+		</div>
+	
 		<h2>Country</h2>
 		
 		<div class="dropdown">
 			<select name="country">
 <!-- 				<option value="">Select...</option> -->
 				<c:forEach items="${countries}" var="country">
-					<option value="${country.id}" ${selectedCountry eq country.id ? "selected='selected'" : ""}>
+					<option value="${country.id}">
 						${country.name}
 					</option>
 				</c:forEach>
@@ -26,7 +38,7 @@
 		<div class="dropdown">
 			<select name="weekFrom">
 				<c:forEach items="${weeks}" var="week">
-					<option value="${week}" ${selectedWeek eq week ? "selected='selected'" : ""}>
+					<option value="${week}">
 						${week}
 					</option>
 				</c:forEach>

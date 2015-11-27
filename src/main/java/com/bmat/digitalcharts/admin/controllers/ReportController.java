@@ -1,11 +1,13 @@
 package com.bmat.digitalcharts.admin.controllers;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ import com.bmat.digitalcharts.admin.services.SummaryReportService;
 public class ReportController {
 	
 	private static Log log = LogFactory.getLog(ReportController.class);
+	
+	@Value("${report.years.back}")
+	private String YEARS_BACK;
 	
 	@Autowired
 	private SummaryReportService service;
@@ -38,8 +43,16 @@ public class ReportController {
 		for (int i = 1; i <= 52; i++) {
 			weeks.add(i);
 		}
-		
 		model.addAttribute("weeks", weeks);
+		
+		List<Integer> years = new LinkedList<>();
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		years.add(currentYear);
+		for (int i = 1; i < Integer.parseInt(YEARS_BACK); i++) {
+			years.add(currentYear - i);
+		}
+		model.addAttribute("years", years);
+		
 		
 		return "report/filters";
 	}
@@ -47,12 +60,11 @@ public class ReportController {
 
 	@RequestMapping("/export")
 	public ModelAndView getExcel(@RequestParam("country") Long countryId, 
+			@RequestParam("year") Integer year,
 			@RequestParam("weekFrom") Integer weekFrom,
 			ModelMap model) {
 		
-		model.addAttribute("selectedCountry", countryId);
-		
-		SummaryReport report = service.getSummaryReport(countryId, weekFrom);
+		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom);
 		return new ModelAndView("chartSummaryExcelView", "summaryReport", report);
 	}
 }
