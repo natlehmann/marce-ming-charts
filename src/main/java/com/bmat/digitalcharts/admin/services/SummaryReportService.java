@@ -12,14 +12,14 @@ import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 @Service
 public class SummaryReportService {
 
-	public SummaryReport getSummaryReport() {
+	public SummaryReport getSummaryReport(Long countryId) {
 		// TODO Auto-generated method stub
 		SummaryReport r = new SummaryReport();
 		r.setDateFrom(new Date());
 		r.setDateTo(new Date());
 		r.setWeekFrom(1);
 		r.setWeekTo(1);
-		r.setCountry(new Country(1L, "Argentina"));
+		r.setCountry(new Country(countryId, "pasi " + countryId));
 		r.setPreviousDateFrom(new Date());
 		r.setPreviousDateTo(new Date());
 		r.setItems(new LinkedList<SummaryReportItem>());

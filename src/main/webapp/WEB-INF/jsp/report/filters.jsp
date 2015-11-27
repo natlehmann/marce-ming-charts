@@ -6,9 +6,29 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
 
-<a href='<c:url value="/report/export"/>'>
-			REPORTE
-		</a>
+	<form action='<c:url value="/report/export"/>' method="post">
+	
+		<h2>Country</h2>
+		
+		<div class="dropdown">
+			<select name="country">
+<!-- 				<option value="">Select...</option> -->
+				<c:forEach items="${countries}" var="country">
+					<option value="${country.id}" ${selectedCountry eq country.id ? "selected='selected'" : ""}>
+						${country.name}
+					</option>
+				</c:forEach>
+			</select>
+		</div>
+
+
+		
+		
+		<div>
+			<input type="submit" value="Generar reporte" />
+		</div>
+		
+	</form>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

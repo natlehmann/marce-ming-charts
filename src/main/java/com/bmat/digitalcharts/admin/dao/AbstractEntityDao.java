@@ -31,7 +31,7 @@ public abstract class AbstractEntityDao<T> {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(value="transactionManager")
-	public List<T> getTodos() {
+	public List<T> getAll() {
 		
 		Session session = getSessionFactory().getCurrentSession();
 		
@@ -45,7 +45,7 @@ public abstract class AbstractEntityDao<T> {
 	}
 	
 	@Transactional(value="transactionManager")
-	public T guardar(T entidad) {
+	public T save(T entidad) {
 		Session session = getSessionFactory().getCurrentSession();
 		session.saveOrUpdate(entidad);
 		
@@ -53,7 +53,7 @@ public abstract class AbstractEntityDao<T> {
 	}
 	
 	@Transactional(value="transactionManager")
-	public void borrarTodo() {
+	public void deleteAll() {
 		
 		Session session = getSessionFactory().getCurrentSession();		
 		session.createSQLQuery("delete from " + this.nombreEntidad).executeUpdate();		
@@ -61,14 +61,14 @@ public abstract class AbstractEntityDao<T> {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
-	public T buscar(Long id) {
+	public T search(Long id) {
 		Session session = getSessionFactory().getCurrentSession();
 		return (T) session.get(this.claseEntidad, id);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
-	public List<T> getTodosPaginado(int inicio,
+	public List<T> getAllPaginated(int inicio,
 			int cantidadResultados, String campoOrdenamiento,
 			String direccionOrdenamiento) {
 		
@@ -85,7 +85,7 @@ public abstract class AbstractEntityDao<T> {
 	}
 
 	@Transactional(value="transactionManager")
-	public long getCantidadTotal() {
+	public long getCount() {
 		
 		Session session = getSessionFactory().getCurrentSession();
 		
@@ -98,7 +98,7 @@ public abstract class AbstractEntityDao<T> {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
-	public void eliminar(Long id) {
+	public void delete(Long id) {
 		
 		Session session = getSessionFactory().getCurrentSession();
 		T entidad = (T) session.get(claseEntidad, id);
