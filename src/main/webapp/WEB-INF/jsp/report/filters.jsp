@@ -50,6 +50,7 @@
 		<div class="dropdown">
 		Hasta:
 			<select name="weekTo">
+				<option value="">Select...</option>
 				<c:forEach items="${weeks}" var="week">
 					<option value="${week}">
 						${week}

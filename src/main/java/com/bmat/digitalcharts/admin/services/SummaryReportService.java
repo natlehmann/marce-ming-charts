@@ -15,6 +15,11 @@ public class SummaryReportService {
 
 	public SummaryReport getSummaryReport(Long countryId, Integer year, Integer weekFrom, Integer weekTo) {
 		
+		if (weekTo == null) {
+			weekTo = weekFrom;
+		}
+		
+		
 		SummaryReport r = new SummaryReport();
 		r.setDateFrom(getDateFrom(year, weekFrom));
 		r.setDateTo(getDateTo(year, weekTo));
