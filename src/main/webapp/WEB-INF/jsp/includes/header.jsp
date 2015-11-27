@@ -54,25 +54,12 @@
         	
 			<div class="menu">
         
-            	<div id="button-menu"> 
-            		<div class="item-menu">
-            			<a href='<c:url value="/autoresMasEjecutados"/>' 
-            				class='<%= itemMenuSeleccionado.equals("autoresMasEjecutados") ? "activo" : "" %>'>
-            				TOP ARTISTAS + EJECUTADOS
-            			</a>
-            		</div> 
+           		<div class="item-menu">
+           			<a href='<c:url value="/report/filters"/>' 
+           				class='<%= itemMenuSeleccionado.equals("report") ? "activo" : "" %>'>
+           				GENERAR REPORTE
+           			</a>
+           		</div> 
             		
-            			
-            			
-            		<sec:authorize access="hasRole('administrador')">	
-            			<div class="item-menu">
-            				<a href='<c:url value="/admin"/>'
-	            				class='<%= itemMenuSeleccionado.equals("admin") ? "activo" : "" %>'>
-	            				ADMIN.
-            				</a>
-            			</div>
-            		</sec:authorize>
-            		
-            	</div>
 			</div>
 	

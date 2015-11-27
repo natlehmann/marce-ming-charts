@@ -21,6 +21,13 @@ public class ReportController {
 	
 	@Autowired
 	private SummaryReportService service;
+	
+	
+	@RequestMapping("/filters")
+	public String initReportFilters(Map<String, Object> model) {
+		
+		return "report/filters";
+	}
 
 
 	@RequestMapping(value = "/export", method = RequestMethod.GET)
