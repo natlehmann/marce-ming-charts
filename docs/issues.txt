@@ -9,3 +9,13 @@ de streaming informado por el DCP en cuestión y otra con el porcentaje que eso 
 Este dato es solo para la semana actual
 - Para una semana o para un mes. Se resuelve especificando un rango de semanas (ej de la 14 a la 18).
 Las semanas comienzan los viernes. Usar la fecha en que se publicó el chart.
+
+
+Preguntas:
+El campo "semanas" es el máximo de semanas que estuvo en el chart? Si una canción aparece
+Si NO NO NO Si NO NO NO NO Si  El valor es 3? O es 1? Hasta cuando retrocemos?
+
+Algo parecido pasa con el maximo valor alcanzado en el chart. Una vez que se genera un reporte se puede
+tomar ese valor. Pero la primera vez, como hago para calcularlo? Cuanto atrás tengo que ir?
+
+Donde está el dato del tipo de reporte? Si es streaming o download?

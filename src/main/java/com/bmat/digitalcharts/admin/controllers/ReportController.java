@@ -19,7 +19,6 @@ public class ReportController {
 
 	@RequestMapping(value = "/export", method = RequestMethod.GET)
 	public ModelAndView getExcel() {
-		log.error("------------------LLEGUE");
 		List animalList = new LinkedList<>();
 		return new ModelAndView("chartSummaryExcelView", "animalList", animalList);
 	}

@@ -25,3 +25,13 @@ create table Usuario_Rol(
 	FOREIGN KEY (rol_id) REFERENCES Rol(id)
 )  ENGINE=InnoDB;
 
+create table SummaryReport(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	dateFrom datetime not null,
+	dateTo datetime not null,
+	weekFrom int not null,
+	weekTo int not null,
+	country_id BIGINT NOT NULL,
+	FOREIGN KEY (country_id) REFERENCES Country(id)
+)  ENGINE=InnoDB;
+
