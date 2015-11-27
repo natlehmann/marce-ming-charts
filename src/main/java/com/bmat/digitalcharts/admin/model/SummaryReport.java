@@ -1,10 +1,12 @@
 package com.bmat.digitalcharts.admin.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,6 +29,81 @@ public class SummaryReport extends AbstractEntity {
 	@Column(nullable=false)
 	private Integer weekTo;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date previousDateFrom;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date previousDateTo;
+	
 	@ManyToOne
 	private Country country;
+	
+	@OneToMany(mappedBy="summaryReport")
+	private List<SummaryReportItem> items;
+
+	public Date getDateFrom() {
+		return dateFrom;
+	}
+
+	public void setDateFrom(Date dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public Date getDateTo() {
+		return dateTo;
+	}
+
+	public void setDateTo(Date dateTo) {
+		this.dateTo = dateTo;
+	}
+
+	public Integer getWeekFrom() {
+		return weekFrom;
+	}
+
+	public void setWeekFrom(Integer weekFrom) {
+		this.weekFrom = weekFrom;
+	}
+
+	public Integer getWeekTo() {
+		return weekTo;
+	}
+
+	public void setWeekTo(Integer weekTo) {
+		this.weekTo = weekTo;
+	}
+
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+	
+	public List<SummaryReportItem> getItems() {
+		return items;
+	}
+	
+	public void setItems(List<SummaryReportItem> items) {
+		this.items = items;
+	}
+
+	public Date getPreviousDateFrom() {
+		return previousDateFrom;
+	}
+
+	public void setPreviousDateFrom(Date previousDateFrom) {
+		this.previousDateFrom = previousDateFrom;
+	}
+
+	public Date getPreviousDateTo() {
+		return previousDateTo;
+	}
+
+	public void setPreviousDateTo(Date previousDateTo) {
+		this.previousDateTo = previousDateTo;
+	}
+	
+	
 }

@@ -19,3 +19,8 @@ Algo parecido pasa con el maximo valor alcanzado en el chart. Una vez que se gen
 tomar ese valor. Pero la primera vez, como hago para calcularlo? Cuanto atrás tengo que ir?
 
 Donde está el dato del tipo de reporte? Si es streaming o download?
+
+Como hago para saber cual es el periodo anterior en caso de un reporte mensual? Puedo saber cual es la semana
+final pero no la semana de inicio (porque podría ser un reporte de 4 o 5 semanas, no puedo saber)
+Puedo asumir que va a haber un único reporte mensual por mes y buscar cualquiera tal que 
+semanaFin = X y semanaInicio < semanaFin  ?

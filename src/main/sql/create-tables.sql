@@ -27,7 +27,26 @@ create table SummaryReport(
 	dateTo datetime not null,
 	weekFrom int not null,
 	weekTo int not null,
+	previousDateFrom datetime,
+	previousDateTo datetime,
 	country_id BIGINT NOT NULL,
 	FOREIGN KEY (country_id) REFERENCES Country(id)
+)  ENGINE=InnoDB;
+
+create table SummaryReportItem(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	summaryReport_id BIGINT NOT NULL,
+	currentPosition int not null,
+	previousPosition int,
+	positionBeforePrevious int,
+	songId BIGINT NOT NULL,
+	songName varchar(255),
+	performerId BIGINT NOT NULL,
+	performerName varchar(255),
+	currentAmount BIGINT NOT NULL,
+	previousAmount BIGINT,
+	labelCompanyId BIGINT,
+	labelCompanyName varchar(255),
+	FOREIGN KEY (summaryReport_id) REFERENCES SummaryReport(id)
 )  ENGINE=InnoDB;
 

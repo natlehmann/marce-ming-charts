@@ -9,6 +9,16 @@ public class Country extends AbstractEntity {
 
 	private String name;
 	
+	public Country(){}
+	
+	public Country(Long id){
+		this.setId(id);
+	}
+	
+	public Country(Long id, String name) {
+		this(id);
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;
@@ -18,3 +28,4 @@ public class Country extends AbstractEntity {
 		this.name = name;
 	}
 }
+
