@@ -1,5 +1,6 @@
 package com.bmat.digitalcharts.admin.services;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -12,13 +13,14 @@ import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 @Service
 public class SummaryReportService {
 
-	public SummaryReport getSummaryReport(Long countryId, Integer year, Integer weekFrom) {
-		// TODO Auto-generated method stub
+	public SummaryReport getSummaryReport(Long countryId, Integer year, Integer weekFrom, Integer weekTo) {
+		
 		SummaryReport r = new SummaryReport();
-		r.setDateFrom(new Date());
-		r.setDateTo(new Date());
+		r.setDateFrom(getDateFrom(year, weekFrom));
+		r.setDateTo(getDateTo(year, weekTo));
 		r.setWeekFrom(weekFrom);
-		r.setWeekTo(weekFrom);
+		r.setWeekTo(weekTo);
+		
 		r.setCountry(new Country(countryId, "pasi " + countryId));
 		r.setPreviousDateFrom(new Date());
 		r.setPreviousDateTo(new Date());
@@ -38,6 +40,31 @@ public class SummaryReportService {
 		r.getItems().get(0).setSongName("songName");
 
 		return r;
+	}
+
+	
+	Date getDateTo(Integer year, Integer weekTo) {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getDateFrom(year, weekTo));
+		calendar.add(Calendar.DAY_OF_MONTH, 6);
+		
+		return calendar.getTime();
+	}
+
+	Date getDateFrom(Integer year, Integer weekFrom) {
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, year);
+		calendar.setFirstDayOfWeek(Calendar.FRIDAY);
+		calendar.set(Calendar.WEEK_OF_YEAR, weekFrom);
+		
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		
+		return calendar.getTime();
 	}
 
 }

@@ -36,7 +36,20 @@
 		<h2>Semana</h2>
 		
 		<div class="dropdown">
+		Desde: 
 			<select name="weekFrom">
+				<c:forEach items="${weeks}" var="week">
+					<option value="${week}">
+						${week}
+					</option>
+				</c:forEach>
+			</select>
+		</div>
+		
+		
+		<div class="dropdown">
+		Hasta:
+			<select name="weekTo">
 				<c:forEach items="${weeks}" var="week">
 					<option value="${week}">
 						${week}

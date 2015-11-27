@@ -214,7 +214,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		excelHeader = excelSheet.createRow(2);
 		excelHeader.createCell(1).setCellValue("Semana " + report.getWeekFrom());
 		
-		if (report.getWeekFrom().equals(report.getWeekTo())) {
+		if (!report.getWeekFrom().equals(report.getWeekTo())) {
 			excelHeader.createCell(2).setCellValue("a la ");
 			excelHeader.createCell(3).setCellValue("Semana " + report.getWeekTo());
 		}

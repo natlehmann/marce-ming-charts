@@ -40,7 +40,7 @@ public class ReportController {
 		model.addAttribute("countries", countryDao.getAll());
 		
 		List<Integer> weeks = new LinkedList<>();
-		for (int i = 1; i <= 52; i++) {
+		for (int i = 1; i <= 53; i++) {
 			weeks.add(i);
 		}
 		model.addAttribute("weeks", weeks);
@@ -62,9 +62,10 @@ public class ReportController {
 	public ModelAndView getExcel(@RequestParam("country") Long countryId, 
 			@RequestParam("year") Integer year,
 			@RequestParam("weekFrom") Integer weekFrom,
+			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
 			ModelMap model) {
 		
-		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom);
+		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo);
 		return new ModelAndView("chartSummaryExcelView", "summaryReport", report);
 	}
 }

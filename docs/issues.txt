@@ -28,3 +28,4 @@ semanaFin = X y semanaInicio < semanaFin  ?
 
 Podemos hacer que el boton "generar reporte", si el reporte ya fue generado me lo devuelve tal cual salio
 la primera vez y si no lo genera y lo guarda? 
+
