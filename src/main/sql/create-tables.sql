@@ -1,28 +1,24 @@
-create table Usuario(
+create table User(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombreApellido varchar(255),
 	username varchar(255),
-	password varchar(255),
-	email varchar(255),
-	fechaBaja datetime,
-	fechaEliminacion datetime
+	password varchar(255)
 )  ENGINE=InnoDB;
 
-CREATE UNIQUE INDEX UK_usuario_nombre ON Usuario(username);
+CREATE UNIQUE INDEX UK_user_username ON User(username);
 
-create table Rol(
+create table Role(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombre varchar(255) not null
+	name varchar(255) not null
 )  ENGINE=InnoDB;
 
-CREATE UNIQUE INDEX UK_rol_nombre ON Rol(nombre);
+CREATE UNIQUE INDEX UK_role_name ON Role(name);
 
-create table Usuario_Rol(
+create table User_Role(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	usuario_id BIGINT NOT NULL,
-	rol_id BIGINT NOT NULL,
-	FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
-	FOREIGN KEY (rol_id) REFERENCES Rol(id)
+	user_id BIGINT NOT NULL,
+	role_id BIGINT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES User(id),
+	FOREIGN KEY (role_id) REFERENCES Role(id)
 )  ENGINE=InnoDB;
 
 create table SummaryReport(
