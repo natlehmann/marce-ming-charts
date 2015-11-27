@@ -1,5 +1,8 @@
 package com.bmat.digitalcharts.admin.controllers;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +34,25 @@ public class ReportController {
 		
 		model.addAttribute("countries", countryDao.getAll());
 		
+		List<Integer> weeks = new LinkedList<>();
+		for (int i = 1; i <= 52; i++) {
+			weeks.add(i);
+		}
+		
+		model.addAttribute("weeks", weeks);
+		
 		return "report/filters";
 	}
 
 
 	@RequestMapping("/export")
-	public ModelAndView getExcel(@RequestParam("country") Long countryId, ModelMap model) {
+	public ModelAndView getExcel(@RequestParam("country") Long countryId, 
+			@RequestParam("weekFrom") Integer weekFrom,
+			ModelMap model) {
 		
 		model.addAttribute("selectedCountry", countryId);
 		
-		SummaryReport report = service.getSummaryReport(countryId);
+		SummaryReport report = service.getSummaryReport(countryId, weekFrom);
 		return new ModelAndView("chartSummaryExcelView", "summaryReport", report);
 	}
 }

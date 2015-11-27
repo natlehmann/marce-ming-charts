@@ -20,6 +20,19 @@
 				</c:forEach>
 			</select>
 		</div>
+		
+		<h2>Semana</h2>
+		
+		<div class="dropdown">
+			<select name="weekFrom">
+				<c:forEach items="${weeks}" var="week">
+					<option value="${week}" ${selectedWeek eq week ? "selected='selected'" : ""}>
+						${week}
+					</option>
+				</c:forEach>
+			</select>
+		</div>
+		
 
 
 		
