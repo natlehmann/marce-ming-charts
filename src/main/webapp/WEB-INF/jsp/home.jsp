@@ -8,5 +8,9 @@
 
 HOLA
 
+<a href='<c:url value="/report/export"/>'>
+			REPORTE
+		</a>
+
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

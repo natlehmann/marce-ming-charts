@@ -1,0 +1,11 @@
+Congelar registros tal cual estaban al momento del reporte (foto fija). Si cambió el nombre de una canción
+se debe mostrar el que se mandó al reporte.
+
+Filtros reporte:
+- Por país (se debe seleccionar)
+- Por tipo de uso: streaming o download (solo cambia una columna, el tipo de uso. El resto es igual). Se debe seleccionar
+- Discriminando un DCP. Opcional. En este caso se debe agregar dos columnas más al reporte: una con el total
+de streaming informado por el DCP en cuestión y otra con el porcentaje que eso representa sobre el total. 
+Este dato es solo para la semana actual
+- Para una semana o para un mes. Se resuelve especificando un rango de semanas (ej de la 14 a la 18).
+Las semanas comienzan los viernes. Usar la fecha en que se publicó el chart.
