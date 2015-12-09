@@ -60,9 +60,10 @@ public class SummaryReportService {
 	Date getDateFrom(Integer year, Integer weekFrom) {
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, year);
 		calendar.setFirstDayOfWeek(Calendar.FRIDAY);
+		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.WEEK_OF_YEAR, weekFrom);
+		calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
 		
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
