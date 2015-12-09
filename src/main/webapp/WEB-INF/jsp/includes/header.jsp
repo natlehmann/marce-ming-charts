@@ -55,11 +55,18 @@
 			<div class="menu">
         
            		<div class="item-menu">
+           			<a href='<c:url value="/admin/performer/list"/>' 
+           				class='<%= itemMenuSeleccionado.equals("performer") ? "activo" : "" %>'>
+           				ARTISTAS
+           			</a>
+           		</div> 
+           		
+           		<div class="item-menu">
            			<a href='<c:url value="/report/filters"/>' 
            				class='<%= itemMenuSeleccionado.equals("report") ? "activo" : "" %>'>
            				GENERAR REPORTE
            			</a>
-           		</div> 
+           		</div>
             		
 			</div>
 	
