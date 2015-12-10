@@ -39,7 +39,9 @@ create table SummaryReport(
 	previousDateFrom datetime,
 	previousDateTo datetime,
 	country_id BIGINT NOT NULL,
-	FOREIGN KEY (country_id) REFERENCES Country(id)
+	right_id BIGINT NOT NULL,
+	FOREIGN KEY (country_id) REFERENCES Country(id),
+	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)
 )  ENGINE=InnoDB;
 
 create table SummaryReportItem(

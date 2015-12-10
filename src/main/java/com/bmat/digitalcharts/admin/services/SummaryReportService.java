@@ -2,15 +2,14 @@ package com.bmat.digitalcharts.admin.services;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
+import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.dao.SummaryReportItemDao;
-import com.bmat.digitalcharts.admin.model.Country;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 
@@ -19,6 +18,9 @@ public class SummaryReportService {
 	
 	@Autowired
 	private CountryDao countryDao;
+	
+	@Autowired
+	private RightDao rightDao;
 	
 	@Autowired
 	private SummaryReportItemDao summaryReportItemDao;
@@ -37,6 +39,7 @@ public class SummaryReportService {
 		report.setWeekFrom(weekFrom);
 		report.setWeekTo(weekTo);
 		
+		report.setRight(rightDao.search(rightId));		
 		report.setCountry(countryDao.search(countryId));
 		
 		// TODO: ESTO NO ES VALIDO PARA REPORTE MENSUAL

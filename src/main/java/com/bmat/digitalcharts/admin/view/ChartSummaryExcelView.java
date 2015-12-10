@@ -191,11 +191,15 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-        response.setHeader("Content-Disposition", "attachment; filename=\"reporte.xls\"");
-        
-        SummaryReport report = (SummaryReport) model.get("summaryReport");
+		SummaryReport report = (SummaryReport) model.get("summaryReport");
 		
-		HSSFSheet excelSheet = workbook.createSheet("Animal List");
+		String reportName = "reporte-" + report.getRight().getName() + "-Sem" 
+					+ report.getWeekFrom() + "a" + report.getWeekTo() + ".xls";
+		
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + "\"");
+        
+		
+		HSSFSheet excelSheet = workbook.createSheet(report.getRight().getName());
 		excelSheet.setDefaultColumnWidth(30);         
 		setExcelHeader(excelSheet, workbook, report);
 		
@@ -209,7 +213,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		CellStyle style = getColumnHeaderStyle(workbook); 
         
 		HSSFRow excelHeader = excelSheet.createRow(0);
-		excelHeader.createCell(1).setCellValue("Stream Service from " + report.getCountry().getName());
+		excelHeader.createCell(1).setCellValue(
+				report.getRight().getName() + " from " + report.getCountry().getName());
 		
 		excelHeader = excelSheet.createRow(2);
 		excelHeader.createCell(1).setCellValue("Semana " + report.getWeekFrom());

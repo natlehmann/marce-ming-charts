@@ -39,6 +39,9 @@ public class SummaryReport extends AbstractEntity {
 	@ManyToOne
 	private Country country;
 	
+	@ManyToOne
+	private Right right;
+	
 	@OneToMany(mappedBy="summaryReport", cascade=CascadeType.ALL)
 	private List<SummaryReportItem> items;
 
@@ -104,6 +107,14 @@ public class SummaryReport extends AbstractEntity {
 
 	public void setPreviousDateTo(Date previousDateTo) {
 		this.previousDateTo = previousDateTo;
+	}
+	
+	public Right getRight() {
+		return right;
+	}
+	
+	public void setRight(Right right) {
+		this.right = right;
 	}
 	
 	
