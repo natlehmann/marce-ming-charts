@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
+import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.services.SummaryReportService;
 
@@ -32,6 +33,9 @@ public class ReportController {
 	
 	@Autowired
 	private CountryDao countryDao;
+	
+	@Autowired
+	private RightDao rightDao;
 	
 	
 	@RequestMapping("/filters")
@@ -52,6 +56,8 @@ public class ReportController {
 			years.add(currentYear - i);
 		}
 		model.addAttribute("years", years);
+log.error("-------------------------------- VIENE " + rightDao.getAll());		
+		model.addAttribute("rights", rightDao.getAll());
 		
 		
 		return "report/filters";
@@ -63,9 +69,10 @@ public class ReportController {
 			@RequestParam("year") Integer year,
 			@RequestParam("weekFrom") Integer weekFrom,
 			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
+			@RequestParam("right") Long rightId,
 			ModelMap model) {
 		
-		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo);
+		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo, rightId);
 		return new ModelAndView("chartSummaryExcelView", "summaryReport", report);
 	}
 }

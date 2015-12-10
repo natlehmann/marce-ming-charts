@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -13,7 +14,7 @@ public class Performer extends AbstractEntity {
 
 	private static final long serialVersionUID = 5577335973668899662L;
 	
-	@NotBlank
+	@NotBlank @NotNull
 	private String name;
 	
 	public String getName() {

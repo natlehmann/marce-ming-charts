@@ -45,6 +45,25 @@ public class SummaryReportItem extends AbstractEntity {
 	private Long labelCompanyId;
 	
 	private String labelCompanyName;
+	
+	public SummaryReportItem(){}
+	
+	
+
+	public SummaryReportItem(Long songId, String songName, Long performerId,
+			String performerName, Long currentAmount, Long labelCompanyId,
+			String labelCompanyName) {
+		super();
+		this.songId = songId;
+		this.songName = songName;
+		this.performerId = performerId;
+		this.performerName = performerName;
+		this.currentAmount = currentAmount;
+		this.labelCompanyId = labelCompanyId;
+		this.labelCompanyName = labelCompanyName;
+	}
+
+
 
 	public SummaryReport getSummaryReport() {
 		return summaryReport;

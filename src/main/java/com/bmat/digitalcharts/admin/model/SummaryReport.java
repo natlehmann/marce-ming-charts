@@ -3,6 +3,7 @@ package com.bmat.digitalcharts.admin.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -38,7 +39,7 @@ public class SummaryReport extends AbstractEntity {
 	@ManyToOne
 	private Country country;
 	
-	@OneToMany(mappedBy="summaryReport")
+	@OneToMany(mappedBy="summaryReport", cascade=CascadeType.ALL)
 	private List<SummaryReportItem> items;
 
 	public Date getDateFrom() {

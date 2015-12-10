@@ -35,10 +35,10 @@
 			</select>
 		</div>
 		
-		<h2>Semana</h2>
+		<h2>Weeks</h2>
 		
 		<div class="dropdown">
-		Desde: 
+		From: 
 			<select name="weekFrom">
 				<c:forEach items="${weeks}" var="week">
 					<option value="${week}">
@@ -50,7 +50,7 @@
 		
 		
 		<div class="dropdown">
-		Hasta:
+		To:
 			<select name="weekTo">
 				<option value="">Select...</option>
 				<c:forEach items="${weeks}" var="week">
@@ -62,6 +62,16 @@
 		</div>
 		
 
+		<h2>Right</h2>
+		<div class="dropdown">
+			<select name="right">
+				<c:forEach items="${rights}" var="right">
+					<option value="${right.id}">
+						${right.name}
+					</option>
+				</c:forEach>
+			</select>
+		</div>
 
 		
 		

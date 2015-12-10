@@ -4,17 +4,17 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bmat.digitalcharts.admin.model.Country;
+import com.bmat.digitalcharts.admin.model.Right;
 
 @Repository
-public class CountryDao extends AbstractEntityDao<Country> {
+public class RightDao extends AbstractEntityDao<Right> {
 	
-	public CountryDao() {
-		super(Country.class);
-	}
-
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	public RightDao() {
+		super(Right.class);
+	}
 
 	@Override
 	protected SessionFactory getSessionFactory() {

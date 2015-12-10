@@ -3,48 +3,57 @@ package com.bmat.digitalcharts.admin.services;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bmat.digitalcharts.admin.dao.CountryDao;
+import com.bmat.digitalcharts.admin.dao.SummaryReportItemDao;
 import com.bmat.digitalcharts.admin.model.Country;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 
 @Service
 public class SummaryReportService {
+	
+	@Autowired
+	private CountryDao countryDao;
+	
+	@Autowired
+	private SummaryReportItemDao summaryReportItemDao;
 
-	public SummaryReport getSummaryReport(Long countryId, Integer year, Integer weekFrom, Integer weekTo) {
+	public SummaryReport getSummaryReport(
+			Long countryId, Integer year, Integer weekFrom, Integer weekTo, Long rightId) {
 		
 		if (weekTo == null) {
 			weekTo = weekFrom;
 		}
 		
 		
-		SummaryReport r = new SummaryReport();
-		r.setDateFrom(getDateFrom(year, weekFrom));
-		r.setDateTo(getDateTo(year, weekTo));
-		r.setWeekFrom(weekFrom);
-		r.setWeekTo(weekTo);
+		SummaryReport report = new SummaryReport();
+		report.setDateFrom(getDateFrom(year, weekFrom));
+		report.setDateTo(getDateTo(year, weekTo));
+		report.setWeekFrom(weekFrom);
+		report.setWeekTo(weekTo);
 		
-		r.setCountry(new Country(countryId, "pasi " + countryId));
-		r.setPreviousDateFrom(new Date());
-		r.setPreviousDateTo(new Date());
-		r.setItems(new LinkedList<SummaryReportItem>());
+		report.setCountry(countryDao.search(countryId));
 		
-		r.getItems().add(new SummaryReportItem());
-		r.getItems().get(0).setCurrentAmount(3L);
-		r.getItems().get(0).setCurrentPosition(2);
-		r.getItems().get(0).setLabelCompanyId(2L);
-		r.getItems().get(0).setLabelCompanyName("labelCompanyName");
-		r.getItems().get(0).setPerformerId(3L);
-		r.getItems().get(0).setPerformerName("performerName");
-		r.getItems().get(0).setPositionBeforePrevious(1);
-		r.getItems().get(0).setPreviousAmount(34L);
-		r.getItems().get(0).setPreviousPosition(9);
-		r.getItems().get(0).setSongId(2L);
-		r.getItems().get(0).setSongName("songName");
+		// TODO: ESTO NO ES VALIDO PARA REPORTE MENSUAL
+		report.setPreviousDateFrom(getDateFrom(year, weekFrom - 1));
+		report.setPreviousDateTo(getDateTo(year, weekTo - 1));
+		
+		
+		List<SummaryReportItem> items = summaryReportItemDao.getItems(countryId, rightId, report.getDateFrom(), report.getDateTo());
+		
+		int currentPosition = 1;
+		for (SummaryReportItem item : items) {
+			item.setCurrentPosition(currentPosition++);
+		}
+		
+		report.setItems(items);
 
-		return r;
+		return report;
 	}
 
 	
