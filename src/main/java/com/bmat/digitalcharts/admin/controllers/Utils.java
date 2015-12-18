@@ -25,6 +25,11 @@ public class Utils {
 	}
 	
 	
+	public static enum SessionParams {
+		ACTIVE_REPORT;
+	}
+	
+	
 	public static int getInt(String valor, int valorDefault) {
 		
 		int resultado = valorDefault;

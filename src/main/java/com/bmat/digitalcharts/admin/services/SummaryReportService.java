@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
+import com.bmat.digitalcharts.admin.dao.SummaryReportDao;
 import com.bmat.digitalcharts.admin.dao.SummaryReportItemDao;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
@@ -24,6 +26,9 @@ public class SummaryReportService {
 	
 	@Autowired
 	private SummaryReportItemDao summaryReportItemDao;
+	
+	@Autowired
+	private SummaryReportDao summaryReportDao;
 
 	public SummaryReport getSummaryReport(
 			Long countryId, Integer year, Integer weekFrom, Integer weekTo, Long rightId) {
@@ -38,6 +43,7 @@ public class SummaryReportService {
 		report.setDateTo(getDateTo(year, weekTo));
 		report.setWeekFrom(weekFrom);
 		report.setWeekTo(weekTo);
+		report.setYear(year);
 		
 		report.setRight(rightDao.search(rightId));		
 		report.setCountry(countryDao.search(countryId));
@@ -52,6 +58,7 @@ public class SummaryReportService {
 		int currentPosition = 1;
 		for (SummaryReportItem item : items) {
 			item.setCurrentPosition(currentPosition++);
+			item.setSummaryReport(report);
 		}
 		
 		report.setItems(items);
@@ -83,6 +90,35 @@ public class SummaryReportService {
 		calendar.set(Calendar.MILLISECOND, 0);
 		
 		return calendar.getTime();
+	}
+
+
+	@Transactional(value="transactionManager")
+	public String saveReport(SummaryReport report) {
+		
+		Long oldId = null;
+		
+		SummaryReport existingReport = summaryReportDao.getReport(
+				report.getYear(), report.getWeekFrom(), report.getMonth());
+		
+		if (existingReport != null) {
+			existingReport.setEnabled(false);
+			oldId = existingReport.getId();
+			summaryReportDao.save(existingReport);
+		}
+		
+		summaryReportDao.save(report);
+		
+		String msg = null;
+		if (oldId != null) {
+			msg = "El reporte anterior correspondiente al mismo período (ID: " + oldId 
+					+ ") fue reemplazado por el nuevo (ID: " + report.getId() + ").";
+			
+		} else {
+			msg = "El reporte fue guardado con éxito.";
+		}
+		
+		return msg;
 	}
 
 }

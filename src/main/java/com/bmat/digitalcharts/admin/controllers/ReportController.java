@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class ReportController {
 	
 	private static Log log = LogFactory.getLog(ReportController.class);
 	
+	public static final String EXPORT_ACTION = "Generar reporte";
+	public static final String SAVE_ACTION = "Archivar reporte";
+	
 	@Value("${report.years.back}")
 	private String YEARS_BACK;
 	
@@ -39,7 +44,7 @@ public class ReportController {
 	
 	
 	@RequestMapping("/filters")
-	public String initReportFilters(ModelMap model) {
+	public ModelAndView initReportFilters(ModelMap model) {
 		
 		model.addAttribute("countries", countryDao.getAll());
 		
@@ -56,23 +61,64 @@ public class ReportController {
 			years.add(currentYear - i);
 		}
 		model.addAttribute("years", years);
-log.error("-------------------------------- VIENE " + rightDao.getAll());		
+		
 		model.addAttribute("rights", rightDao.getAll());
 		
 		
-		return "report/filters";
+		return new ModelAndView("report/filters", model);
+	}
+	
+	
+	@RequestMapping("/create")
+	public ModelAndView createReport(@RequestParam("country") Long countryId, 
+			@RequestParam("year") Integer year,
+			@RequestParam("weekFrom") Integer weekFrom,
+			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
+			@RequestParam("right") Long rightId,
+			@RequestParam("action") String action,
+			ModelMap model, HttpSession session) {
+		
+		if (action.equals(EXPORT_ACTION)) {
+			return getExcel(countryId, year, weekFrom, weekTo, rightId, model, session);
+		}
+		
+		if (action.equals(SAVE_ACTION)) {
+			return saveReport(model, session);
+		}
+		
+		return null;
 	}
 
 
-	@RequestMapping("/export")
+	private ModelAndView saveReport(ModelMap model, HttpSession session) {
+		
+		SummaryReport report = (SummaryReport) session.getAttribute(
+				Utils.SessionParams.ACTIVE_REPORT.toString());
+		
+		String msg = service.saveReport(report);
+		
+		model.put("selectedYear", report.getYear());
+		model.put("selectedCountry", report.getCountry().getId());
+		model.put("selectedWeekFrom", report.getWeekFrom());
+		model.put("selectedWeekTo", report.getWeekTo());
+		model.put("selectedRight", report.getRight().getId());
+		model.put("msg", msg);
+		
+		return initReportFilters(model);
+	}
+
+
 	public ModelAndView getExcel(@RequestParam("country") Long countryId, 
 			@RequestParam("year") Integer year,
 			@RequestParam("weekFrom") Integer weekFrom,
 			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
 			@RequestParam("right") Long rightId,
-			ModelMap model) {
+			ModelMap model, HttpSession session) {
 		
 		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo, rightId);
-		return new ModelAndView("chartSummaryExcelView", "summaryReport", report);
+		
+		session.setAttribute(Utils.SessionParams.ACTIVE_REPORT.toString(), report);
+		model.put("summaryReport", report);
+		return new ModelAndView("chartSummaryExcelView", model);
 	}
 }

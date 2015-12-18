@@ -30,6 +30,11 @@ public class SummaryReport extends AbstractEntity {
 	@Column(nullable=false)
 	private Integer weekTo;
 	
+	@Column(nullable=false)
+	private Integer year;
+	
+	private Integer month;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date previousDateFrom;
 	
@@ -44,6 +49,8 @@ public class SummaryReport extends AbstractEntity {
 	
 	@OneToMany(mappedBy="summaryReport", cascade=CascadeType.ALL)
 	private List<SummaryReportItem> items;
+	
+	private boolean enabled = true;
 
 	public Date getDateFrom() {
 		return dateFrom;
@@ -115,6 +122,30 @@ public class SummaryReport extends AbstractEntity {
 	
 	public void setRight(Right right) {
 		this.right = right;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+	
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+	
+	public Integer getMonth() {
+		return month;
+	}
+	
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 	

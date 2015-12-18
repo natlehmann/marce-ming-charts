@@ -34,12 +34,15 @@ create table SummaryReport(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	dateFrom datetime not null,
 	dateTo datetime not null,
+	year int not null,
 	weekFrom int not null,
 	weekTo int not null,
+	month int,
 	previousDateFrom datetime,
 	previousDateTo datetime,
 	country_id BIGINT NOT NULL,
 	right_id BIGINT NOT NULL,
+	enabled bit not null default true,
 	FOREIGN KEY (country_id) REFERENCES Country(id),
 	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)
 )  ENGINE=InnoDB;
