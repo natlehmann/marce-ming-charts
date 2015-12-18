@@ -39,30 +39,63 @@
 			</select>
 		</div>
 		
-		<h2>Weeks</h2>
+		<h2>Period of time</h2>
 		
-		<div class="dropdown">
-		From: 
-			<select name="weekFrom">
-				<c:forEach items="${weeks}" var="week">
-					<option value="${week}" ${week eq selectedWeekFrom ? "selected='selected'" : "" }>
-						${week}
-					</option>
-				</c:forEach>
-			</select>
-		</div>
+		<div id="month_week_selection">
 		
-		
-		<div class="dropdown">
-		To:
-			<select name="weekTo">
-				<option value="">Select...</option>
-				<c:forEach items="${weeks}" var="week">
-					<option value="${week}" ${week eq selectedWeekTo ? "selected='selected'" : "" }>
-						${week}
-					</option>
-				</c:forEach>
-			</select>
+			<div id="week_selection">
+				<div class="select_button">Weekly report</div>
+				
+				<div class="dropdown">
+					Week: 
+					<select name="weekFrom">
+						<c:forEach items="${weeks}" var="week">
+							<option value="${week}" ${week eq selectedWeekFrom ? "selected='selected'" : "" }>
+								${week}
+							</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			
+			<div id="month_selection">
+				<div class="select_button">Monthly report</div>
+				
+					<div class="dropdown">
+					Month: 
+						<select name="month">
+							<c:forEach items="${months}" var="month">
+								<option value="${month.id}" ${month.id eq selectedMonth ? "selected='selected'" : "" }>
+									${month.name}
+								</option>
+							</c:forEach>
+						</select>
+					</div>
+				
+					<div class="dropdown">
+					Week from: 
+						<select name="weekFrom">
+							<c:forEach items="${weeks}" var="week">
+								<option value="${week}" ${week eq selectedWeekFrom ? "selected='selected'" : "" }>
+									${week}
+								</option>
+							</c:forEach>
+						</select>
+					</div>
+					
+					
+					<div class="dropdown">
+					Week to:
+						<select name="weekTo">
+							<c:forEach items="${weeks}" var="week">
+								<option value="${week}" ${week eq selectedWeekTo ? "selected='selected'" : "" }>
+									${week}
+								</option>
+							</c:forEach>
+						</select>
+					</div>
+			</div>
+			
 		</div>
 		
 

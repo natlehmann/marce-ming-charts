@@ -30,8 +30,8 @@ public class SummaryReportService {
 	@Autowired
 	private SummaryReportDao summaryReportDao;
 
-	public SummaryReport getSummaryReport(
-			Long countryId, Integer year, Integer weekFrom, Integer weekTo, Long rightId) {
+	public SummaryReport getSummaryReport(Long countryId, Integer year, 
+			Integer weekFrom, Integer weekTo, Integer month, Long rightId) {
 		
 		if (weekTo == null) {
 			weekTo = weekFrom;
@@ -44,6 +44,7 @@ public class SummaryReportService {
 		report.setWeekFrom(weekFrom);
 		report.setWeekTo(weekTo);
 		report.setYear(year);
+		report.setMonth(month);
 		
 		report.setRight(rightDao.search(rightId));		
 		report.setCountry(countryDao.search(countryId));

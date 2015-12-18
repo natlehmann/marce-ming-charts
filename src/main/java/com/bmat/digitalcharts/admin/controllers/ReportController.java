@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
+import com.bmat.digitalcharts.admin.model.Month;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.services.SummaryReportService;
 
@@ -64,22 +65,46 @@ public class ReportController {
 		
 		model.addAttribute("rights", rightDao.getAll());
 		
+		model.addAttribute("months", getMonths());
+		
 		
 		return new ModelAndView("report/filters", model);
 	}
 	
 	
+	private List<Month> getMonths() {
+		
+		List<Month> months = new LinkedList<>();
+		
+		months.add(new Month(1L, "Enero"));
+		months.add(new Month(2L, "Febrero"));
+		months.add(new Month(3L, "Marzo"));
+		months.add(new Month(4L, "Abril"));
+		months.add(new Month(5L, "Mayo"));
+		months.add(new Month(6L, "Junio"));
+		months.add(new Month(7L, "Julio"));
+		months.add(new Month(8L, "Agosto"));
+		months.add(new Month(9L, "Septiembre"));
+		months.add(new Month(10L, "Octubre"));
+		months.add(new Month(11L, "Noviembre"));
+		months.add(new Month(12L, "Diciembre"));
+		
+		return months;
+	}
+
+
 	@RequestMapping("/create")
 	public ModelAndView createReport(@RequestParam("country") Long countryId, 
 			@RequestParam("year") Integer year,
 			@RequestParam("weekFrom") Integer weekFrom,
 			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
+			@RequestParam(value="month", required=false, defaultValue="") Integer month,
 			@RequestParam("right") Long rightId,
 			@RequestParam("action") String action,
 			ModelMap model, HttpSession session) {
 		
 		if (action.equals(EXPORT_ACTION)) {
-			return getExcel(countryId, year, weekFrom, weekTo, rightId, model, session);
+			return getExcel(countryId, year, weekFrom, weekTo, month, rightId, model, session);
 		}
 		
 		if (action.equals(SAVE_ACTION)) {
@@ -102,20 +127,20 @@ public class ReportController {
 		model.put("selectedWeekFrom", report.getWeekFrom());
 		model.put("selectedWeekTo", report.getWeekTo());
 		model.put("selectedRight", report.getRight().getId());
+		model.put("selectedMonth", report.getMonth());
 		model.put("msg", msg);
+		
+		session.removeAttribute(Utils.SessionParams.ACTIVE_REPORT.toString());
 		
 		return initReportFilters(model);
 	}
 
 
-	public ModelAndView getExcel(@RequestParam("country") Long countryId, 
-			@RequestParam("year") Integer year,
-			@RequestParam("weekFrom") Integer weekFrom,
-			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
-			@RequestParam("right") Long rightId,
+	public ModelAndView getExcel(Long countryId, Integer year, Integer weekFrom,
+			Integer weekTo, Integer month, Long rightId,
 			ModelMap model, HttpSession session) {
 		
-		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo, rightId);
+		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo, month, rightId);
 		
 		session.setAttribute(Utils.SessionParams.ACTIVE_REPORT.toString(), report);
 		model.put("summaryReport", report);
