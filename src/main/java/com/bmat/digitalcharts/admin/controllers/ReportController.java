@@ -96,12 +96,18 @@ public class ReportController {
 	@RequestMapping("/create")
 	public ModelAndView createReport(@RequestParam("country") Long countryId, 
 			@RequestParam("year") Integer year,
-			@RequestParam("weekFrom") Integer weekFrom,
+			@RequestParam(value="weekFrom", required=false, defaultValue="") Integer weekFrom,
 			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
 			@RequestParam(value="month", required=false, defaultValue="") Integer month,
 			@RequestParam("right") Long rightId,
 			@RequestParam("action") String action,
 			ModelMap model, HttpSession session) {
+
+		setConversationParameters(model, year, countryId, weekFrom, weekTo, rightId, month);
+		
+		if (!validFilters(model, weekFrom, weekTo, month)) {
+			return initReportFilters(model);
+		}
 		
 		if (action.equals(EXPORT_ACTION)) {
 			return getExcel(countryId, year, weekFrom, weekTo, month, rightId, model, session);
@@ -115,6 +121,38 @@ public class ReportController {
 	}
 
 
+	private boolean validFilters(ModelMap model, Integer weekFrom,
+			Integer weekTo, Integer month) {
+		
+		boolean valid = true;
+		
+		if (weekFrom == null) {
+			model.addAttribute("msg", "Debe elegir una semana inicial.");
+			valid = false;
+			
+		} else {
+		
+			if (month != null) {
+			
+				if (weekTo == null) {
+					model.addAttribute("msg", "Debe elegir una semana final.");
+					valid = false;
+					
+				} else {
+					if (weekTo > weekFrom) {
+						model.addAttribute("msg", "La semana final debe ser mayor o igual a la semana de inicio.");
+						valid = false;
+					}
+				}
+			}
+		}
+		
+		return valid;
+		
+		
+	}
+
+
 	private ModelAndView saveReport(ModelMap model, HttpSession session) {
 		
 		SummaryReport report = (SummaryReport) session.getAttribute(
@@ -122,17 +160,25 @@ public class ReportController {
 		
 		String msg = service.saveReport(report);
 		
-		model.put("selectedYear", report.getYear());
-		model.put("selectedCountry", report.getCountry().getId());
-		model.put("selectedWeekFrom", report.getWeekFrom());
-		model.put("selectedWeekTo", report.getWeekTo());
-		model.put("selectedRight", report.getRight().getId());
-		model.put("selectedMonth", report.getMonth());
+		setConversationParameters(model, report.getYear(), report.getCountry().getId(),
+				report.getWeekFrom(), report.getWeekTo(), report.getRight().getId(),
+				report.getMonth());
 		model.put("msg", msg);
 		
 		session.removeAttribute(Utils.SessionParams.ACTIVE_REPORT.toString());
 		
 		return initReportFilters(model);
+	}
+
+
+	private void setConversationParameters(ModelMap model, Integer year, Long countryId, Integer weekFrom,
+			Integer weekTo, Long rightId, Integer month) {
+		model.put("selectedYear", year);
+		model.put("selectedCountry", countryId);
+		model.put("selectedWeekFrom", weekFrom);
+		model.put("selectedWeekTo", weekTo);
+		model.put("selectedRight", rightId);
+		model.put("selectedMonth", month);
 	}
 
 

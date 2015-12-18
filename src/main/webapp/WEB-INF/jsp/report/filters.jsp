@@ -8,11 +8,11 @@
 	<jsp:param value="report" name="itemMenuSeleccionado"/>
 </jsp:include>
 
-<c:if test="${msg != null}">
-	<div class="msg">${msg}</div>
-</c:if>
+<script type="text/javascript" src='<c:url value="/js/admin/report_filters.js" />' ></script>
 
-	<form action='<c:url value="/report/create"/>' method="post">
+	<div class="msg" id="main-msg">${msg}</div>
+
+	<form action='<c:url value="/report/create"/>' method="post" onsubmit="return validateForm()">
 	
 		<h2>Year</h2>
 		
@@ -30,7 +30,6 @@
 		
 		<div class="dropdown">
 			<select name="country">
-<!-- 				<option value="">Select...</option> -->
 				<c:forEach items="${countries}" var="country">
 					<option value="${country.id}" ${country.id eq selectedCountry ? "selected='selected'" : "" }>
 						${country.name}
@@ -44,26 +43,32 @@
 		<div id="month_week_selection">
 		
 			<div id="week_selection">
-				<div class="select_button">Weekly report</div>
+				<div class="select_button" onclick="activateWeekSelection()">Weekly report</div>
 				
-				<div class="dropdown">
-					Week: 
-					<select name="weekFrom">
-						<c:forEach items="${weeks}" var="week">
-							<option value="${week}" ${week eq selectedWeekFrom ? "selected='selected'" : "" }>
-								${week}
-							</option>
-						</c:forEach>
-					</select>
+				<div class="selection_content">
+					<div class="dropdown">
+						Week: 
+						<select name="weekFrom">
+							<option value="">Select...</option>
+							<c:forEach items="${weeks}" var="week">
+								<option value="${week}" ${week eq selectedWeekFrom ? "selected='selected'" : "" }>
+									${week}
+								</option>
+							</c:forEach>
+						</select>
+					</div>
 				</div>
 			</div>
 			
-			<div id="month_selection">
-				<div class="select_button">Monthly report</div>
+			<div id="month_selection" class="disabled-selection">
+				<div class="select_button" onclick="activateMonthSelection()">Monthly report</div>
+				
+				<div class="selection_content">
 				
 					<div class="dropdown">
 					Month: 
 						<select name="month">
+							<option value="">Select...</option>
 							<c:forEach items="${months}" var="month">
 								<option value="${month.id}" ${month.id eq selectedMonth ? "selected='selected'" : "" }>
 									${month.name}
@@ -75,6 +80,7 @@
 					<div class="dropdown">
 					Week from: 
 						<select name="weekFrom">
+							<option value="">Select...</option>
 							<c:forEach items="${weeks}" var="week">
 								<option value="${week}" ${week eq selectedWeekFrom ? "selected='selected'" : "" }>
 									${week}
@@ -87,6 +93,7 @@
 					<div class="dropdown">
 					Week to:
 						<select name="weekTo">
+							<option value="">Select...</option>
 							<c:forEach items="${weeks}" var="week">
 								<option value="${week}" ${week eq selectedWeekTo ? "selected='selected'" : "" }>
 									${week}
@@ -94,6 +101,8 @@
 							</c:forEach>
 						</select>
 					</div>
+					
+				</div>
 			</div>
 			
 		</div>

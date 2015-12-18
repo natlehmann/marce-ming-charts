@@ -1,0 +1,16 @@
+.disabled-selection {
+	background-color: #bbb;
+	color: #999;
+}
+
+.select_button {
+	width: 400px;
+	height: 100px;
+	background-color: red;
+	color: white;
+}
+
+.disabled-selection .select_button {
+	background-color: #990000;
+	color: #666;
+}
