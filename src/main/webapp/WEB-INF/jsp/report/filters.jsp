@@ -11,8 +11,12 @@
 <script type="text/javascript" src='<c:url value="/js/admin/report_filters.js" />' ></script>
 
 	<div class="msg" id="main-msg">${msg}</div>
+	
+	<input type="hidden" id="form_action" value='<c:url value="/report/create"/>' />
 
-	<form action='<c:url value="/report/create"/>' method="post" onsubmit="return validateForm()">
+	<form method="post" id="form">
+	
+		<input type="hidden" id="action" name="action" />
 	
 		<h2>Year</h2>
 		
@@ -121,7 +125,7 @@
 
 		
 		<div>
-			<input type="submit" value="<%= ReportController.EXPORT_ACTION %>" name="action" />
+			<input type="button" value="<%= ReportController.EXPORT_ACTION %>" onclick="validateForm(this)" />
 		</div>
 		
 		<br/>
@@ -133,7 +137,7 @@
 			</div>
 			
 			<div>
-				<input type="submit" value="<%= ReportController.SAVE_ACTION %>" name="action"/>
+				<input type="button" value="<%= ReportController.SAVE_ACTION %>" name="action"/>
 			</div>
 		</div>
 		

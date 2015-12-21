@@ -29,24 +29,37 @@ function initDisabledSection() {
 	$(".disabled-selection .selection_content select").attr("disabled","disabled");
 }
 
-function validateForm() {
+function validateForm(element) {
 	
 	var valid = true;
+	$("#main-msg").html("");
+	
 	
 	if (selectedPeriod == "month"){
+		
+		var weekFrom =$("#month_selection select[name='weekFrom']").val();
+		var weekTo = $("#month_selection select[name='weekTo']").val();
+		
 		if ( $("#month_selection select[name='month']").val() == "" ) {
-			$("#main-msg").html("Debe seleccionar un mes. ");
+			$("#main-msg").append("Debe seleccionar un mes. ");
 			valid = false;
 		}
 		
-		if ( $("#month_selection select[name='weekFrom']").val() == "" ) {
+		if ( weekFrom == "" ) {
 			$("#main-msg").append("Debe seleccionar una semana inicial. ");
 			valid = false;
 		}
 		
-		if ( $("#month_selection select[name='weekTo']").val() == "" ) {
+		if ( weekTo == "" ) {
 			$("#main-msg").append("Debe seleccionar una semana final. ");
 			valid = false;
+			
+		} else {
+			
+			if ( weekFrom != "" && parseInt(weekTo) < parseInt(weekFrom) ) {
+				$("#main-msg").append("La semana final debe ser posterior a la semana inicial. ");
+				valid = false;
+			}
 		}
 		
 	} else {
@@ -57,5 +70,9 @@ function validateForm() {
 		}
 	}
 	
-	return valid;
+	if (valid) {
+		$("#form").attr("action", $("#form_action").val() );
+		$("#action").val( $(element).val() );
+		$("#form").submit();
+	}
 }

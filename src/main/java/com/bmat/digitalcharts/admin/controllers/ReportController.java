@@ -139,7 +139,7 @@ public class ReportController {
 					valid = false;
 					
 				} else {
-					if (weekTo > weekFrom) {
+					if (weekTo < weekFrom) {
 						model.addAttribute("msg", "La semana final debe ser mayor o igual a la semana de inicio.");
 						valid = false;
 					}
