@@ -30,7 +30,7 @@ INSERT INTO User_Role (user_id,role_id) VALUES (1,1);
 
 
 
-create table SummaryReport(
+create table MonthlyReport(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	dateFrom datetime not null,
 	dateTo datetime not null,
@@ -47,9 +47,9 @@ create table SummaryReport(
 	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)
 )  ENGINE=InnoDB;
 
-create table SummaryReportItem(
+create table MonthlyReportItem(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	summaryReport_id BIGINT NOT NULL,
+	monthlyReport_id BIGINT NOT NULL,
 	currentPosition int not null,
 	previousPosition int,
 	positionBeforePrevious int,
@@ -61,5 +61,39 @@ create table SummaryReportItem(
 	previousAmount BIGINT,
 	labelCompanyId BIGINT,
 	labelCompanyName varchar(255),
-	FOREIGN KEY (summaryReport_id) REFERENCES SummaryReport(id)
+	FOREIGN KEY (monthlyReport_id) REFERENCES MonthlyReport(id)
+)  ENGINE=InnoDB;
+
+
+create table WeeklyReport(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	dateFrom datetime not null,
+	dateTo datetime not null,
+	year int not null,
+	weekFrom int not null,
+	weekTo int not null,
+	previousDateFrom datetime,
+	previousDateTo datetime,
+	country_id BIGINT NOT NULL,
+	right_id BIGINT NOT NULL,
+	enabled bit not null default true,
+	FOREIGN KEY (country_id) REFERENCES Country(id),
+	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)
+)  ENGINE=InnoDB;
+
+create table WeeklyReportItem(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	weeklyReport_id BIGINT NOT NULL,
+	currentPosition int not null,
+	previousPosition int,
+	positionBeforePrevious int,
+	songId BIGINT NOT NULL,
+	songName varchar(255),
+	performerId BIGINT NOT NULL,
+	performerName varchar(255),
+	currentAmount BIGINT NOT NULL,
+	previousAmount BIGINT,
+	labelCompanyId BIGINT,
+	labelCompanyName varchar(255),
+	FOREIGN KEY (weeklyReport_id) REFERENCES WeeklyReport(id)
 )  ENGINE=InnoDB;

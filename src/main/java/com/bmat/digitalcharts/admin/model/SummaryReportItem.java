@@ -4,21 +4,17 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-@Entity
-public class SummaryReportItem extends AbstractEntity {
+@MappedSuperclass
+public abstract class SummaryReportItem extends AbstractEntity {
 
 	private static final long serialVersionUID = 2765679262811873494L;
 	
 	public static final String EQUAL = "(=)";
 	public static final String OPEN_COMPARISON = "(";
 	public static final String CLOSE_COMPARISON = ")";
-	
-	@ManyToOne(optional=false)
-	private SummaryReport summaryReport;
 	
 	@Column(nullable=false)
 	private Integer currentPosition;
@@ -61,16 +57,6 @@ public class SummaryReportItem extends AbstractEntity {
 		this.currentAmount = currentAmount;
 		this.labelCompanyId = labelCompanyId;
 		this.labelCompanyName = labelCompanyName;
-	}
-
-
-
-	public SummaryReport getSummaryReport() {
-		return summaryReport;
-	}
-
-	public void setSummaryReport(SummaryReport summaryReport) {
-		this.summaryReport = summaryReport;
 	}
 
 	public Integer getCurrentPosition() {
@@ -202,6 +188,10 @@ public class SummaryReportItem extends AbstractEntity {
 		
 		return "";
 	}
+
+
+
+	public abstract void setReport(SummaryReport report);
 	
 	
 

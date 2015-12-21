@@ -3,16 +3,15 @@ package com.bmat.digitalcharts.admin.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
-@Entity
-public class SummaryReport extends AbstractEntity {
+@MappedSuperclass
+public abstract class SummaryReport extends AbstractEntity {
 
 	private static final long serialVersionUID = -1175240899053172690L;
 
@@ -33,8 +32,6 @@ public class SummaryReport extends AbstractEntity {
 	@Column(nullable=false)
 	private Integer year;
 	
-	private Integer month;
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date previousDateFrom;
 	
@@ -46,9 +43,6 @@ public class SummaryReport extends AbstractEntity {
 	
 	@ManyToOne
 	private Right right;
-	
-	@OneToMany(mappedBy="summaryReport", cascade=CascadeType.ALL)
-	private List<SummaryReportItem> items;
 	
 	private boolean enabled = true;
 
@@ -92,14 +86,6 @@ public class SummaryReport extends AbstractEntity {
 		this.country = country;
 	}
 	
-	public List<SummaryReportItem> getItems() {
-		return items;
-	}
-	
-	public void setItems(List<SummaryReportItem> items) {
-		this.items = items;
-	}
-
 	public Date getPreviousDateFrom() {
 		return previousDateFrom;
 	}
@@ -132,14 +118,6 @@ public class SummaryReport extends AbstractEntity {
 		this.year = year;
 	}
 	
-	public Integer getMonth() {
-		return month;
-	}
-	
-	public void setMonth(Integer month) {
-		this.month = month;
-	}
-	
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -147,6 +125,21 @@ public class SummaryReport extends AbstractEntity {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	public abstract void setItems(@SuppressWarnings("rawtypes") List items);
+	
+	public abstract List<? extends SummaryReportItem> getItems();
+
+	@Transient
+	public boolean isMonthly() {
+		return false;
+	}
+
+	@Transient
+	public Integer getMonth() {
+		return null;
+	}
+
 	
 	
 }

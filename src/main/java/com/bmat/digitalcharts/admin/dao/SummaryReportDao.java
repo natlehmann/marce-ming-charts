@@ -5,35 +5,25 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 
-@Repository
-public class SummaryReportDao extends AbstractEntityDao<SummaryReport> {
-	
+public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> {
+
 	private static Log log = LogFactory.getLog(SummaryReportDao.class);
 	
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	protected SummaryReportDao() {
-		super(SummaryReport.class);
+	
+	protected SummaryReportDao(@SuppressWarnings("rawtypes") Class entidad) {
+		super(entidad);
 	}
 
-	@Override
-	protected SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
 	public SummaryReport getReport(Integer year, Integer weekFrom, Integer month) {
 		
-		String queryStr = "SELECT r FROM SummaryReport r WHERE r.year = :year AND r.enabled = true";
+		String queryStr = "SELECT r FROM " + getEntityName() + " r WHERE r.year = :year AND r.enabled = true";
 		
 		if (month == null) {
 			queryStr += " AND r.weekFrom = :weekFrom";
@@ -44,7 +34,7 @@ public class SummaryReportDao extends AbstractEntityDao<SummaryReport> {
 		
 		queryStr += " ORDER BY r.id desc";
 		
-		Query query = sessionFactory.getCurrentSession().createQuery(queryStr);
+		Query query = getSessionFactory().getCurrentSession().createQuery(queryStr);
 		query.setParameter("year", year);
 		
 		if (month == null) {
@@ -68,5 +58,8 @@ public class SummaryReportDao extends AbstractEntityDao<SummaryReport> {
 		
 		return null;
 	}
+
+
+	protected abstract String getEntityName();
 
 }

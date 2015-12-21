@@ -3,34 +3,23 @@ package com.bmat.digitalcharts.admin.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 
-@Repository
-public class SummaryReportItemDao extends AbstractEntityDao<SummaryReportItem> {
+public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryReportItem> {
 	
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	public SummaryReportItemDao() {
-		super(SummaryReportItem.class);
-	}
-
-	@Override
-	protected SessionFactory getSessionFactory() {
-		return sessionFactory;
+	@SuppressWarnings("rawtypes")
+	protected SummaryReportItemDao(Class entidad) {
+		super(entidad);
 	}
 	
 	@Transactional(value="transactionManager")
 	@SuppressWarnings("unchecked")
 	public List<SummaryReportItem> getItems(Long countryId, Long rightId, Date dateFrom, Date dateTo) {
 		
-		return sessionFactory.getCurrentSession().createQuery(
-				"SELECT new " + SummaryReportItem.class.getName() 
+		return getSessionFactory().getCurrentSession().createQuery(
+				"SELECT new " + getEntityName() 
 				+ "(u.track.song.id, u.track.song.name, u.track.performer.id, u.track.performer.name, sum(u.units) as currentAmount, u.track.release.labelCompany.id, u.track.release.labelCompany.name) "
 				+ "FROM Usage u " 
 				+ "WHERE u.chartDate between :dateFrom and :dateTo "
@@ -47,5 +36,8 @@ public class SummaryReportItemDao extends AbstractEntityDao<SummaryReportItem> {
 				.setMaxResults(200)
 				.list();
 	}
+
+
+	protected abstract String getEntityName();
 
 }

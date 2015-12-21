@@ -11,7 +11,7 @@ public class SummaryReportItemTest {
 	
 	@Before
 	public void init() {
-		item = new SummaryReportItem();
+		item = new WeeklyReportItem();
 	}
 
 	@Test
