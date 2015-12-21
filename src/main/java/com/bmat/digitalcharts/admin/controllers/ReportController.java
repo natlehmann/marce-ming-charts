@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
@@ -191,5 +192,12 @@ public class ReportController {
 		session.setAttribute(Utils.SessionParams.ACTIVE_REPORT.toString(), report);
 		model.put("summaryReport", report);
 		return new ModelAndView("chartSummaryExcelView", model);
+	}
+	
+	@RequestMapping("/isReady")
+	@ResponseBody
+	public boolean isReady(HttpSession session) {
+		
+		return session.getAttribute(Utils.SessionParams.ACTIVE_REPORT.toString()) != null;
 	}
 }

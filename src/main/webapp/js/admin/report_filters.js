@@ -3,6 +3,7 @@ $(document).ready(function() {
 } );
 
 var selectedPeriod = "week";
+var timer;
 
 function activateMonthSelection() {
 	$("#month_selection").removeClass("disabled-selection");	
@@ -74,5 +75,34 @@ function validateForm(element) {
 		$("#form").attr("action", $("#form_action").val() );
 		$("#action").val( $(element).val() );
 		$("#form").submit();
+		
+		$("#archivar_reporte").show();
+		$("#crear_reporte").hide();
+		timer = setTimeout(enableSaveButton, 1000);
 	}
+}
+
+function saveReport(element) {
+	$("#form").attr("action", $("#form_action").val() );
+	$("#action").val( $(element).val() );
+	$("#form").submit();
+}
+
+function clearSelection() {
+	clearTimeout(timer);
+	$("#archivar_reporte").hide();
+	$("#crear_reporte").show();
+}
+
+function enableSaveButton() {
+
+	$.get( $("#enable_save_url").val() , function(data) {
+		if (data == true) {
+			$("#save_button").removeAttr("disabled");
+			
+		} else {
+			timer = setTimeout(enableSaveButton, 1000);
+		}
+	});
+	
 }
