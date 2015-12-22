@@ -12,25 +12,22 @@ Las semanas comienzan los viernes. Usar la fecha en que se publicó el chart.
 
 
 Preguntas:
-El campo "semanas" es el máximo de semanas que estuvo en el chart? Si una canción aparece
-Si NO NO NO Si NO NO NO NO Si  El valor es 3? O es 1? Hasta cuando retrocemos?
+Campo semanas. Busco reporte anterior y pongo esas semanas + 1. Si no estaba en el ranking la semana anterior,
+pongo 1. Esta bien eso? Deberia considerar tambien el reporte de hace 2 semanas?
 
 Algo parecido pasa con el maximo valor alcanzado en el chart. Una vez que se genera un reporte se puede
 tomar ese valor. Pero la primera vez, como hago para calcularlo? Cuanto atrás tengo que ir?
 
-Donde está el dato del tipo de reporte? Si es streaming o download?
-
-Como hago para saber cual es el periodo anterior en caso de un reporte mensual? Puedo saber cual es la semana
-final pero no la semana de inicio (porque podría ser un reporte de 4 o 5 semanas, no puedo saber)
-Puedo asumir que va a haber un único reporte mensual por mes y buscar cualquiera tal que 
-semanaFin = X y semanaInicio < semanaFin  ?
-
-
-Podemos hacer que el boton "generar reporte", si el reporte ya fue generado me lo devuelve tal cual salio
-la primera vez y si no lo genera y lo guarda? 
-
+Donde está el dato del tipo de reporte? Si es streaming o download? Depende del source no?
 
 
 Mas preguntas:
 Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edición?
+
+
+
+Ver formateo de los % cuando hay un solo valor. Estan quedando raros.
+Probar con reportes mensuales
+Ajustar ancho columnas
+Poner los mensajes de NUEVO, REING, etc
 

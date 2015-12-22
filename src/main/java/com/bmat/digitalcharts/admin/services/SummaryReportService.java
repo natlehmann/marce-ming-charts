@@ -127,14 +127,7 @@ public class SummaryReportService {
 			item.setCurrentPosition(currentPosition++);
 			item.setReport(report);
 			
-			if (previousReport != null) {
-				SummaryReportItem previousItem = findItem(item, previousReport);
-				if (previousItem != null) {
-					
-					item.setPreviousPosition(previousItem.getCurrentPosition());
-					item.setPreviousAmount(previousItem.getCurrentAmount());
-				}
-			}
+			setPreviousReportInfo(previousReport, item);
 			
 			if (reportBeforePrevious != null) {
 				SummaryReportItem previousItem = findItem(item, reportBeforePrevious);
@@ -146,6 +139,39 @@ public class SummaryReportService {
 		}
 		
 		return items;
+	}
+
+
+	private void setPreviousReportInfo(SummaryReport previousReport,
+			SummaryReportItem item) {
+		
+		boolean valuesSet = false;
+		
+		if (previousReport != null) {
+			SummaryReportItem previousItem = findItem(item, previousReport);
+			if (previousItem != null) {
+				
+				item.setPreviousPosition(previousItem.getCurrentPosition());
+				item.setPreviousAmount(previousItem.getCurrentAmount());
+				
+				if (item.getCurrentPosition() < previousItem.getBestPosition()) {
+					item.setBestPosition(item.getCurrentPosition());
+						
+				} else {
+					item.setBestPosition(previousItem.getBestPosition());
+				}
+				
+				item.setWeeksInRanking(previousItem.getWeeksInRanking() + 1);
+				
+				valuesSet = true;
+			
+			}
+		}
+		
+		if (!valuesSet) {
+			item.setBestPosition(item.getCurrentPosition());
+			item.setWeeksInRanking(1);
+		}
 	}
 
 	

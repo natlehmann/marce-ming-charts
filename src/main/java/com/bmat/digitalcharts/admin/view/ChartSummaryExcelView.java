@@ -1,6 +1,8 @@
 package com.bmat.digitalcharts.admin.view;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,12 @@ import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 public class ChartSummaryExcelView extends AbstractExcelView {
 	
 	private static SimpleDateFormat headerDateFormat = new SimpleDateFormat("dd/MM/yy");
+	
+	private static NumberFormat numberFormat = NumberFormat.getIntegerInstance(new Locale("es"));
+	
+	static {
+		numberFormat.setGroupingUsed(true);
+	}
 	
 	private static enum ReportColumnHeader {		
 		
@@ -57,7 +65,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				return new HSSFRichTextString(String.valueOf(item.getPreviousPosition()));
+				return new HSSFRichTextString(item.getPreviousPosition() != null ?
+						String.valueOf(item.getPreviousPosition()) : "");
 			}
 		},
 		
@@ -69,7 +78,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				return new HSSFRichTextString(String.valueOf(item.getPositionBeforePrevious()));
+				return new HSSFRichTextString(item.getPositionBeforePrevious() != null ?
+						String.valueOf(item.getPositionBeforePrevious()) : "");
 			}
 		},
 		
@@ -81,8 +91,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				// TODO FALTA IMPLEMENTAR
-				return new HSSFRichTextString("FALTA IMPLEMENTAR");
+				return new HSSFRichTextString(item.getWeeksInRanking() != null ?
+						String.valueOf(item.getWeeksInRanking()) : "");
 			}
 		},
 		
@@ -124,8 +134,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				// TODO: FORMATEAR NUMERO
-				return new HSSFRichTextString(String.valueOf(item.getPreviousAmount()));
+				return new HSSFRichTextString(item.getPreviousAmount() != null ?
+						numberFormat.format(item.getPreviousAmount()) : "");
 			}
 		},
 		
@@ -150,8 +160,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				// TODO: FORMATEAR NUMERO
-				return new HSSFRichTextString(String.valueOf(item.getCurrentAmount()));
+				return new HSSFRichTextString(numberFormat.format(item.getCurrentAmount()));
 			}
 		},
 		
@@ -175,8 +184,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				// TODO FALTA IMPLEMENTAR
-				return new HSSFRichTextString("FALTA IMPLEMENTAR");
+				return new HSSFRichTextString(item.getBestPosition() != null ?
+						String.valueOf(item.getBestPosition()) : "");
 			}
 		};
 		

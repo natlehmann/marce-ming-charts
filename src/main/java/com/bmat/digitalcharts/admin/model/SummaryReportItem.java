@@ -42,6 +42,10 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	
 	private String labelCompanyName;
 	
+	private Integer weeksInRanking;
+	
+	private Integer bestPosition;
+	
 	public SummaryReportItem(){}
 	
 	
@@ -146,6 +150,22 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	public void setLabelCompanyName(String labelCompanyName) {
 		this.labelCompanyName = labelCompanyName;
 	}
+	
+	public Integer getWeeksInRanking() {
+		return weeksInRanking;
+	}
+	
+	public void setWeeksInRanking(Integer weeksInRanking) {
+		this.weeksInRanking = weeksInRanking;
+	}
+	
+	public Integer getBestPosition() {
+		return bestPosition;
+	}
+	
+	public void setBestPosition(Integer bestPosition) {
+		this.bestPosition = bestPosition;
+	}
 
 	@Transient
 	public String getComparison() {
@@ -192,7 +212,6 @@ public abstract class SummaryReportItem extends AbstractEntity {
 
 
 	public abstract void setReport(SummaryReport report);
-	
-	
+
 
 }

@@ -50,6 +50,8 @@ create table MonthlyReportItem(
 	performerName varchar(255),
 	currentAmount BIGINT NOT NULL,
 	previousAmount BIGINT,
+	weeksInRanking int,
+	bestPosition int,
 	labelCompanyId BIGINT,
 	labelCompanyName varchar(255),
 	FOREIGN KEY (monthlyReport_id) REFERENCES MonthlyReport(id)
@@ -84,6 +86,8 @@ create table WeeklyReportItem(
 	performerName varchar(255),
 	currentAmount BIGINT NOT NULL,
 	previousAmount BIGINT,
+	weeksInRanking int,
+	bestPosition int,
 	labelCompanyId BIGINT,
 	labelCompanyName varchar(255),
 	FOREIGN KEY (weeklyReport_id) REFERENCES WeeklyReport(id)
