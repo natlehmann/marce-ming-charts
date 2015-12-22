@@ -52,14 +52,18 @@ public class SummaryReportService {
 		SummaryReport report = buildSummaryReport(weekFrom, weekTo, month, year, rightId, countryId);		
 		
 		SummaryReport previousReport = getPreviousReport(report);
+		SummaryReport reportBeforePrevious = null;
 		
 		if (previousReport != null) {
 			report.setPreviousDateFrom(previousReport.getDateFrom());
 			report.setPreviousDateTo(previousReport.getDateTo());
+			
+			reportBeforePrevious = getPreviousReport(previousReport);
 		}
 		
 		
-		List<SummaryReportItem> items = buildItems(countryId, rightId, report);
+		List<SummaryReportItem> items = buildItems(countryId, rightId, report, 
+				previousReport, reportBeforePrevious);
 		
 		report.setItems(items);
 
@@ -105,7 +109,7 @@ public class SummaryReportService {
 
 
 	private List<SummaryReportItem> buildItems(Long countryId, Long rightId,
-			SummaryReport report) {
+			SummaryReport report, SummaryReport previousReport, SummaryReport reportBeforePrevious) {
 		
 		List<SummaryReportItem> items = new LinkedList<>();
 		
@@ -122,12 +126,43 @@ public class SummaryReportService {
 		for (SummaryReportItem item : items) {
 			item.setCurrentPosition(currentPosition++);
 			item.setReport(report);
+			
+			if (previousReport != null) {
+				SummaryReportItem previousItem = findItem(item, previousReport);
+				if (previousItem != null) {
+					
+					item.setPreviousPosition(previousItem.getCurrentPosition());
+					item.setPreviousAmount(previousItem.getCurrentAmount());
+				}
+			}
+			
+			if (reportBeforePrevious != null) {
+				SummaryReportItem previousItem = findItem(item, reportBeforePrevious);
+				if (previousItem != null) {
+					
+					item.setPositionBeforePrevious(previousItem.getCurrentPosition());
+				}
+			}
 		}
 		
 		return items;
 	}
 
 	
+	private SummaryReportItem findItem(SummaryReportItem item,
+			SummaryReport previousReport) {
+		
+		SummaryReportItem result = null;
+		for (SummaryReportItem sri : previousReport.getItems()) {
+			if (sri.getSongId().equals(item.getSongId())) {
+				result = sri;
+			}
+		}
+		
+		return result;
+	}
+
+
 	private SummaryReport buildSummaryReport(Integer weekFrom, Integer weekTo,
 			Integer month, Integer year, Long rightId, Long countryId) {
 		
