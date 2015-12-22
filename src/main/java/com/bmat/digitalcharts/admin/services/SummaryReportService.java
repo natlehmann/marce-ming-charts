@@ -41,6 +41,7 @@ public class SummaryReportService {
 	@Autowired
 	private MonthlyReportDao monthlyReportDao;
 
+	@Transactional
 	public SummaryReport getSummaryReport(Long countryId, Integer year, 
 			Integer weekFrom, Integer weekTo, Integer month, Long rightId) {
 		
@@ -48,14 +49,14 @@ public class SummaryReportService {
 			weekTo = weekFrom;
 		}
 				
-		SummaryReport report = buildSummaryReport(weekFrom, weekTo, month, year);		
+		SummaryReport report = buildSummaryReport(weekFrom, weekTo, month, year, rightId, countryId);		
 		
-		report.setRight(rightDao.search(rightId));		
-		report.setCountry(countryDao.search(countryId));
+		SummaryReport previousReport = getPreviousReport(report);
 		
-		// TODO: ESTO NO ES VALIDO PARA REPORTE MENSUAL
-		report.setPreviousDateFrom(getDateFrom(year, weekFrom - 1));
-		report.setPreviousDateTo(getDateTo(year, weekTo - 1));
+		if (previousReport != null) {
+			report.setPreviousDateFrom(previousReport.getDateFrom());
+			report.setPreviousDateTo(previousReport.getDateTo());
+		}
 		
 		
 		List<SummaryReportItem> items = buildItems(countryId, rightId, report);
@@ -63,6 +64,43 @@ public class SummaryReportService {
 		report.setItems(items);
 
 		return report;
+	}
+
+
+	@Transactional
+	public SummaryReport getPreviousReport(SummaryReport report) {
+		
+		Integer year = report.getYear();
+		SummaryReport previousReport = null;
+		
+		if (report.isMonthly()) {
+			
+			Integer month = report.getMonth() - 1;
+			
+			if (month == 0) {
+				month = 12;
+				year--;
+			}
+			
+			previousReport = monthlyReportDao.getReport(year, month);
+			
+		} else {
+			
+			Integer week = report.getWeekFrom() - 1;
+			
+			if (week == 0) {
+				week = 53;
+				year--;
+			}
+			
+			previousReport = weeklyReportDao.getReport(year, week);
+		}
+		
+		if (previousReport != null) {
+			previousReport.getItems().size();
+		}
+		
+		return previousReport;
 	}
 
 
@@ -91,7 +129,7 @@ public class SummaryReportService {
 
 	
 	private SummaryReport buildSummaryReport(Integer weekFrom, Integer weekTo,
-			Integer month, Integer year) {
+			Integer month, Integer year, Long rightId, Long countryId) {
 		
 		SummaryReport report = new WeeklyReport();
 		if (month != null) {
@@ -104,6 +142,9 @@ public class SummaryReportService {
 		report.setWeekFrom(weekFrom);
 		report.setWeekTo(weekTo);
 		report.setYear(year);
+		
+		report.setRight(rightDao.search(rightId));
+		report.setCountry(countryDao.search(countryId));
 		
 		return report;
 	}
