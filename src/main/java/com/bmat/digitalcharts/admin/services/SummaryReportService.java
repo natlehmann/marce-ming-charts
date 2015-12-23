@@ -127,7 +127,7 @@ public class SummaryReportService {
 			item.setCurrentPosition(currentPosition++);
 			item.setReport(report);
 			
-			setPreviousReportInfo(previousReport, item);
+			setPreviousReportInfo(previousReport, reportBeforePrevious, item);
 			
 			if (reportBeforePrevious != null) {
 				SummaryReportItem previousItem = findItem(item, reportBeforePrevious);
@@ -142,36 +142,55 @@ public class SummaryReportService {
 	}
 
 
-	private void setPreviousReportInfo(SummaryReport previousReport,
+	void setPreviousReportInfo(SummaryReport previousReport, SummaryReport reportBeforePrevious,
 			SummaryReportItem item) {
 		
-		boolean valuesSet = false;
+		SummaryReportItem previousItem = null;
+		SummaryReportItem itemBeforePrevious = null;
 		
 		if (previousReport != null) {
-			SummaryReportItem previousItem = findItem(item, previousReport);
+			
+			previousItem = findItem(item, previousReport);
 			if (previousItem != null) {
 				
 				item.setPreviousPosition(previousItem.getCurrentPosition());
 				item.setPreviousAmount(previousItem.getCurrentAmount());
-				
-				if (item.getCurrentPosition() < previousItem.getBestPosition()) {
-					item.setBestPosition(item.getCurrentPosition());
-						
-				} else {
-					item.setBestPosition(previousItem.getBestPosition());
-				}
-				
-				item.setWeeksInRanking(previousItem.getWeeksInRanking() + 1);
-				
-				valuesSet = true;
-			
 			}
 		}
 		
-		if (!valuesSet) {
+		if (reportBeforePrevious != null) {
+			itemBeforePrevious = findItem(item, reportBeforePrevious);
+		}
+		
+		boolean valuesSetInBefore = setWeekInRankingAndBestPosition(item, itemBeforePrevious);
+		boolean valuesSetInPrevious = setWeekInRankingAndBestPosition(item, previousItem);
+		
+		if (!valuesSetInBefore && !valuesSetInPrevious) {
+			
 			item.setBestPosition(item.getCurrentPosition());
 			item.setWeeksInRanking(1);
 		}
+	}
+	
+	
+	private boolean setWeekInRankingAndBestPosition(SummaryReportItem item,
+			SummaryReportItem previousItem) {
+		
+		if (previousItem != null) {
+			
+			if (item.getCurrentPosition() < previousItem.getBestPosition()) {
+				item.setBestPosition(item.getCurrentPosition());
+					
+			} else {
+				item.setBestPosition(previousItem.getBestPosition());
+			}
+			
+			item.setWeeksInRanking(previousItem.getWeeksInRanking() + 1);
+			
+			return true;		
+		}
+		
+		return false;
 	}
 
 	

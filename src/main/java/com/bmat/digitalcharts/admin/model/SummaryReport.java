@@ -140,6 +140,8 @@ public abstract class SummaryReport extends AbstractEntity {
 		return null;
 	}
 
+	public abstract void addItem(SummaryReportItem item);
+
 	
 	
 }

@@ -28,8 +28,7 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 
 
-Ver formateo de los % cuando hay un solo valor. Estan quedando raros.
-Probar con reportes mensuales
-Ajustar ancho columnas
-Poner los mensajes de NUEVO, REING, etc
+
+Ajustar ancho columnas y estilos reporte
+Agregar encabezados faltantes
 

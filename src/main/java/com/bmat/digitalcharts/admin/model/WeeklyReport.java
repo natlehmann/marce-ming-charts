@@ -1,5 +1,6 @@
 package com.bmat.digitalcharts.admin.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,6 +24,16 @@ public class WeeklyReport extends SummaryReport {
 	@Override
 	public void setItems(List items) {
 		this.items = items;
+	}
+
+
+	@Override
+	public void addItem(SummaryReportItem item) {
+		if (this.items == null) {
+			this.items = new LinkedList<>();
+		}
+		
+		this.items.add((WeeklyReportItem) item);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.bmat.digitalcharts.admin.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,5 +38,14 @@ public class MonthlyReport extends SummaryReport {
 	@Override
 	public boolean isMonthly() {
 		return true;
+	}
+	
+	@Override
+	public void addItem(SummaryReportItem item) {
+		if (this.items == null) {
+			this.items = new LinkedList<>();
+		}
+		
+		this.items.add((MonthlyReportItem) item);
 	}
 }
