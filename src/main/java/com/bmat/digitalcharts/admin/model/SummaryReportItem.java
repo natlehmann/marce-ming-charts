@@ -12,6 +12,8 @@ public abstract class SummaryReportItem extends AbstractEntity {
 
 	private static final long serialVersionUID = 2765679262811873494L;
 	
+	private static NumberFormat percentFormat;
+	
 	public static final String EQUAL = "(=)";
 	public static final String OPEN_COMPARISON = "(";
 	public static final String CLOSE_COMPARISON = ")";
@@ -198,17 +200,25 @@ public abstract class SummaryReportItem extends AbstractEntity {
 			double percentage = Math.abs(difference) / (double)this.previousAmount;
 			
 			String sign = "";
-			if (difference < 0) {
+			if (difference < 0 && Math.round(percentage * 100) > 0) {
 				sign = "-";
 			}
 			
-			NumberFormat format = NumberFormat.getPercentInstance(new Locale("es"));
-			return sign + format.format(percentage);
+			return sign + getPercentFormat().format(percentage);
 		}
 		
 		return "";
 	}
 
+	
+	private static NumberFormat getPercentFormat() {
+		
+		if (percentFormat == null) {
+			percentFormat = NumberFormat.getPercentInstance(new Locale("es"));
+		}
+		
+		return percentFormat;
+	}
 
 
 	public abstract void setReport(SummaryReport report);
