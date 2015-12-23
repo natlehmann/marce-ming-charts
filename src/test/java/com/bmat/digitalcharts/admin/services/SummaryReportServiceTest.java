@@ -216,6 +216,21 @@ public class SummaryReportServiceTest {
 	}
 	
 	@Test
+	public void getBestPositionPreviousIsBetterAndThereIsNoBefore() {
+		
+		itemReport1.setCurrentPosition(5);
+		itemReport1.setBestPosition(5);
+		
+		itemReport2.setSongId(SONG_ID_2);
+		
+		item.setCurrentPosition(20);
+		
+		service.setPreviousReportInfo(report1, report2, item);
+		
+		assertEquals(Integer.valueOf(5), item.getBestPosition());
+	}
+	
+	@Test
 	public void getBestPositionBeforePreviousIsBetter() {
 		
 		itemReport1.setCurrentPosition(5);
