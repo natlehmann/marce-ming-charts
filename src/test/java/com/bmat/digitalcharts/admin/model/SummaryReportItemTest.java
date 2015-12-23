@@ -69,6 +69,11 @@ public class SummaryReportItemTest {
 	}
 	
 	@Test
+	public void getComparativePercentageIsNull() {
+		assertEquals(null, item.getComparativePercentage());		
+	}
+	
+	@Test
 	public void getComparativePercentageRoundNextToCero() {
 		item.setCurrentAmount(222186L);
 		item.setPreviousAmount(223211L);

@@ -218,7 +218,7 @@ public abstract class SummaryReportItem extends AbstractEntity {
 			return sign + getPercentFormat().format(percentage);
 		}
 		
-		return "";
+		return null;
 	}
 
 	

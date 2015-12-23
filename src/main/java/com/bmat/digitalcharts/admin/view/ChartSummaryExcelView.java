@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -16,6 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
@@ -31,6 +33,10 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 	
 	private static final String NEW = "NUEVO";
 	private static final String RETURN = "REING";
+
+	private static CellStyle centerCellStyle = null;
+	private static CellStyle rightCellStyle = null;
+	private static CellStyle leftCellStyle = null;
 	
 	static {
 		numberFormat.setGroupingUsed(true);
@@ -47,6 +53,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(item.getComparison());
 			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getCenterCellStyle(workbook);
+			}
 		},
 		
 		CURRENT_POSITION {
@@ -58,6 +69,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(String.valueOf(item.getCurrentPosition()));
+			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getCenterCellStyle(workbook);
 			}
 		},
 		
@@ -83,6 +99,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 					}
 				}
 			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getCenterCellStyle(workbook);
+			}
 		},
 		
 		POSITION_BEFORE_PREVIOUS{
@@ -94,7 +115,12 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(item.getPositionBeforePrevious() != null ?
-						String.valueOf(item.getPositionBeforePrevious()) : "");
+						String.valueOf(item.getPositionBeforePrevious()) : "-");
+			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getCenterCellStyle(workbook);
 			}
 		},
 		
@@ -109,6 +135,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 				return new HSSFRichTextString(item.getWeeksInRanking() != null ?
 						String.valueOf(item.getWeeksInRanking()) : "");
 			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getCenterCellStyle(workbook);
+			}
 		},
 		
 		TRACK {
@@ -121,6 +152,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(item.getSongName());
 			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getLeftCellStyle(workbook);
+			}
 		},
 		
 		ARTIST {
@@ -132,6 +168,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(item.getPerformerName());
+			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getLeftCellStyle(workbook);
 			}
 		},
 		
@@ -150,7 +191,12 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(item.getPreviousAmount() != null ?
-						numberFormat.format(item.getPreviousAmount()) : "");
+						numberFormat.format(item.getPreviousAmount()) : "-");
+			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getRightCellStyle(workbook);
 			}
 		},
 		
@@ -162,7 +208,13 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				return new HSSFRichTextString(item.getComparativePercentage());
+				return new HSSFRichTextString(item.getComparativePercentage() != null ?
+						item.getComparativePercentage() : "-");
+			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getCenterCellStyle(workbook);
 			}
 		},
 		
@@ -177,6 +229,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(numberFormat.format(item.getCurrentAmount()));
 			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getRightCellStyle(workbook);
+			}
 		},
 		
 		LABEL_COMPANY {
@@ -188,6 +245,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(item.getLabelCompanyName());
+			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getLeftCellStyle(workbook);
 			}
 		},
 		
@@ -202,11 +264,50 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 				return new HSSFRichTextString(item.getBestPosition() != null ?
 						String.valueOf(item.getBestPosition()) : "");
 			}
+			
+			@Override
+			public CellStyle getStyle(HSSFWorkbook workbook) {
+				return getCenterCellStyle(workbook);
+			}
 		};
 		
+
+		protected CellStyle getCenterCellStyle(HSSFWorkbook workbook) {
+			
+			if (centerCellStyle == null) {
+				centerCellStyle = getCellStyle(workbook);
+				centerCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+			}
+			
+			return centerCellStyle;
+		}
+		
+		protected CellStyle getLeftCellStyle(HSSFWorkbook workbook) {
+			
+			if (leftCellStyle == null) {
+				leftCellStyle = getCellStyle(workbook);
+				leftCellStyle.setAlignment(CellStyle.ALIGN_LEFT);
+			}
+			
+			return leftCellStyle;
+		}
+		
+		protected CellStyle getRightCellStyle(HSSFWorkbook workbook) {
+			
+			if (rightCellStyle == null) {
+				rightCellStyle = getCellStyle(workbook);
+				rightCellStyle.setAlignment(CellStyle.ALIGN_RIGHT);
+			}
+			
+			return rightCellStyle;
+		}
+
+
 		public abstract String getHeader(SummaryReport report);
 
 		public abstract RichTextString getValue(SummaryReportItem item);
+
+		public abstract CellStyle getStyle(HSSFWorkbook workbook);
 		
 	}
 
@@ -224,10 +325,10 @@ public class ChartSummaryExcelView extends AbstractExcelView {
         
 		
 		HSSFSheet excelSheet = workbook.createSheet(report.getRight().getName());
-		excelSheet.setDefaultColumnWidth(30);         
+		excelSheet.setDefaultColumnWidth(7);         
 		setExcelHeader(excelSheet, workbook, report);
 		
-		setExcelRows(excelSheet, report);
+		setExcelRows(workbook, excelSheet, report);
 		
 	}
 	
@@ -253,6 +354,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		excelHeader.createCell(2).setCellValue("al " + headerDateFormat.format(report.getDateTo()));
 		
 		excelHeader = excelSheet.createRow(5);
+		excelHeader.setHeightInPoints(30);
 		
 		for (ReportColumnHeader header : ReportColumnHeader.values()) {
 			
@@ -263,26 +365,70 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 
 
 	private CellStyle getColumnHeaderStyle(HSSFWorkbook workbook) {
-		CellStyle style = workbook.createCellStyle();       
+		
+		CellStyle style = workbook.createCellStyle();    
+		
         Font font = workbook.createFont();       
-        font.setFontName("Arial");        
-        style.setFillForegroundColor(HSSFColor.BLUE.index);      
+        font.setFontName("Arial");  
+        font.setFontHeightInPoints((short)12);
+        style.setFillForegroundColor(HSSFColor.BLUE_GREY.index);      
         style.setFillPattern(CellStyle.SOLID_FOREGROUND);       
         font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);       
         font.setColor(HSSFColor.WHITE.index);      
         style.setFont(font);
+        
+        setBorders(style);
+        style.setWrapText(true);
+        
+        style.setAlignment(CellStyle.ALIGN_CENTER);
 		return style;
 	}
 	
-	public void setExcelRows(HSSFSheet excelSheet, SummaryReport report){
+	
+	private static CellStyle getCellStyle(HSSFWorkbook workbook) {
+		
+		CellStyle style = workbook.createCellStyle();       
+		
+        Font font = workbook.createFont();       
+        font.setFontName("Arial");   
+        font.setFontHeightInPoints((short)12);
+        style.setFont(font);
+        
+        setBorders(style);
+        
+        style.setWrapText(true);
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        
+		return style;
+	}
+	
+	private static void setBorders(CellStyle style) {
+		
+		style.setBorderBottom(CellStyle.BORDER_THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderLeft(CellStyle.BORDER_THIN);
+        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderRight(CellStyle.BORDER_THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(CellStyle.BORDER_THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		
+	}
+
+
+	public void setExcelRows(HSSFWorkbook workbook, HSSFSheet excelSheet, SummaryReport report){
+		
 		
 		int row = 6;
 		for (SummaryReportItem item : report.getItems()) {
 			
 			HSSFRow excelRow = excelSheet.createRow(row);
+			excelRow.setHeightInPoints(18);
 			
 			for (ReportColumnHeader header : ReportColumnHeader.values()) {
 				excelRow.createCell(header.ordinal()).setCellValue(header.getValue(item));
+				
+				excelRow.getCell(header.ordinal()).setCellStyle(header.getStyle(workbook));
 				
 				if (header.getValue(item).getString().equals(NEW)) {
 					excelSheet.addMergedRegion(new CellRangeAddress(
@@ -292,6 +438,14 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			row++;
 		}
+
+		excelSheet.setColumnWidth(5, excelSheet.getColumnWidth(0) * 8);
+		excelSheet.setColumnWidth(6, excelSheet.getColumnWidth(0) * 5);
+		excelSheet.setColumnWidth(7, excelSheet.getColumnWidth(0) * 2);
+		excelSheet.setColumnWidth(8, excelSheet.getColumnWidth(0) * 2);
+		excelSheet.setColumnWidth(9, excelSheet.getColumnWidth(0) * 2);
+		excelSheet.setColumnWidth(10, excelSheet.getColumnWidth(0) * 5);
 	}
+
 
 }
