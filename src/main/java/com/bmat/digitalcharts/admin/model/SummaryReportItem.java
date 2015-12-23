@@ -17,6 +17,8 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	public static final String EQUAL = "(=)";
 	public static final String OPEN_COMPARISON = "(";
 	public static final String CLOSE_COMPARISON = ")";
+	public static final String NEW = "[N]";
+	public static final String RETURN = "[R]";
 	
 	@Column(nullable=false)
 	private Integer currentPosition;
@@ -185,6 +187,15 @@ public abstract class SummaryReportItem extends AbstractEntity {
 			if (this.currentPosition > this.previousPosition) {
 				return OPEN_COMPARISON + "-" + (this.currentPosition - this.previousPosition) 
 						+ CLOSE_COMPARISON;
+			}
+		}
+		
+		if (this.currentPosition != null && this.previousPosition == null) {
+			if (this.positionBeforePrevious == null) {
+				return NEW;
+				
+			} else {
+				return RETURN;
 			}
 		}
 		

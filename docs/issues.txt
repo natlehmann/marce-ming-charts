@@ -14,6 +14,7 @@ Las semanas comienzan los viernes. Usar la fecha en que se publicó el chart.
 Preguntas:
 Campo semanas. Busco reporte anterior y pongo esas semanas + 1. Si no estaba en el ranking la semana anterior,
 pongo 1. Esta bien eso? Deberia considerar tambien el reporte de hace 2 semanas?
+Si es un reingreso, la cantidad de semanas es la del ranking de hace dos semanas + 1?
 
 Algo parecido pasa con el maximo valor alcanzado en el chart. Una vez que se genera un reporte se puede
 tomar ese valor. Pero la primera vez, como hago para calcularlo? Cuanto atrás tengo que ir?
@@ -23,6 +24,7 @@ Donde está el dato del tipo de reporte? Si es streaming o download? Depende del
 
 Mas preguntas:
 Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edición?
+
 
 
 

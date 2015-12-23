@@ -44,12 +44,20 @@ public class SummaryReportItemTest {
 	
 	@Test
 	public void getComparisonDoesNotFailWhenNull() {
-		item.setCurrentPosition(11);		
 		assertEquals("", item.getComparison());
-		
-		item.setCurrentPosition(null);		
-		assertEquals("", item.getComparison());
-		
+	}
+	
+	@Test
+	public void getComparisonIsNew() {
+		item.setCurrentPosition(2);
+		assertEquals(SummaryReportItem.NEW, item.getComparison());
+	}
+	
+	@Test
+	public void getComparisonIsReturn() {
+		item.setCurrentPosition(2);
+		item.setPositionBeforePrevious(4);
+		assertEquals(SummaryReportItem.RETURN, item.getComparison());
 	}
 	
 	@Test

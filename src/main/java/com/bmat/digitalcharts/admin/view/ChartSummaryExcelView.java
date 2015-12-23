@@ -17,6 +17,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.bmat.digitalcharts.admin.model.SummaryReport;
@@ -27,6 +28,9 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 	private static SimpleDateFormat headerDateFormat = new SimpleDateFormat("dd/MM/yy");
 	
 	private static NumberFormat numberFormat = NumberFormat.getIntegerInstance(new Locale("es"));
+	
+	private static final String NEW = "NUEVO";
+	private static final String RETURN = "REING";
 	
 	static {
 		numberFormat.setGroupingUsed(true);
@@ -65,8 +69,19 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				return new HSSFRichTextString(item.getPreviousPosition() != null ?
-						String.valueOf(item.getPreviousPosition()) : "");
+				
+				if (item.getPreviousPosition() != null) {
+					return new HSSFRichTextString(String.valueOf(item.getPreviousPosition()));
+					
+				} else {
+					
+					if (item.getPositionBeforePrevious() != null) {
+						return new HSSFRichTextString(RETURN);
+						
+					} else {
+						return new HSSFRichTextString(NEW);
+					}
+				}
 			}
 		},
 		
@@ -264,11 +279,18 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		int row = 6;
 		for (SummaryReportItem item : report.getItems()) {
 			
-			HSSFRow excelRow = excelSheet.createRow(row++);
+			HSSFRow excelRow = excelSheet.createRow(row);
 			
 			for (ReportColumnHeader header : ReportColumnHeader.values()) {
 				excelRow.createCell(header.ordinal()).setCellValue(header.getValue(item));
+				
+				if (header.getValue(item).getString().equals(NEW)) {
+					excelSheet.addMergedRegion(new CellRangeAddress(
+							row,row,header.ordinal(),header.ordinal() + 1));
+				}
 			}
+			
+			row++;
 		}
 	}
 
