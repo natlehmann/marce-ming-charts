@@ -29,7 +29,4 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 
 
-Agregar encabezados faltantes
-
-Revisar los datos. Por ejemplo, reporte Noviembre sem 46 a 50, aparecen nombres de canciones repetidos
-
+Falta filtro por fuente.

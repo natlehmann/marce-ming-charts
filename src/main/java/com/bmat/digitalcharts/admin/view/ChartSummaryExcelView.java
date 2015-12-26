@@ -339,6 +339,9 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		excelHeader.createCell(3).setCellValue("al " + headerDateFormat.format(report.getDateTo()));
 		excelHeader.getCell(3).setCellStyle(styleManager.getSubtitleCellStyle());
 		
+		excelHeader.createCell(11).setCellValue(report.getSources());
+		excelHeader.getCell(11).setCellStyle(styleManager.getRightCellStyle());
+		
 		excelHeader = excelSheet.createRow(5);
 		excelHeader.setHeightInPoints(30);
 		

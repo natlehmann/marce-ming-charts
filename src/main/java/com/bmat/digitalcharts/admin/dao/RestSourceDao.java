@@ -17,6 +17,7 @@ import com.bmat.digitalcharts.admin.model.Right;
 @Repository
 public class RestSourceDao {
 	
+	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(RestSourceDao.class);
 	
 	@Autowired
@@ -27,7 +28,7 @@ public class RestSourceDao {
 	@Transactional
 	public List<RestSource> getSources(List<Long> ids, Date dateFrom,
 			Date dateTo, Country country, Right right) {
-log.error("--------------- song ids ========================= " + ids);		
+
 		return sessionFactory.getCurrentSession().createQuery(
 				"SELECT DISTINCT(u.restSource) FROM Usage u WHERE u.chartDate between :dateFrom and :dateTo "
 				+ "and u.right.id = :rightId "
