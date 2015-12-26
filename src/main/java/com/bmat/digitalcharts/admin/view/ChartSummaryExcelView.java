@@ -8,16 +8,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
@@ -27,16 +24,17 @@ import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 
 public class ChartSummaryExcelView extends AbstractExcelView {
 	
+	private static Log log = LogFactory.getLog(ChartSummaryExcelView.class);
+	
 	private static SimpleDateFormat headerDateFormat = new SimpleDateFormat("dd/MM/yy");
 	
 	private static NumberFormat numberFormat = NumberFormat.getIntegerInstance(new Locale("es"));
 	
 	private static final String NEW = "NUEVO";
 	private static final String RETURN = "REING";
+	
+	private ChartStyleManager styleManager;
 
-	private static CellStyle centerCellStyle = null;
-	private static CellStyle rightCellStyle = null;
-	private static CellStyle leftCellStyle = null;
 	
 	static {
 		numberFormat.setGroupingUsed(true);
@@ -55,8 +53,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getCenterCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 		},
 		
@@ -72,8 +70,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getCenterCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 		},
 		
@@ -101,8 +99,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getCenterCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 		},
 		
@@ -119,8 +117,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getCenterCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 		},
 		
@@ -137,8 +135,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getCenterCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 		},
 		
@@ -154,8 +152,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getLeftCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getLeftCellStyle();
 			}
 		},
 		
@@ -171,8 +169,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getLeftCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getLeftCellStyle();
 			}
 		},
 		
@@ -195,8 +193,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getRightCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getRightCellStyle();
 			}
 		},
 		
@@ -213,8 +211,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getCenterCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 		},
 		
@@ -231,8 +229,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getRightCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getRightCellStyle();
 			}
 		},
 		
@@ -248,8 +246,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getLeftCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getLeftCellStyle();
 			}
 		},
 		
@@ -266,50 +264,23 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 			
 			@Override
-			public CellStyle getStyle(HSSFWorkbook workbook) {
-				return getCenterCellStyle(workbook);
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 		};
 		
-
-		protected CellStyle getCenterCellStyle(HSSFWorkbook workbook) {
-			
-			if (centerCellStyle == null) {
-				centerCellStyle = getCellStyle(workbook);
-				centerCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			}
-			
-			return centerCellStyle;
-		}
 		
-		protected CellStyle getLeftCellStyle(HSSFWorkbook workbook) {
-			
-			if (leftCellStyle == null) {
-				leftCellStyle = getCellStyle(workbook);
-				leftCellStyle.setAlignment(CellStyle.ALIGN_LEFT);
-			}
-			
-			return leftCellStyle;
-		}
-		
-		protected CellStyle getRightCellStyle(HSSFWorkbook workbook) {
-			
-			if (rightCellStyle == null) {
-				rightCellStyle = getCellStyle(workbook);
-				rightCellStyle.setAlignment(CellStyle.ALIGN_RIGHT);
-			}
-			
-			return rightCellStyle;
-		}
 
 
 		public abstract String getHeader(SummaryReport report);
 
 		public abstract RichTextString getValue(SummaryReportItem item);
 
-		public abstract CellStyle getStyle(HSSFWorkbook workbook);
+		public abstract CellStyle getStyle(ChartStyleManager styleManager);
 		
 	}
+	
+	
 
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model,
@@ -323,6 +294,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		
         response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + "\"");
         
+        this.styleManager = new ChartStyleManager(workbook);
 		
 		HSSFSheet excelSheet = workbook.createSheet(report.getRight().getName());
 		excelSheet.setDefaultColumnWidth(7);         
@@ -335,23 +307,36 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 	
 	public void setExcelHeader(HSSFSheet excelSheet, HSSFWorkbook workbook, SummaryReport report) {
 		
-		CellStyle style = getColumnHeaderStyle(workbook); 
+		CellStyle style = styleManager.getColumnHeaderStyle(); 
         
 		HSSFRow excelHeader = excelSheet.createRow(0);
 		excelHeader.createCell(1).setCellValue(
 				report.getRight().getName() + " from " + report.getCountry().getName());
+		excelHeader.getCell(1).setCellStyle(styleManager.getTitleCellStyle());
+		excelHeader.setHeightInPoints(40);
 		
 		excelHeader = excelSheet.createRow(2);
+		excelHeader.setHeightInPoints(22);
 		excelHeader.createCell(1).setCellValue("Semana " + report.getWeekFrom());
+		excelHeader.getCell(1).setCellStyle(styleManager.getSubtitleCellStyle());
 		
 		if (!report.getWeekFrom().equals(report.getWeekTo())) {
-			excelHeader.createCell(2).setCellValue("a la ");
-			excelHeader.createCell(3).setCellValue("Semana " + report.getWeekTo());
+			excelHeader.createCell(3).setCellValue("a la Semana " + report.getWeekTo());
+			excelHeader.getCell(3).setCellStyle(styleManager.getSubtitleCellStyle());
+		}
+		
+		if (report.isMonthly()) {
+			excelHeader.createCell(6).setCellValue("MES DE " + report.getMonthName().toUpperCase());
+			excelHeader.getCell(6).setCellStyle(styleManager.getSubtitleBoldCellStyle());
 		}
 		
 		excelHeader = excelSheet.createRow(3);
+		excelHeader.setHeightInPoints(22);
 		excelHeader.createCell(1).setCellValue("del " + headerDateFormat.format(report.getDateFrom()));
-		excelHeader.createCell(2).setCellValue("al " + headerDateFormat.format(report.getDateTo()));
+		excelHeader.getCell(1).setCellStyle(styleManager.getSubtitleCellStyle());
+		
+		excelHeader.createCell(3).setCellValue("al " + headerDateFormat.format(report.getDateTo()));
+		excelHeader.getCell(3).setCellStyle(styleManager.getSubtitleCellStyle());
 		
 		excelHeader = excelSheet.createRow(5);
 		excelHeader.setHeightInPoints(30);
@@ -364,56 +349,12 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 	}
 
 
-	private CellStyle getColumnHeaderStyle(HSSFWorkbook workbook) {
-		
-		CellStyle style = workbook.createCellStyle();    
-		
-        Font font = workbook.createFont();       
-        font.setFontName("Arial");  
-        font.setFontHeightInPoints((short)12);
-        style.setFillForegroundColor(HSSFColor.BLUE_GREY.index);      
-        style.setFillPattern(CellStyle.SOLID_FOREGROUND);       
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);       
-        font.setColor(HSSFColor.WHITE.index);      
-        style.setFont(font);
-        
-        setBorders(style);
-        style.setWrapText(true);
-        
-        style.setAlignment(CellStyle.ALIGN_CENTER);
-		return style;
-	}
+
+	
+
+
 	
 	
-	private static CellStyle getCellStyle(HSSFWorkbook workbook) {
-		
-		CellStyle style = workbook.createCellStyle();       
-		
-        Font font = workbook.createFont();       
-        font.setFontName("Arial");   
-        font.setFontHeightInPoints((short)12);
-        style.setFont(font);
-        
-        setBorders(style);
-        
-        style.setWrapText(true);
-        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-        
-		return style;
-	}
-	
-	private static void setBorders(CellStyle style) {
-		
-		style.setBorderBottom(CellStyle.BORDER_THIN);
-        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderLeft(CellStyle.BORDER_THIN);
-        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderRight(CellStyle.BORDER_THIN);
-        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderTop(CellStyle.BORDER_THIN);
-        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
-		
-	}
 
 
 	public void setExcelRows(HSSFWorkbook workbook, HSSFSheet excelSheet, SummaryReport report){
@@ -428,8 +369,8 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			for (ReportColumnHeader header : ReportColumnHeader.values()) {
 				excelRow.createCell(header.ordinal()).setCellValue(header.getValue(item));
 				
-				excelRow.getCell(header.ordinal()).setCellStyle(header.getStyle(workbook));
-				
+				excelRow.getCell(header.ordinal()).setCellStyle(header.getStyle(styleManager));
+
 				if (header.getValue(item).getString().equals(NEW)) {
 					excelSheet.addMergedRegion(new CellRangeAddress(
 							row,row,header.ordinal(),header.ordinal() + 1));

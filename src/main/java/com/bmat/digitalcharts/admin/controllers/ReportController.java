@@ -67,34 +67,13 @@ public class ReportController {
 		
 		model.addAttribute("rights", rightDao.getAll());
 		
-		model.addAttribute("months", getMonths());
+		model.addAttribute("months", Month.getMonths());
 		
 		
 		return new ModelAndView("report/filters", model);
 	}
 	
 	
-	private List<Month> getMonths() {
-		
-		List<Month> months = new LinkedList<>();
-		
-		months.add(new Month(1L, "Enero"));
-		months.add(new Month(2L, "Febrero"));
-		months.add(new Month(3L, "Marzo"));
-		months.add(new Month(4L, "Abril"));
-		months.add(new Month(5L, "Mayo"));
-		months.add(new Month(6L, "Junio"));
-		months.add(new Month(7L, "Julio"));
-		months.add(new Month(8L, "Agosto"));
-		months.add(new Month(9L, "Septiembre"));
-		months.add(new Month(10L, "Octubre"));
-		months.add(new Month(11L, "Noviembre"));
-		months.add(new Month(12L, "Diciembre"));
-		
-		return months;
-	}
-
-
 	@RequestMapping("/create")
 	public ModelAndView createReport(@RequestParam("country") Long countryId, 
 			@RequestParam("year") Integer year,

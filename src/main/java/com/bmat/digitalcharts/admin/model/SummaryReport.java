@@ -142,6 +142,16 @@ public abstract class SummaryReport extends AbstractEntity {
 
 	public abstract void addItem(SummaryReportItem item);
 
+	@Transient
+	public String getMonthName() {
+		
+		if (getMonth() != null) {
+			return Month.getMonth(this.getMonth()).getName();
+		}
+		
+		return null;
+	}
+
 	
 	
 }

@@ -1,18 +1,22 @@
 package com.bmat.digitalcharts.admin.model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Month implements Serializable {
 	
 	private static final long serialVersionUID = 4225587378315258461L;
+	
+	private static List<Month> months;
 
-	private Long id;
+	private Integer id;
 	
 	private String name;
 	
 	public Month(){}
 
-	public Month(Long id, String name) {
+	public Month(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -20,11 +24,11 @@ public class Month implements Serializable {
 
 
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -64,6 +68,40 @@ public class Month implements Serializable {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+	
+	public static List<Month> getMonths() {
+		
+		if (months == null) {
+		
+			months = new LinkedList<>();
+			
+			months.add(new Month(1, "Enero"));
+			months.add(new Month(2, "Febrero"));
+			months.add(new Month(3, "Marzo"));
+			months.add(new Month(4, "Abril"));
+			months.add(new Month(5, "Mayo"));
+			months.add(new Month(6, "Junio"));
+			months.add(new Month(7, "Julio"));
+			months.add(new Month(8, "Agosto"));
+			months.add(new Month(9, "Septiembre"));
+			months.add(new Month(10, "Octubre"));
+			months.add(new Month(11, "Noviembre"));
+			months.add(new Month(12, "Diciembre"));
+		}
+		
+		return months;
+	}
+	
+	public static Month getMonth(Integer id) {
+		
+		for (Month month : getMonths()) {
+			if (month.getId().equals(id)) {
+				return month;
+			}
+		}
+		
+		return null;
 	}
 
 }
