@@ -25,7 +25,7 @@ public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryRepo
 				+ "WHERE u.chartDate between :dateFrom and :dateTo "
 				+ "and u.right.id = :rightId "
 				+ "and u.country.id = :countryId "
-				+ "group by u.track.id "
+				+ "group by u.track.song.id "
 				+ "order by currentAmount desc"
 				)
 				.setParameter("dateFrom", dateFrom)

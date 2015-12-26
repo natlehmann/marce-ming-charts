@@ -24,6 +24,7 @@ import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 
 public class ChartSummaryExcelView extends AbstractExcelView {
 	
+	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(ChartSummaryExcelView.class);
 	
 	private static SimpleDateFormat headerDateFormat = new SimpleDateFormat("dd/MM/yy");

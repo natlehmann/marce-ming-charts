@@ -1,14 +1,16 @@
-select u.trackId, sum(u.units) as amount, t.songId, s.name, t.performerId, p.name, r.labelCompanyId, l.name
-from BMATDigitalChartsDB.Usage u, Track t, Song s, Performer p, BMATDigitalChartsDB.Release r, LabelCompany l
-where t.id = u.trackId
-and s.id = t.songId
-and p.id = t.performerId
-and r.id = t.releaseId
-and l.id = r.labelCompanyId
-and u.chartDate between {ts'2015-10-30 00:00:00.0'} and {ts'2015-11-05 00:00:00.0'}
+SELECT t.songId, s.name, t.performerId, p.name, sum(u.units) as currentAmount, r.labelCompanyId, l.name
+
+FROM BMATDigitalChartsDB.Usage u, Track t, Song s, BMATDigitalChartsDB.Release r, LabelCompany l, Performer p
+WHERE u.trackId = t.id
+AND t.songId = s.id
+AND t.performerId = p.id
+AND t.releaseId = r.id
+AND r.labelCompanyId = l.id
+
+AND u.chartDate between {ts'2015-11-06 00:00:00.0'} and {ts'2015-12-10 00:00:00.0'}
 and u.rightId = 1
-and u.countryId = 2
-group by u.trackId
-order by amount desc
+and u.countryId = 1
+group by s.id
+order by currentAmount desc
 
 
