@@ -44,6 +44,8 @@ public abstract class SummaryReport extends AbstractEntity {
 	@ManyToOne
 	private Right right;
 	
+	private String sources;
+	
 	private boolean enabled = true;
 
 	public Date getDateFrom() {
@@ -124,6 +126,14 @@ public abstract class SummaryReport extends AbstractEntity {
 	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	public String getSources() {
+		return sources;
+	}
+	
+	public void setSources(String sources) {
+		this.sources = sources;
 	}
 
 	public abstract void setItems(@SuppressWarnings("rawtypes") List items);

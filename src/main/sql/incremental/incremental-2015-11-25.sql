@@ -42,6 +42,7 @@ create table MonthlyReport(
 	previousDateTo datetime,
 	country_id BIGINT NOT NULL,
 	right_id BIGINT NOT NULL,
+	sources varchar(255),
 	enabled bit not null default true,
 	FOREIGN KEY (country_id) REFERENCES Country(id),
 	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)
@@ -79,6 +80,7 @@ create table WeeklyReport(
 	previousDateTo datetime,
 	country_id BIGINT NOT NULL,
 	right_id BIGINT NOT NULL,
+	sources varchar(255),
 	enabled bit not null default true,
 	FOREIGN KEY (country_id) REFERENCES Country(id),
 	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)

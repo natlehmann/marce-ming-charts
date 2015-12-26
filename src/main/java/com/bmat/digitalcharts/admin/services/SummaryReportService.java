@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.MonthlyReportDao;
 import com.bmat.digitalcharts.admin.dao.MonthlyReportItemDao;
+import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
 import com.bmat.digitalcharts.admin.dao.WeeklyReportItemDao;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
+import com.bmat.digitalcharts.admin.model.RestSource;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
@@ -41,6 +43,9 @@ public class SummaryReportService {
 	@Autowired
 	private MonthlyReportDao monthlyReportDao;
 
+	@Autowired
+	private RestSourceDao restSourceDao;
+	
 	@Transactional
 	public SummaryReport getSummaryReport(Long countryId, Integer year, 
 			Integer weekFrom, Integer weekTo, Integer month, Long rightId) {
@@ -66,12 +71,35 @@ public class SummaryReportService {
 				previousReport, reportBeforePrevious);
 		
 		report.setItems(items);
+		
+		setSources(report, items);
 
 		return report;
 	}
 
 
-	@Transactional
+	private void setSources(SummaryReport report, List<SummaryReportItem> items) {
+		
+		List<Long> ids = new LinkedList<>();
+		
+		for (SummaryReportItem item : items) {
+			ids.add(item.getSongId());
+		}
+		
+		List<RestSource> sources = restSourceDao.getSources(ids, report.getDateFrom(), 
+				report.getDateTo(), report.getCountry(), report.getRight());
+		
+		StringBuffer buffer = new StringBuffer();
+		
+		for (RestSource source : sources) {
+			buffer.append(source.getName()).append(", ");
+		}
+		
+		report.setSources(buffer.substring(0, buffer.length() - 2));
+		
+	}
+
+
 	public SummaryReport getPreviousReport(SummaryReport report) {
 		
 		Integer year = report.getYear();
