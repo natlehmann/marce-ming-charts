@@ -20,7 +20,9 @@ public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryRepo
 		
 		return getSessionFactory().getCurrentSession().createQuery(
 				"SELECT new " + getEntityName() 
-				+ "(u.track.song.id, u.track.song.name, u.track.performer.id, u.track.performer.name, sum(u.units) as currentAmount, u.track.release.labelCompany.id, u.track.release.labelCompany.name) "
+				+ "(u.track.song.id, u.track.song.name, u.track.performer.id, u.track.performer.name, "
+				+ "sum(u.units) as currentAmount, u.track.release.labelCompany.id, "
+				+ "u.track.release.labelCompany.name) "
 				+ "FROM Usage u " 
 				+ "WHERE u.chartDate between :dateFrom and :dateTo "
 				+ "and u.right.id = :rightId "

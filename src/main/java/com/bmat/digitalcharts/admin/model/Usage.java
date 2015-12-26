@@ -31,6 +31,10 @@ public class Usage extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn(name="trackId")
 	private Track track;
+	
+	@ManyToOne
+	@JoinColumn(name="sourceId")
+	private RestSource restSource;
 
 	public Date getChartDate() {
 		return chartDate;
@@ -72,5 +76,12 @@ public class Usage extends AbstractEntity {
 		this.track = track;
 	}
 
+	public RestSource getRestSource() {
+		return restSource;
+	}
+	
+	public void setRestSource(RestSource restSource) {
+		this.restSource = restSource;
+	}
 	
 }

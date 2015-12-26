@@ -63,6 +63,7 @@ create table MonthlyReportItem(
 	bestPosition int,
 	labelCompanyId BIGINT,
 	labelCompanyName varchar(255),
+	restSourceId BIGINT,
 	FOREIGN KEY (monthlyReport_id) REFERENCES MonthlyReport(id)
 )  ENGINE=InnoDB;
 
@@ -99,6 +100,7 @@ create table WeeklyReportItem(
 	bestPosition int,
 	labelCompanyId BIGINT,
 	labelCompanyName varchar(255),
+	restSourceId BIGINT,
 	FOREIGN KEY (weeklyReport_id) REFERENCES WeeklyReport(id)
 )  ENGINE=InnoDB;
 
