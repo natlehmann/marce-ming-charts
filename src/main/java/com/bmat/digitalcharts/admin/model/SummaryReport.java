@@ -48,6 +48,9 @@ public abstract class SummaryReport extends AbstractEntity {
 	
 	private boolean enabled = true;
 
+	@ManyToOne
+	private RestSource filteredBySource;
+
 	public Date getDateFrom() {
 		return dateFrom;
 	}
@@ -162,6 +165,12 @@ public abstract class SummaryReport extends AbstractEntity {
 		return null;
 	}
 
-	
+	public RestSource getFilteredBySource() {
+		return filteredBySource;
+	}
+
+	public void setFilteredBySource(RestSource filteredBySource) {
+		this.filteredBySource = filteredBySource;
+	}
 	
 }

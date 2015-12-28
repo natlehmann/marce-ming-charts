@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
+import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.model.Month;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
@@ -45,6 +46,9 @@ public class ReportController {
 	@Autowired
 	private RightDao rightDao;
 	
+	@Autowired
+	private RestSourceDao restSourceDao;
+	
 	
 	@RequestMapping("/filters")
 	public ModelAndView initReportFilters(ModelMap model) {
@@ -67,6 +71,8 @@ public class ReportController {
 		
 		model.addAttribute("rights", rightDao.getAll());
 		
+		model.addAttribute("sources", restSourceDao.getAll());
+		
 		model.addAttribute("months", Month.getMonths());
 		
 		
@@ -81,17 +87,19 @@ public class ReportController {
 			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
 			@RequestParam(value="month", required=false, defaultValue="") Integer month,
 			@RequestParam("right") Long rightId,
+			@RequestParam(value="source", required=false, defaultValue="") Long sourceId,
 			@RequestParam("action") String action,
 			ModelMap model, HttpSession session) {
 
-		setConversationParameters(model, year, countryId, weekFrom, weekTo, rightId, month);
+		setConversationParameters(model, year, countryId, weekFrom, weekTo, rightId, sourceId, month);
 		
 		if (!validFilters(model, weekFrom, weekTo, month)) {
 			return initReportFilters(model);
 		}
 		
 		if (action.equals(EXPORT_ACTION)) {
-			return getExcel(countryId, year, weekFrom, weekTo, month, rightId, model, session);
+			return getExcel(countryId, year, weekFrom, weekTo, 
+					month, rightId, sourceId, model, session);
 		}
 		
 		if (action.equals(SAVE_ACTION)) {
@@ -148,6 +156,7 @@ public class ReportController {
 		
 		setConversationParameters(model, report.getYear(), report.getCountry().getId(),
 				report.getWeekFrom(), report.getWeekTo(), report.getRight().getId(),
+				report.getFilteredBySource() != null ? report.getFilteredBySource().getId() :  null, 
 				month);
 		model.put("msg", msg);
 		
@@ -158,20 +167,21 @@ public class ReportController {
 
 
 	private void setConversationParameters(ModelMap model, Integer year, Long countryId, Integer weekFrom,
-			Integer weekTo, Long rightId, Integer month) {
+			Integer weekTo, Long rightId, Long sourceId, Integer month) {
 		model.put("selectedYear", year);
 		model.put("selectedCountry", countryId);
 		model.put("selectedWeekFrom", weekFrom);
 		model.put("selectedWeekTo", weekTo);
 		model.put("selectedRight", rightId);
 		model.put("selectedMonth", month);
+		model.put("selectedSource", sourceId);
 	}
 
 
 	public ModelAndView getExcel(Long countryId, Integer year, Integer weekFrom,
 			Integer weekTo, Integer month, Long rightId,
-			ModelMap model, HttpSession session) {
-		
+			Long sourceId, ModelMap model, HttpSession session) {
+	//////////////////////////////////////////////////////	
 		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo, month, rightId);
 		
 		session.setAttribute(Utils.SessionParams.ACTIVE_REPORT.toString(), report);

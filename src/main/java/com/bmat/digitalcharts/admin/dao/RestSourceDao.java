@@ -15,13 +15,20 @@ import com.bmat.digitalcharts.admin.model.RestSource;
 import com.bmat.digitalcharts.admin.model.Right;
 
 @Repository
-public class RestSourceDao {
+public class RestSourceDao extends AbstractEntityDao<RestSource> {
 	
 	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(RestSourceDao.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	
+	public RestSourceDao() {
+		super(RestSource.class);
+	}
+
+
 
 
 	@SuppressWarnings("unchecked")
@@ -40,6 +47,13 @@ public class RestSourceDao {
 				.setParameter("countryId", country.getId())
 				.setParameterList("songIds", ids)
 				.list();
+	}
+
+
+
+	@Override
+	protected SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 
 }

@@ -34,9 +34,11 @@ create table MonthlyReport(
 	country_id BIGINT NOT NULL,
 	right_id BIGINT NOT NULL,
 	sources varchar(255),
+	filteredBySource_id BIGINT,
 	enabled bit not null default true,
 	FOREIGN KEY (country_id) REFERENCES Country(id),
-	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)
+	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id),
+	FOREIGN KEY (filteredBySource_id) REFERENCES RestSource(id)
 )  ENGINE=InnoDB;
 
 create table MonthlyReportItem(
@@ -55,7 +57,7 @@ create table MonthlyReportItem(
 	bestPosition int,
 	labelCompanyId BIGINT,
 	labelCompanyName varchar(255),
-	restSourceId BIGINT,
+	amountBySource BIGINT,
 	FOREIGN KEY (monthlyReport_id) REFERENCES MonthlyReport(id)
 )  ENGINE=InnoDB;
 
@@ -72,9 +74,11 @@ create table WeeklyReport(
 	country_id BIGINT NOT NULL,
 	right_id BIGINT NOT NULL,
 	sources varchar(255),
+	filteredBySource_id BIGINT,
 	enabled bit not null default true,
 	FOREIGN KEY (country_id) REFERENCES Country(id),
-	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id)
+	FOREIGN KEY (right_id) REFERENCES BMATDigitalChartsDB.Right(id),
+	FOREIGN KEY (filteredBySource_id) REFERENCES RestSource(id)
 )  ENGINE=InnoDB;
 
 create table WeeklyReportItem(
@@ -93,7 +97,9 @@ create table WeeklyReportItem(
 	bestPosition int,
 	labelCompanyId BIGINT,
 	labelCompanyName varchar(255),
-	restSourceId BIGINT,
+	amountBySource BIGINT,
 	FOREIGN KEY (weeklyReport_id) REFERENCES WeeklyReport(id)
 )  ENGINE=InnoDB;
+
+
 

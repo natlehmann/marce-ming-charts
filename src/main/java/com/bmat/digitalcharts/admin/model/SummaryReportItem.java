@@ -44,13 +44,13 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	
 	private Long labelCompanyId;
 	
-	private Long restSourceId;
-	
 	private String labelCompanyName;
 	
 	private Integer weeksInRanking;
 	
 	private Integer bestPosition;
+	
+	private Long amountBySource;
 	
 	public SummaryReportItem(){}
 	
@@ -173,12 +173,12 @@ public abstract class SummaryReportItem extends AbstractEntity {
 		this.bestPosition = bestPosition;
 	}
 	
-	public Long getRestSourceId() {
-		return restSourceId;
+	public Long getAmountBySource() {
+		return amountBySource;
 	}
 	
-	public void setRestSourceId(Long restSourceId) {
-		this.restSourceId = restSourceId;
+	public void setAmountBySource(Long amountBySource) {
+		this.amountBySource = amountBySource;
 	}
 
 	@Transient

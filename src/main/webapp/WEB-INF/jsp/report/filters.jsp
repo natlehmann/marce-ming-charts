@@ -125,6 +125,20 @@
 					</c:forEach>
 				</select>
 			</div>
+			
+			
+			
+			<h2>DCP</h2>
+			<div class="dropdown">
+				<select name="right">
+					<option value="">Select...</option>
+					<c:forEach items="${sources}" var="source">
+						<option value="${source.id}" ${source.id eq selectedSource ? "selected='selected'" : "" }>
+							${source.name}
+						</option>
+					</c:forEach>
+				</select>
+			</div>
 	
 			
 			<div>
