@@ -1,6 +1,7 @@
 package com.bmat.digitalcharts.admin.model;
 
 import java.text.NumberFormat;
+import java.util.Comparator;
 import java.util.Locale;
 
 import javax.persistence.Column;
@@ -211,6 +212,11 @@ public abstract class SummaryReportItem extends AbstractEntity {
 		
 		return "";
 	}
+	
+	@Override
+	public String toString() {
+		return this.songName + "(" + this.currentAmount + ")";
+	}
 
 	@Transient
 	public String getComparativePercentage() {
@@ -244,5 +250,14 @@ public abstract class SummaryReportItem extends AbstractEntity {
 
 	public abstract void setReport(SummaryReport report);
 
+	
+	public static class SongIdComparator implements Comparator<SummaryReportItem> {
+
+		@Override
+		public int compare(SummaryReportItem o1, SummaryReportItem o2) {
+			return o1.getSongId().compareTo(o2.getSongId());
+		}
+		
+	}
 
 }

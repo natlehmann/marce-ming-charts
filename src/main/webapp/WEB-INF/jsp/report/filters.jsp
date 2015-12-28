@@ -130,7 +130,7 @@
 			
 			<h2>DCP</h2>
 			<div class="dropdown">
-				<select name="right">
+				<select name="source">
 					<option value="">Select...</option>
 					<c:forEach items="${sources}" var="source">
 						<option value="${source.id}" ${source.id eq selectedSource ? "selected='selected'" : "" }>

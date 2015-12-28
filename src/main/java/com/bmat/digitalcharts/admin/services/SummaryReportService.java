@@ -1,6 +1,7 @@
 package com.bmat.digitalcharts.admin.services;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.bmat.digitalcharts.admin.model.MonthlyReport;
 import com.bmat.digitalcharts.admin.model.RestSource;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
+import com.bmat.digitalcharts.admin.model.SummaryReportItem.SongIdComparator;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
 
 @Service
@@ -48,13 +50,14 @@ public class SummaryReportService {
 	
 	@Transactional
 	public SummaryReport getSummaryReport(Long countryId, Integer year, 
-			Integer weekFrom, Integer weekTo, Integer month, Long rightId) {
+			Integer weekFrom, Integer weekTo, Integer month, Long rightId, Long sourceId) {
 		
 		if (weekTo == null) {
 			weekTo = weekFrom;
 		}
 				
-		SummaryReport report = buildSummaryReport(weekFrom, weekTo, month, year, rightId, countryId);		
+		SummaryReport report = buildSummaryReport(
+				weekFrom, weekTo, month, year, rightId, countryId, sourceId);		
 		
 		SummaryReport previousReport = getPreviousReport(report);
 		SummaryReport reportBeforePrevious = null;
@@ -96,6 +99,33 @@ public class SummaryReportService {
 		}
 		
 		report.setSources(buffer.substring(0, buffer.length() - 2));
+		
+		
+		if (report.getFilteredBySource() != null) {
+			
+			
+			List<SummaryReportItem> amountsBySource = new LinkedList<>();
+			
+			if (report.isMonthly()) {
+				amountsBySource = monthlyReportItemDao.getItems(report.getCountry().getId(), 
+						report.getRight().getId(), report.getDateFrom(), report.getDateTo(), 
+						report.getFilteredBySource(), ids);
+				
+			} else {
+				amountsBySource = weeklyReportItemDao.getItems(report.getCountry().getId(), 
+						report.getRight().getId(), report.getDateFrom(), report.getDateTo(), 
+						report.getFilteredBySource(), ids);
+			}
+			
+			for (SummaryReportItem item : items) {
+				int itemBySourceIndex = Collections.binarySearch(amountsBySource, item, 
+						new SongIdComparator());
+				
+				if (itemBySourceIndex >= 0) {
+					item.setAmountBySource(amountsBySource.get(itemBySourceIndex).getCurrentAmount());
+				}
+			}
+		}
 		
 	}
 
@@ -237,7 +267,7 @@ public class SummaryReportService {
 
 
 	private SummaryReport buildSummaryReport(Integer weekFrom, Integer weekTo,
-			Integer month, Integer year, Long rightId, Long countryId) {
+			Integer month, Integer year, Long rightId, Long countryId, Long sourceId) {
 		
 		SummaryReport report = new WeeklyReport();
 		if (month != null) {
@@ -253,6 +283,10 @@ public class SummaryReportService {
 		
 		report.setRight(rightDao.search(rightId));
 		report.setCountry(countryDao.search(countryId));
+		
+		if (sourceId != null) {
+			report.setFilteredBySource(restSourceDao.search(sourceId));
+		}
 		
 		return report;
 	}

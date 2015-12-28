@@ -181,8 +181,9 @@ public class ReportController {
 	public ModelAndView getExcel(Long countryId, Integer year, Integer weekFrom,
 			Integer weekTo, Integer month, Long rightId,
 			Long sourceId, ModelMap model, HttpSession session) {
-	//////////////////////////////////////////////////////	
-		SummaryReport report = service.getSummaryReport(countryId, year, weekFrom, weekTo, month, rightId);
+
+		SummaryReport report = service.getSummaryReport(
+				countryId, year, weekFrom, weekTo, month, rightId, sourceId);
 		
 		session.setAttribute(Utils.SessionParams.ACTIVE_REPORT.toString(), report);
 		model.put("summaryReport", report);
