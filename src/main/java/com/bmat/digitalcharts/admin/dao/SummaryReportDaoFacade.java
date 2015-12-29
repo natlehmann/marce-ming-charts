@@ -61,7 +61,7 @@ public class SummaryReportDaoFacade {
 				year--;
 			}
 			
-			previousReport = monthlyReportDao.getReport(year, month);
+			previousReport = monthlyReportDao.getBaseReport(year, month);
 			
 		} else {
 			
@@ -72,7 +72,7 @@ public class SummaryReportDaoFacade {
 				year--;
 			}
 			
-			previousReport = weeklyReportDao.getReport(year, week);
+			previousReport = weeklyReportDao.getBaseReport(year, week);
 		}
 		
 		if (previousReport != null) {

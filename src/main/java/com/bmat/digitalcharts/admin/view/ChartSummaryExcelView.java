@@ -268,6 +268,58 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			public CellStyle getStyle(ChartStyleManager styleManager) {
 				return styleManager.getCenterCellStyle();
 			}
+		},
+		
+		AMOUNT_BY_SOURCE {
+
+			@Override
+			public String getHeader(SummaryReport report) {
+				return report.getFilteredBySource() != null ?
+						report.getFilteredBySource().getName() : "";
+			}
+
+			@Override
+			public RichTextString getValue(SummaryReportItem item) {
+				return new HSSFRichTextString(item.getAmountBySource() != null ?
+						String.valueOf(item.getAmountBySource()) : "-");
+			}
+
+			@Override
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getRightCellStyle();
+			}
+			
+			@Override
+			public boolean shouldShow(SummaryReport report) {
+				return report.getFilteredBySource() != null;
+			}
+			
+		},
+		
+		
+		AMOUNT_BY_SOURCE_PERCENT {
+
+			@Override
+			public String getHeader(SummaryReport report) {
+				return "%";
+			}
+
+			@Override
+			public RichTextString getValue(SummaryReportItem item) {
+				return new HSSFRichTextString(item.getAmountBySourcePercent() != null ?
+						item.getAmountBySourcePercent() : "-");
+			}
+
+			@Override
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
+			}
+			
+			@Override
+			public boolean shouldShow(SummaryReport report) {
+				return report.getFilteredBySource() != null;
+			}
+			
 		};
 		
 		
@@ -278,6 +330,10 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		public abstract RichTextString getValue(SummaryReportItem item);
 
 		public abstract CellStyle getStyle(ChartStyleManager styleManager);
+		
+		public boolean shouldShow(SummaryReport report) {
+			return true;
+		}
 		
 	}
 	
@@ -347,8 +403,10 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		
 		for (ReportColumnHeader header : ReportColumnHeader.values()) {
 			
-			excelHeader.createCell(header.ordinal()).setCellValue(header.getHeader(report));
-			excelHeader.getCell(header.ordinal()).setCellStyle(style);
+			if (header.shouldShow(report)) {
+				excelHeader.createCell(header.ordinal()).setCellValue(header.getHeader(report));
+				excelHeader.getCell(header.ordinal()).setCellStyle(style);
+			}
 		}
 	}
 
@@ -371,13 +429,16 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			excelRow.setHeightInPoints(18);
 			
 			for (ReportColumnHeader header : ReportColumnHeader.values()) {
-				excelRow.createCell(header.ordinal()).setCellValue(header.getValue(item));
 				
-				excelRow.getCell(header.ordinal()).setCellStyle(header.getStyle(styleManager));
-
-				if (header.getValue(item).getString().equals(NEW)) {
-					excelSheet.addMergedRegion(new CellRangeAddress(
-							row,row,header.ordinal(),header.ordinal() + 1));
+				if (header.shouldShow(report)) {
+					excelRow.createCell(header.ordinal()).setCellValue(header.getValue(item));
+					
+					excelRow.getCell(header.ordinal()).setCellStyle(header.getStyle(styleManager));
+	
+					if (header.getValue(item).getString().equals(NEW)) {
+						excelSheet.addMergedRegion(new CellRangeAddress(
+								row,row,header.ordinal(),header.ordinal() + 1));
+					}
 				}
 			}
 			
@@ -390,6 +451,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		excelSheet.setColumnWidth(8, excelSheet.getColumnWidth(0) * 2);
 		excelSheet.setColumnWidth(9, excelSheet.getColumnWidth(0) * 2);
 		excelSheet.setColumnWidth(10, excelSheet.getColumnWidth(0) * 5);
+		excelSheet.setColumnWidth(12, excelSheet.getColumnWidth(0) * 2);
 	}
 
 

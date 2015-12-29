@@ -33,13 +33,19 @@ public class MonthlyReportDao extends SummaryReportDao {
 		return sessionFactory;
 	}
 
+	/**
+	 * Returns a report without any filters by source
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public MonthlyReport getReport(Integer year, Integer month) {
+	public MonthlyReport getBaseReport(Integer year, Integer month) {
 		
 		List<MonthlyReport> reports = sessionFactory.getCurrentSession().createQuery(
 				"SELECT m FROM MonthlyReport m WHERE m.month = :month AND m.year = :year "
-				+ "AND m.enabled = true ORDER BY m.id desc")
+				+ "AND m.filteredBySource = null AND m.enabled = true ORDER BY m.id desc")
 				.setParameter("month", month)
 				.setParameter("year", year)
 				.list();

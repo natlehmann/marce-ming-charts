@@ -37,7 +37,7 @@ public class SummaryReportDaoFacadeTest {
 		report.setWeekFrom(3);
 		service.getPreviousReport(report);
 		
-		Mockito.verify(weeklyReportDaoMock).getReport(2015, 2);
+		Mockito.verify(weeklyReportDaoMock).getBaseReport(2015, 2);
 		
 	}
 	
@@ -50,7 +50,7 @@ public class SummaryReportDaoFacadeTest {
 		report.setMonth(2);
 		service.getPreviousReport(report);
 		
-		Mockito.verify(monthlyReportDaoMock).getReport(2015, 1);
+		Mockito.verify(monthlyReportDaoMock).getBaseReport(2015, 1);
 		
 	}
 	
@@ -63,7 +63,7 @@ public class SummaryReportDaoFacadeTest {
 		report.setWeekFrom(1);
 		service.getPreviousReport(report);
 		
-		Mockito.verify(weeklyReportDaoMock).getReport(2014, 53);
+		Mockito.verify(weeklyReportDaoMock).getBaseReport(2014, 53);
 		
 	}
 	
@@ -76,7 +76,7 @@ public class SummaryReportDaoFacadeTest {
 		report.setMonth(1);
 		service.getPreviousReport(report);
 		
-		Mockito.verify(monthlyReportDaoMock).getReport(2014, 12);
+		Mockito.verify(monthlyReportDaoMock).getBaseReport(2014, 12);
 		
 	}
 

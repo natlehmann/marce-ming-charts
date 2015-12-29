@@ -260,4 +260,15 @@ public abstract class SummaryReportItem extends AbstractEntity {
 		
 	}
 
+
+	@Transient
+	public String getAmountBySourcePercent() {
+		
+		if (this.amountBySource != null) {
+			return getPercentFormat().format(amountBySource / (double)this.currentAmount);
+		}
+		
+		return null;
+	}
+
 }
