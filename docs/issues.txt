@@ -31,4 +31,3 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 Falta filtro por fuente.
 
-Cambiar el metodo que busca el reporte habilitado para que tenga en cuenta el filtro por fuente.

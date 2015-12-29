@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bmat.digitalcharts.admin.model.RestSource;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 
 public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> {
@@ -21,18 +22,26 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
-	public SummaryReport getReport(Integer year, Integer weekFrom, Integer month) {
+	public SummaryReport getReport(Integer year, Integer weekFrom, 
+			Integer month, RestSource restSource) {
 		
-		String queryStr = "SELECT r FROM " + getEntityName() + " r WHERE r.year = :year AND r.enabled = true";
+		String queryStr = "SELECT r FROM " + getEntityName() + " r WHERE r.year = :year AND r.enabled = true ";
 		
 		if (month == null) {
-			queryStr += " AND r.weekFrom = :weekFrom";
+			queryStr += "AND r.weekFrom = :weekFrom ";
 			
 		} else {
-			queryStr += " AND r.month = :month";
+			queryStr += "AND r.month = :month ";
 		}
 		
-		queryStr += " ORDER BY r.id desc";
+		if (restSource == null) {
+			queryStr += "AND r.filteredBySource IS NULL ";
+			
+		} else {
+			queryStr += "AND r.filteredBySource.id = :sourceId ";
+		}
+		
+		queryStr += "ORDER BY r.id desc";
 		
 		Query query = getSessionFactory().getCurrentSession().createQuery(queryStr);
 		query.setParameter("year", year);
@@ -42,6 +51,10 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 			
 		} else {
 			query.setParameter("month", month);
+		}
+		
+		if (restSource != null) {
+			query.setParameter("sourceId", restSource.getId());
 		}
 		
 		
