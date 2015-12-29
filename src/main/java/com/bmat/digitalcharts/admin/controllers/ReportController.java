@@ -21,7 +21,6 @@ import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.model.Month;
-import com.bmat.digitalcharts.admin.model.MonthlyReport;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.services.SummaryReportService;
 
@@ -149,15 +148,10 @@ public class ReportController {
 		
 		String msg = service.saveReport(report);
 		
-		Integer month = null;
-		if (report instanceof MonthlyReport) {
-			month = ((MonthlyReport) report).getMonth();
-		}
-		
 		setConversationParameters(model, report.getYear(), report.getCountry().getId(),
 				report.getWeekFrom(), report.getWeekTo(), report.getRight().getId(),
 				report.getFilteredBySource() != null ? report.getFilteredBySource().getId() :  null, 
-				month);
+				report.getMonth());
 		model.put("msg", msg);
 		
 		session.removeAttribute(Utils.SessionParams.ACTIVE_REPORT.toString());

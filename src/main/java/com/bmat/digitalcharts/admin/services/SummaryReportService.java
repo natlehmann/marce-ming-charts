@@ -11,12 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
-import com.bmat.digitalcharts.admin.dao.MonthlyReportDao;
-import com.bmat.digitalcharts.admin.dao.MonthlyReportItemDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
-import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
-import com.bmat.digitalcharts.admin.dao.WeeklyReportItemDao;
+import com.bmat.digitalcharts.admin.dao.SummaryReportDaoFacade;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
 import com.bmat.digitalcharts.admin.model.RestSource;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
@@ -34,19 +31,10 @@ public class SummaryReportService {
 	private RightDao rightDao;
 	
 	@Autowired
-	private WeeklyReportItemDao weeklyReportItemDao;
-	
-	@Autowired
-	private MonthlyReportItemDao monthlyReportItemDao;
-	
-	@Autowired
-	private WeeklyReportDao weeklyReportDao;
-	
-	@Autowired
-	private MonthlyReportDao monthlyReportDao;
-
-	@Autowired
 	private RestSourceDao restSourceDao;
+	
+	@Autowired
+	private SummaryReportDaoFacade summaryReportDao;
 	
 	@Transactional
 	public SummaryReport getSummaryReport(Long countryId, Integer year, 
@@ -59,14 +47,14 @@ public class SummaryReportService {
 		SummaryReport report = buildSummaryReport(
 				weekFrom, weekTo, month, year, rightId, countryId, sourceId);		
 		
-		SummaryReport previousReport = getPreviousReport(report);
+		SummaryReport previousReport = summaryReportDao.getPreviousReport(report);
 		SummaryReport reportBeforePrevious = null;
 		
 		if (previousReport != null) {
 			report.setPreviousDateFrom(previousReport.getDateFrom());
 			report.setPreviousDateTo(previousReport.getDateTo());
 			
-			reportBeforePrevious = getPreviousReport(previousReport);
+			reportBeforePrevious = summaryReportDao.getPreviousReport(previousReport);
 		}
 		
 		
@@ -104,18 +92,8 @@ public class SummaryReportService {
 		if (report.getFilteredBySource() != null) {
 			
 			
-			List<SummaryReportItem> amountsBySource = new LinkedList<>();
-			
-			if (report.isMonthly()) {
-				amountsBySource = monthlyReportItemDao.getItems(report.getCountry().getId(), 
-						report.getRight().getId(), report.getDateFrom(), report.getDateTo(), 
-						report.getFilteredBySource(), ids);
-				
-			} else {
-				amountsBySource = weeklyReportItemDao.getItems(report.getCountry().getId(), 
-						report.getRight().getId(), report.getDateFrom(), report.getDateTo(), 
-						report.getFilteredBySource(), ids);
-			}
+			List<SummaryReportItem> amountsBySource = summaryReportDao.getAmountsBySource(
+					report, ids);
 			
 			for (SummaryReportItem item : items) {
 				int itemBySourceIndex = Collections.binarySearch(amountsBySource, item, 
@@ -128,57 +106,14 @@ public class SummaryReportService {
 		}
 		
 	}
-
-
-	public SummaryReport getPreviousReport(SummaryReport report) {
-		
-		Integer year = report.getYear();
-		SummaryReport previousReport = null;
-		
-		if (report.isMonthly()) {
-			
-			Integer month = report.getMonth() - 1;
-			
-			if (month == 0) {
-				month = 12;
-				year--;
-			}
-			
-			previousReport = monthlyReportDao.getReport(year, month);
-			
-		} else {
-			
-			Integer week = report.getWeekFrom() - 1;
-			
-			if (week == 0) {
-				week = 53;
-				year--;
-			}
-			
-			previousReport = weeklyReportDao.getReport(year, week);
-		}
-		
-		if (previousReport != null) {
-			previousReport.getItems().size();
-		}
-		
-		return previousReport;
-	}
+	
 
 
 	private List<SummaryReportItem> buildItems(Long countryId, Long rightId,
 			SummaryReport report, SummaryReport previousReport, SummaryReport reportBeforePrevious) {
 		
-		List<SummaryReportItem> items = new LinkedList<>();
-		
-		if (report.isMonthly()) {
-			items = monthlyReportItemDao.getItems(
-					countryId, rightId, report.getDateFrom(), report.getDateTo());
-			
-		} else {
-			items = weeklyReportItemDao.getItems(
-					countryId, rightId, report.getDateFrom(), report.getDateTo());
-		}
+		List<SummaryReportItem> items = summaryReportDao.getReportItems(countryId, rightId,
+				report);
 		
 		int currentPosition = 1;
 		for (SummaryReportItem item : items) {
@@ -198,6 +133,7 @@ public class SummaryReportService {
 		
 		return items;
 	}
+
 
 
 	void setPreviousReportInfo(SummaryReport previousReport, SummaryReport reportBeforePrevious,
@@ -323,25 +259,15 @@ public class SummaryReportService {
 		
 		Long oldId = null;
 		
-		SummaryReport existingReport = null;
-		if (report.isMonthly()) {
-			
-			existingReport = monthlyReportDao.getReport(
-					report.getYear(), report.getWeekFrom(), report.getMonth());
-			
-		} else {
-			existingReport = weeklyReportDao.getReport(
-					report.getYear(), report.getWeekFrom(), report.getMonth());
-		}
-				
+		SummaryReport existingReport = summaryReportDao.getEnabledReport(report);				
 		
 		if (existingReport != null) {
 			existingReport.setEnabled(false);
 			oldId = existingReport.getId();
-			save(existingReport);
+			summaryReportDao.save(existingReport);
 		}
 		
-		save(report);
+		summaryReportDao.save(report);
 		
 		String msg = null;
 		if (oldId != null) {
@@ -355,16 +281,6 @@ public class SummaryReportService {
 		return msg;
 	}
 
-
-	@Transactional
-	public void save(SummaryReport report) {
-		
-		if (report.isMonthly()) {
-			monthlyReportDao.save(report);
-			
-		} else {
-			weeklyReportDao.save(report);
-		}		
-	}
+	
 
 }
