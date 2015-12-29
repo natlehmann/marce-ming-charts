@@ -168,7 +168,8 @@ public class ReportController {
 		model.put("selectedWeekTo", weekTo);
 		model.put("selectedRight", rightId);
 		model.put("selectedMonth", month);
-		model.put("selectedSource", sourceId);
+		model.put("selectedSource", sourceId);		
+		model.put("selectedIsMonthly", month != null);
 	}
 
 

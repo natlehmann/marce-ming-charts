@@ -71,36 +71,39 @@ public class SummaryReportService {
 
 	private void setSources(SummaryReport report, List<SummaryReportItem> items) {
 		
-		List<Long> ids = new LinkedList<>();
-		
-		for (SummaryReportItem item : items) {
-			ids.add(item.getSongId());
-		}
-		
-		List<RestSource> sources = restSourceDao.getSources(ids, report.getDateFrom(), 
-				report.getDateTo(), report.getCountry(), report.getRight());
-		
-		StringBuffer buffer = new StringBuffer();
-		
-		for (RestSource source : sources) {
-			buffer.append(source.getName()).append(", ");
-		}
-		
-		report.setSources(buffer.substring(0, buffer.length() - 2));
-		
-		
-		if (report.getFilteredBySource() != null) {
+		if (!items.isEmpty()) {
 			
-			
-			List<SummaryReportItem> amountsBySource = summaryReportDao.getAmountsBySource(
-					report, ids);
+			List<Long> ids = new LinkedList<>();
 			
 			for (SummaryReportItem item : items) {
-				int itemBySourceIndex = Collections.binarySearch(amountsBySource, item, 
-						new SongIdComparator());
+				ids.add(item.getSongId());
+			}
+			
+			List<RestSource> sources = restSourceDao.getSources(ids, report.getDateFrom(), 
+					report.getDateTo(), report.getCountry(), report.getRight());
+			
+			StringBuffer buffer = new StringBuffer();
+			
+			for (RestSource source : sources) {
+				buffer.append(source.getName()).append(", ");
+			}
+			
+			report.setSources(buffer.substring(0, buffer.length() - 2));
+			
+			
+			if (report.getFilteredBySource() != null) {
 				
-				if (itemBySourceIndex >= 0) {
-					item.setAmountBySource(amountsBySource.get(itemBySourceIndex).getCurrentAmount());
+				
+				List<SummaryReportItem> amountsBySource = summaryReportDao.getAmountsBySource(
+						report, ids);
+				
+				for (SummaryReportItem item : items) {
+					int itemBySourceIndex = Collections.binarySearch(amountsBySource, item, 
+							new SongIdComparator());
+					
+					if (itemBySourceIndex >= 0) {
+						item.setAmountBySource(amountsBySource.get(itemBySourceIndex).getCurrentAmount());
+					}
 				}
 			}
 		}

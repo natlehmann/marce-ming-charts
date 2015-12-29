@@ -14,6 +14,7 @@
 	
 	<input type="hidden" id="form_action" value='<c:url value="/report/create"/>' />
 	<input type="hidden" id="enable_save_url" value='<c:url value="/report/isReady"/>' />
+	<input type="hidden" id="isMonthlyReport" value="${selectedIsMonthly}" />
 
 	<form method="post" id="form">
 	
@@ -49,7 +50,7 @@
 			
 			<div id="month_week_selection">
 			
-				<div id="week_selection">
+				<div id="week_selection" class="${selectedIsMonthly == true ? 'disabled-selection' : '' }">
 					<div class="select_button" onclick="activateWeekSelection()">Weekly report</div>
 					
 					<div class="selection_content">
@@ -67,7 +68,8 @@
 					</div>
 				</div>
 				
-				<div id="month_selection" class="disabled-selection">
+				<div id="month_selection" 
+					class="${selectedIsMonthly == null || selectedIsMonthly == false ? 'disabled-selection' : '' }">
 					<div class="select_button" onclick="activateMonthSelection()">Monthly report</div>
 					
 					<div class="selection_content">
