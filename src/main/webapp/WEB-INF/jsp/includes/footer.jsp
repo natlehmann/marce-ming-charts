@@ -4,7 +4,7 @@
 		</div> <%-- cierra contenedor --%>
 		
 		<div class="pie">
-			@2015 Powered by BMat
+			@2015 MARCELO MINGRONE DERECHOS RESERVADOS
 		</div>
 
 	</body>

@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
 
-HOLA
+[ESTA ES LA HOME - FALTA IMPLEMENTAR]
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

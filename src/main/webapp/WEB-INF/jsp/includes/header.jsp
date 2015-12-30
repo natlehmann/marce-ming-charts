@@ -21,6 +21,7 @@
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery.dataTables_themeroller.css" />'>	
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/master.css" />'>
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery-estadisticas.css" />'>	
+		<link rel="stylesheet" type="text/css" href='<c:url value="/css/login.css" />'>	
 		<link rel="stylesheet" type="text/css" media="screen and (max-width:1025px)" href='<c:url value="/css/master-mobile.css" />'>	
 		
 	</head>
@@ -54,6 +55,7 @@
         	
 			<div class="menu">
         
+           		<div id="button-menu"> 
            		<div class="item-menu">
            			<a href='<c:url value="/admin/performer/list"/>' 
            				class='<%= itemMenuSeleccionado.equals("performer") ? "activo" : "" %>'>
@@ -66,6 +68,7 @@
            				class='<%= itemMenuSeleccionado.equals("report") ? "activo" : "" %>'>
            				GENERAR REPORTE
            			</a>
+           		</div>
            		</div>
             		
 			</div>

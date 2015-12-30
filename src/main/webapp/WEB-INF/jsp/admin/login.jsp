@@ -8,7 +8,9 @@
 
 <div id="login">
 
+	<div class="izq"><img src='<c:url value="/images/h1Izq.jpg"/>' width="14" height="34" /></div>
 	<h1>LOGIN WITH USERNAME AND PASSWORD</h1>
+	<div class="der"><img src='<c:url value="/images/h1Der.jpg"/>' width="31" height="34" /></div>
 	
 	<c:if test="${msg != null}">
 		<div class="msg">${msg}</div>
@@ -16,6 +18,7 @@
 	
 	<form action='<c:url value="j_spring_security_check" />' method='POST' id="loginsearch">
 	
+        
 		<div class="user">
 			username
 			<input name="j_username" type="text" size="40" placeholder="" />
@@ -25,7 +28,8 @@
 			password
 			<input name="j_password" type="password" size="40" placeholder="" />
 		</div>
-	
+
+
 		<div id="buscaBot">
 			<input name="submit" type="submit" value="LOGIN" />
 		</div>
