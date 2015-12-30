@@ -1,18 +1,5 @@
 .disabled-selection {
-	background-color: #bbb;
-	color: #999;
-}
-
-.select_button {
-	width: 400px;
-	height: 100px;
-	background-color: red;
-	color: white;
-}
-
-.disabled-selection .select_button {
-	background-color: #990000;
-	color: #666;
+	color: #ccc;
 }
 
 
@@ -1038,3 +1025,85 @@ a.ver-usuarios-link {
     border-bottom-left-radius: 21px;
 }
 
+
+#main-msg {
+	background: none;
+	margin: 0 auto;
+    width: 60%;
+}
+
+#crear_reporte {
+	margin: 0 auto;
+	width: 60%;
+}
+
+#crear_reporte #busca {
+	float: none;
+	width: 100%;
+	padding-bottom: 54px;
+}
+
+#week_selection,
+#month_selection {
+	width: 93%;
+	border: 1px solid white;
+	border-radius: 10px;
+	margin-left: 3%;
+	padding-bottom: 5px;
+	height: 70px;
+}
+
+#month_week_selection {
+	width: 100%;
+}
+
+#week_selection.disabled-selection,
+#month_selection.disabled-selection {
+	display: none;
+}
+
+.period_of_time_selection {
+	width: 100%;
+	height: 40px;
+	position: relative;
+}
+
+.period_of_time_selection h2 {
+	width: 50%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+} 
+
+.period_of_time_selection .select_buttons {
+	position: absolute;
+	right: 30px;
+	top: 4px;
+	text-align: center;
+}
+
+.period_of_time_selection .select_buttons div {
+	background: #777;
+}
+
+.period_of_time_selection .select_button {
+	width: 150px;
+	color: white;
+	text-transform: uppercase;
+	padding: 4px 10px 4px 10px;
+	float: left;
+	margin-right: 2px;
+}
+
+.period_of_time_selection .select_buttons div.disabled-selection {
+	background: #ddd;
+}
+
+.period_of_time_selection .select_buttons div.disabled-selection:hover {
+	cursor: pointer;
+}
+
+.col-33 {
+	width: 33%;
+	float: left;
+}

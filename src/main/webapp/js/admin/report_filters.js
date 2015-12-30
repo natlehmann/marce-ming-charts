@@ -12,6 +12,9 @@ function activateMonthSelection() {
 	
 	initDisabledSection();
 	
+	$("#select_button_month").removeClass("disabled-selection");
+	$("#select_button_week").addClass("disabled-selection");
+	
 	selectedPeriod = "month";
 }
 
@@ -21,6 +24,9 @@ function activateWeekSelection() {
 	$("#month_selection").addClass("disabled-selection");
 	
 	initDisabledSection();
+	
+	$("#select_button_week").removeClass("disabled-selection");
+	$("#select_button_month").addClass("disabled-selection");
 	
 	selectedPeriod = "week";
 }
