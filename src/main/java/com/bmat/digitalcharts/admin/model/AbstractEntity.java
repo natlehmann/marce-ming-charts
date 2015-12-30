@@ -111,17 +111,17 @@ public class AbstractEntity implements Serializable, Listable {
 	
 	@Transient
 	public String getLinkModificar() {
-		return "<a href='update?id=" + this.id + "' class='modificar-link' title='Modificar'>Modificar</a> ";
+		return "<a href='update?id=" + this.id + "' class='modificar-link' title='Modificar'></a> ";
 	}
 	
 	@Transient
 	public String getLinkEliminar() {
-		return "<a href='#' onclick='confirmarEliminar(" + this.id + ")' class='eliminar-link' title='Eliminar'>Eliminar</a>";
+		return "<a href='#' onclick='confirmarEliminar(" + this.id + ")' class='eliminar-link' title='Eliminar'></a>";
 	}
 	
 	@Transient
 	public String getLinkDuplicar() {
-		return "<a href='duplicar?id=" + this.id + "' class='duplicar-link' title='Duplicar'>Duplicar</a> ";
+		return "<a href='duplicar?id=" + this.id + "' class='duplicar-link' title='Duplicar'></a> ";
 	}
 	
 	@Transient

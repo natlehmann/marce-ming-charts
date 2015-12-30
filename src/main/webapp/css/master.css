@@ -858,10 +858,9 @@ a.ver-usuarios-link {
     border: 1px solid #D5D5D5;
     border-radius: 10px;
     color: #343333;
-    float: right;
     font-size: 12px;
     font-weight: bold;
-    margin-right: 20px;
+    margin: 0 auto;
     margin-top: 2%;
     width: 64%;
 }
@@ -1131,4 +1130,9 @@ a.ver-usuarios-link {
 
 #archivar_reporte input {
 	width: 30%;
+}
+
+#adminInt .error {
+	color: red;
+	font-weight: normal;
 }
