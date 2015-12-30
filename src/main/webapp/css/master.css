@@ -1107,3 +1107,28 @@ a.ver-usuarios-link {
 	width: 33%;
 	float: left;
 }
+
+#crear_reporte #buscaBot input {
+	width: 50%;
+}
+
+#archivar_reporte {
+	background-color: #f2f2f2;
+    border-radius: 10px;
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+#archivar_reporte .msg {
+	background: none;
+	margin: 0px;
+	padding: 10px 0px 20px 0px;
+	width: 100%;
+	font-size: 15px;
+}
+
+#archivar_reporte input {
+	width: 30%;
+}
