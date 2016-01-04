@@ -27,6 +27,5 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 
 
-Error al enviar de nuevo pagina con reporte inactivo
 
 

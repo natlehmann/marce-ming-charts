@@ -146,15 +146,21 @@ public class ReportController {
 		SummaryReport report = (SummaryReport) session.getAttribute(
 				Utils.SessionParams.ACTIVE_REPORT.toString());
 		
-		String msg = service.saveReport(report);
+		if (report != null) {
 		
-		setConversationParameters(model, report.getYear(), report.getCountry().getId(),
-				report.getWeekFrom(), report.getWeekTo(), report.getRight().getId(),
-				report.getFilteredBySource() != null ? report.getFilteredBySource().getId() :  null, 
-				report.getMonth());
-		model.put("msg", msg);
-		
-		session.removeAttribute(Utils.SessionParams.ACTIVE_REPORT.toString());
+			String msg = service.saveReport(report);
+			
+			setConversationParameters(model, report.getYear(), report.getCountry().getId(),
+					report.getWeekFrom(), report.getWeekTo(), report.getRight().getId(),
+					report.getFilteredBySource() != null ? report.getFilteredBySource().getId() :  null, 
+					report.getMonth());
+			model.put("msg", msg);
+			
+			session.removeAttribute(Utils.SessionParams.ACTIVE_REPORT.toString());
+			
+		} else {
+			model.put("msg", "Genere un reporte a partir de estos filtros.");
+		}
 		
 		return initReportFilters(model);
 	}
