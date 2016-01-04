@@ -7,6 +7,8 @@
 	<jsp:param value="song" name="itemMenuSeleccionado"/>
 </jsp:include>
 
+<script type="text/javascript" src='<c:url value="/js/admin/song_edit.js" />' ></script>
+
 
 <div id="adminInt">
 
@@ -21,6 +23,14 @@
 			<form:label path="name">Nombre</form:label>
 			<form:errors path="name" cssClass="error"/>
 			<form:input path="name" cssErrorClass="error" size="50"/>
+		</div>
+		
+		<div class="campo">
+			<form:label path="performer.id">Artista</form:label>
+			<form:errors path="performer.id" cssClass="error"/>
+			<form:hidden path="performer.id" id="performerId"/>
+			<input type="text" id="performerAutocomplete" name="performerName" value="${performerName}"
+				oninput="cleanPerformerSelection()" />
 		</div>
 		
 		<div class="campo">

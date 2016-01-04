@@ -73,4 +73,13 @@ public class PerformerDao extends AbstractEntityDao<Performer> {
 		}
 	}
 
+	@Transactional(value="transactionManager")
+	@SuppressWarnings("unchecked")
+	public List<Performer> getPerformersLikeName(String performerName) {
+		
+		return sessionFactory.getCurrentSession()
+				.createQuery("SELECT p FROM Performer p where p.name like :name ORDER BY p.name")
+				.setParameter("name", "%" + performerName + "%").list();
+	}
+
 }

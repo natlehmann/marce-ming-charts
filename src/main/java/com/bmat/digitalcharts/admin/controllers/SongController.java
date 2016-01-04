@@ -80,6 +80,8 @@ public class SongController {
 	private String prepareForm(Song song, ModelMap model) {
 		
 		model.addAttribute("song", song);
+		model.addAttribute("performerName", song.getPerformer() != null ? 
+				song.getPerformer().getName() : "");
 		return "admin/song_edit";
 	}
 	

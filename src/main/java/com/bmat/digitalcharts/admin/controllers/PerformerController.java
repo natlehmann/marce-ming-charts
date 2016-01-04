@@ -114,4 +114,12 @@ public class PerformerController {
 	}
 
 
+	
+	@RequestMapping("/findPerformerByName")
+	@ResponseBody
+	public List<Performer> findPerformerByName(@RequestParam("performerName")String performerName) {
+		
+		return dao.getPerformersLikeName(performerName);
+		
+	}
 }
