@@ -28,6 +28,5 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 
 Error al enviar de nuevo pagina con reporte inactivo
-Estilos para la parte de aprobacion del reporte y ABM
 
 

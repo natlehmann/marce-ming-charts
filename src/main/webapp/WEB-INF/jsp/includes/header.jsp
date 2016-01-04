@@ -64,6 +64,13 @@
            		</div> 
            		
            		<div class="item-menu">
+           			<a href='<c:url value="/admin/song/list"/>' 
+           				class='<%= itemMenuSeleccionado.equals("song") ? "activo" : "" %>'>
+           				CANCIONES
+           			</a>
+           		</div>
+           		
+           		<div class="item-menu">
            			<a href='<c:url value="/report/filters"/>' 
            				class='<%= itemMenuSeleccionado.equals("report") ? "activo" : "" %>'>
            				GENERAR REPORTE
