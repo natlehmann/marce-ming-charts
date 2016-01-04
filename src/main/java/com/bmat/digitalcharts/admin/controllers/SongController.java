@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
+import com.bmat.digitalcharts.admin.dao.PerformerDao;
 import com.bmat.digitalcharts.admin.dao.SongDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
+import com.bmat.digitalcharts.admin.model.Performer;
 import com.bmat.digitalcharts.admin.model.Song;
 
 
@@ -32,6 +34,9 @@ public class SongController {
 	
 	@Autowired
 	private SongDao dao;
+	
+	@Autowired
+	private PerformerDao performerDao;
 	
 	@RequestMapping("/list")
 	public String list(ModelMap model) {
@@ -80,14 +85,22 @@ public class SongController {
 	private String prepareForm(Song song, ModelMap model) {
 		
 		model.addAttribute("song", song);
-		model.addAttribute("performerName", song.getPerformer() != null ? 
-				song.getPerformer().getName() : "");
+		
+		if (song.getPerformer() != null && song.getPerformer().getId() != null) {
+			Performer performer = performerDao.search(song.getPerformer().getId());
+			model.addAttribute("performerName", performer.getName());
+		}
+		
 		return "admin/song_edit";
 	}
 	
 	@RequestMapping(value="/accept", method={RequestMethod.POST})
 	public String acceptUpdate(@Valid Song song, 
 			BindingResult result, ModelMap model){
+		
+		if (song.getPerformer() == null || song.getPerformer().getId() == null) {
+			result.rejectValue("performer.id", "performer.id.not.null", "Debe seleccionar un artista existente.");
+		}
 		
 		if (!result.hasErrors()) {
 			
