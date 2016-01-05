@@ -14,14 +14,19 @@
 <input type="hidden" id="current_song_name" value="${track.name}"/>
 <input type="hidden" id="current_song_id" value="${track.song.id}"/>
 
-<div id="adminInt">
+<div id="adminInt" class="editar-track">
 
 	<h1>MODIFICAR TRACK</h1>
 	
-	Track
-	ID: ${track.id}
-	NOMBRE: ${track.name}
-	ISRC: ${track.isrc}
+	<div class="campo-no-editable">
+		Track ID: ${track.id}
+	</div>
+	<div class="campo-no-editable">
+		NOMBRE: ${track.name}
+	</div>
+	<div class="campo-no-editable">
+		ISRC: ${track.isrc}
+	</div>
 	
 	<h3>Seleccione la canción a la cual quiere vincular este track:</h3>
 	

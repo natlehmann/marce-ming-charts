@@ -1136,3 +1136,20 @@ a.ver-usuarios-link {
 	color: red;
 	font-weight: normal;
 }
+
+.campo-no-editable {
+	color: #999;
+	border-bottom: 1px solid #ccc;
+	font-weight: normal;
+	font-size: 14px;
+	margin-left: 30px;
+    margin-right: 30px;
+    padding-top: 10px;
+}
+
+.editar-track h3 {
+	color: #666;
+	margin-left: 30px;
+    margin-right: 30px;
+    font-weight: 18px;
+}
