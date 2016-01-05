@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
+import com.bmat.digitalcharts.admin.dao.SongDao;
 import com.bmat.digitalcharts.admin.dao.TrackDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
+import com.bmat.digitalcharts.admin.model.Song;
 import com.bmat.digitalcharts.admin.model.Track;
 
 
@@ -32,6 +34,9 @@ public class TrackController {
 	
 	@Autowired
 	private TrackDao dao;
+	
+	@Autowired
+	private SongDao songDao;
 	
 	
 	@RequestMapping("/list")
@@ -91,6 +96,11 @@ public class TrackController {
 		if (!result.hasErrors()) {
 			
 			try {
+				if (track.getSong() != null && track.getSong().getId() != null) {
+					Song song = songDao.search(track.getSong().getId());
+					track.setPerformer(song.getPerformer());
+				}
+				
 				dao.save(track);
 				model.addAttribute("msg", "El track se ha guardado con éxito.");
 				
