@@ -19,10 +19,19 @@ public class DataTablesResponse {
 	
 	private List<List<String>> aaData;
 	
+	
+	
 	public DataTablesResponse() {}
 	
 	public DataTablesResponse(List<? extends Listable> lista, String sEcho, long cantidadTotal,
-			long cantidadFiltrada) {
+			long cantidadFiltrada){
+		
+		this(lista, sEcho, cantidadTotal, cantidadFiltrada, null);
+	}
+	
+	
+	public DataTablesResponse(List<? extends Listable> lista, String sEcho, long cantidadTotal,
+			long cantidadFiltrada, DataStrategy strategy) {
 		
 		if (!StringUtils.isEmpty(sEcho)) {
 			try {
@@ -41,7 +50,13 @@ public class DataTablesResponse {
 		
 		this.aaData = new LinkedList<>();
 		for (Listable entidad : lista) {
-			aaData.add(entidad.getCamposAsList());
+			
+			if (strategy != null) {
+				aaData.add(strategy.getData(entidad));
+				
+			} else {
+				aaData.add(entidad.getCamposAsList());
+			}
 		}
 		
 	}

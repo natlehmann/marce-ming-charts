@@ -27,5 +27,6 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 
 
-
+Falta que al tomar una cancion asignada a un track setee el performer de la cancion.
+Estilos del Editar track
 

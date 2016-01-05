@@ -85,6 +85,16 @@ public class Song extends AbstractEntity {
 		
 		return resultado;
 	}
+
+	@Transient
+	public List<String> getFieldsForUniqueSelection() {
+		
+		List<String> resultado = getCamposAsList();
+		resultado.remove(resultado.size() - 1);
+		
+		resultado.add("<input type='radio' name='song.id' value='" + this.getId() + "'/><br>");
+		return resultado;
+	}
 	
 
 }
