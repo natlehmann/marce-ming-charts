@@ -1,3 +1,5 @@
+use BMATDigitalChartsDB;
+
 create table User(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	username varchar(255),
@@ -24,7 +26,7 @@ create table User_Role(
 INSERT INTO Role (id,name) VALUES (1,'administrador');
 
 INSERT INTO User (id,username,password) VALUES (1,'administrador','42f9d4da1fa9e7e357d9ae38a2bd1afc09f45cbf399f1e54426744f0d8b70528c9e7e9a5bd7aa150');
---INSERT INTO User (id,username,password) VALUES (1,'Marcelo','0229e71ade9dbe5d2f49ded5b5fc549d7fc41b05d6120e24454c4ed871acc2229e29b6009684f291');
+--INSERT INTO User (id,username,password) VALUES (1,'Marcelo','bf4d1e5007ccbac6d1f47b65cac8643e9d86cd7d2993374ae920c3fe425cce98de9f19da4f1acdf9');
 
 INSERT INTO User_Role (user_id,role_id) VALUES (1,1);
 
