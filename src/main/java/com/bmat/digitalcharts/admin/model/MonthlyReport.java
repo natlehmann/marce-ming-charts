@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class MonthlyReport extends SummaryReport {
@@ -54,5 +55,47 @@ public class MonthlyReport extends SummaryReport {
 	public String getLinkEliminar() {
 		return "<a onclick='confirmDeleteMonthlyReport(" + this.getId() 
 				+ ")' class='eliminar-link' title='Eliminar'></a>";
+	}
+	
+	
+	@Transient
+	public static String getOrderingField(int indiceColumna) {
+		
+		switch(indiceColumna) {
+		
+		case 0:
+			return "id";
+		case 1:
+			return "year";
+		case 2:
+			return "month";
+		case 3:
+			return "weekFrom";
+		case 4:
+			return "weekTo";
+		case 5:
+			return "country.name";
+
+		default:
+			return null;
+		}
+	}
+	
+	
+	@Override
+	public List<String> getCamposAsList() {
+		
+		List<String> resultado = new LinkedList<>();
+		resultado.add(String.valueOf(this.getId()));
+		resultado.add(String.valueOf(this.getYear()));
+		resultado.add(String.valueOf(this.getMonth()));
+		resultado.add(String.valueOf(this.getWeekFrom()));
+		resultado.add(String.valueOf(this.getWeekTo()));
+		resultado.add(this.getCountry().getName());
+		resultado.add(this.getRight().getName());
+		resultado.add(this.getFilteredBySource() != null ? this.getFilteredBySource().getName() : "");
+		resultado.add(getLinkEliminar());
+		
+		return resultado;
 	}
 }

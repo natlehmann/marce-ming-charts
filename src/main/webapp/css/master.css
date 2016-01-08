@@ -101,7 +101,7 @@ body {
 	width: 90%;
 	box-shadow: 0px 0px 14px #e7e6e6;
 	border-radius: 10px;
-	height: 1200px;
+	height: 1700px;
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	font-size: 13px;
 	letter-spacing: 1px;
@@ -1164,7 +1164,9 @@ a.ver-usuarios-link {
 
 
 table.dataTable thead th:last-child div.DataTables_sort_wrapper span,
-#crear_reporte table.dataTable thead th:nth-child(5) div.DataTables_sort_wrapper span,
-#crear_reporte table.dataTable thead th:nth-child(6) div.DataTables_sort_wrapper span {
+#crear_reporte table.datatable-weekly thead th:nth-child(5) div.DataTables_sort_wrapper span,
+#crear_reporte table.datatable-weekly thead th:nth-child(6) div.DataTables_sort_wrapper span,
+#crear_reporte table.datatable-monthly thead th:nth-child(7) div.DataTables_sort_wrapper span,
+#crear_reporte table.datatable-monthly thead th:nth-child(8) div.DataTables_sort_wrapper span {
 	display: none;
 }

@@ -323,6 +323,11 @@ public class SummaryReportService {
 		weeklyReportDao.delete(id);		
 	}
 
+
+	public void deleteMonthlyReport(Long id) {
+		monthlyReportDao.delete(id);		
+	}
+
 	
 
 }

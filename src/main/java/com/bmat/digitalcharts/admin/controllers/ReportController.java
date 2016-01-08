@@ -27,6 +27,7 @@ import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
 import com.bmat.digitalcharts.admin.model.Month;
+import com.bmat.digitalcharts.admin.model.MonthlyReport;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
 import com.bmat.digitalcharts.admin.services.SummaryReportService;
@@ -204,13 +205,7 @@ public class ReportController {
 		
 		return session.getAttribute(Utils.SessionParams.ACTIVE_REPORT.toString()) != null;
 	}
-	
-	
-	
-	@RequestMapping("/weekly/list")
-	public String listWeekly(ModelMap model) {
-		return "report/weekly_report_list";
-	}
+
 	
 	@ResponseBody
 	@RequestMapping("/weekly/list_ajax")
@@ -255,6 +250,55 @@ public class ReportController {
 		} catch (Exception e) {
 			log.error("Error al eliminar reporte semanal.", e);
 			model.addAttribute("msg", "No se ha podido eliminar el reporte semanal. " 
+					+ "Si el problema persiste consulte al administrador del sistema.");
+		}
+		return initReportFilters(model);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/monthly/list_ajax")
+	public DataTablesResponse listMonthly(HttpServletRequest request) {
+		
+		
+		Map<Params, Object> params = Utils.getParametrosDatatables(request);
+		
+		String campoOrdenamiento = MonthlyReport.getOrderingField( 
+				Utils.getInt(request.getParameter("iSortCol_0"), 0) );
+		
+		
+		List<SummaryReport> reports = service.getMonthlyReportsPaginatedAndFiltered(
+				(int)params.get(Params.INICIO),
+				(int)params.get(Params.CANTIDAD_RESULTADOS),
+				(String)params.get(Params.FILTRO),
+				campoOrdenamiento,
+				(String)params.get(Params.DIRECCION_ORDENAMIENTO));
+		
+		long totalFiltrados = service.getMonthlyReportsCount(
+				(String)params.get(Params.FILTRO));
+		
+		long total = totalFiltrados;
+		if (!StringUtils.isEmpty((String)params.get(Params.FILTRO))) {
+			total = service.getMonthlyReportsCount(null);
+		}
+		
+		DataTablesResponse resultado = new DataTablesResponse(
+				reports, request.getParameter("sEcho"), total, totalFiltrados);
+		
+		return resultado;
+	}
+	
+	
+	@RequestMapping(value="/monthly/delete", method={RequestMethod.POST})
+	public ModelAndView deleteMonthlyReport(@RequestParam("id") Long id, ModelMap model) {
+		
+		try {
+			service.deleteMonthlyReport(id);
+			model.addAttribute("msg", "El reporte mensual se ha eliminado con éxito.");
+			
+		} catch (Exception e) {
+			log.error("Error al eliminar reporte mensual.", e);
+			model.addAttribute("msg", "No se ha podido eliminar el reporte mensual. " 
 					+ "Si el problema persiste consulte al administrador del sistema.");
 		}
 		return initReportFilters(model);
