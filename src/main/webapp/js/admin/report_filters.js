@@ -1,8 +1,9 @@
 $(document).ready(function() {
 	initDisabledSection();
+	selectedPeriod = $("#isMonthlyReport").val() == "true" ? "month" : "week";
 } );
 
-var selectedPeriod = "week";
+var selectedPeriod;
 var timer;
 
 function activateMonthSelection() {

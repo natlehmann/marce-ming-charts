@@ -106,11 +106,13 @@ public class SummaryReportDaoFacade {
 		if (report.isMonthly()) {
 			
 			existingReport = monthlyReportDao.getReport(
-					report.getYear(), report.getWeekFrom(), report.getMonth(), report.getFilteredBySource());
+					report.getYear(), report.getWeekFrom(), report.getMonth(), 
+					report.getCountry(), report.getRight(), report.getFilteredBySource());
 			
 		} else {
 			existingReport = weeklyReportDao.getReport(
-					report.getYear(), report.getWeekFrom(), report.getMonth(), report.getFilteredBySource());
+					report.getYear(), report.getWeekFrom(), report.getMonth(), 
+					report.getCountry(), report.getRight(), report.getFilteredBySource());
 		}
 		
 		return existingReport;

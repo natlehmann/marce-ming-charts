@@ -7,7 +7,9 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bmat.digitalcharts.admin.model.Country;
 import com.bmat.digitalcharts.admin.model.RestSource;
+import com.bmat.digitalcharts.admin.model.Right;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 
 public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> {
@@ -23,9 +25,10 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
 	public SummaryReport getReport(Integer year, Integer weekFrom, 
-			Integer month, RestSource restSource) {
+			Integer month, Country country, Right right, RestSource restSource) {
 		
-		String queryStr = "SELECT r FROM " + getEntityName() + " r WHERE r.year = :year AND r.enabled = true ";
+		String queryStr = "SELECT r FROM " + getEntityName() 
+				+ " r WHERE r.year = :year AND r.enabled = true AND r.country.id = :countryId AND r.right.id = :rightId ";
 		
 		if (month == null) {
 			queryStr += "AND r.weekFrom = :weekFrom ";
@@ -45,6 +48,8 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 		
 		Query query = getSessionFactory().getCurrentSession().createQuery(queryStr);
 		query.setParameter("year", year);
+		query.setParameter("countryId", country.getId());
+		query.setParameter("rightId", right.getId());
 		
 		if (month == null) {
 			query.setParameter("weekFrom", weekFrom);
