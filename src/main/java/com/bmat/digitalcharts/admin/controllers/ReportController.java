@@ -3,7 +3,9 @@ package com.bmat.digitalcharts.admin.controllers;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -12,16 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bmat.digitalcharts.admin.controllers.Utils.Params;
 import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
+import com.bmat.digitalcharts.admin.model.DataTablesResponse;
 import com.bmat.digitalcharts.admin.model.Month;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
+import com.bmat.digitalcharts.admin.model.WeeklyReport;
 import com.bmat.digitalcharts.admin.services.SummaryReportService;
 
 @Controller
@@ -196,5 +202,44 @@ public class ReportController {
 	public boolean isReady(HttpSession session) {
 		
 		return session.getAttribute(Utils.SessionParams.ACTIVE_REPORT.toString()) != null;
+	}
+	
+	
+	
+	@RequestMapping("/weekly/list")
+	public String listWeekly(ModelMap model) {
+		return "report/weekly_report_list";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/weekly/list_ajax")
+	public DataTablesResponse listWeekly(HttpServletRequest request) {
+		
+		
+		Map<Params, Object> params = Utils.getParametrosDatatables(request);
+		
+		String campoOrdenamiento = WeeklyReport.getOrderingField( 
+				Utils.getInt(request.getParameter("iSortCol_0"), 0) );
+		
+		
+		List<SummaryReport> reports = service.getWeeklyReportsPaginatedAndFiltered(
+				(int)params.get(Params.INICIO),
+				(int)params.get(Params.CANTIDAD_RESULTADOS),
+				(String)params.get(Params.FILTRO),
+				campoOrdenamiento,
+				(String)params.get(Params.DIRECCION_ORDENAMIENTO));
+		
+		long totalFiltrados = service.getWeeklyReportsCount(
+				(String)params.get(Params.FILTRO));
+		
+		long total = totalFiltrados;
+		if (!StringUtils.isEmpty((String)params.get(Params.FILTRO))) {
+			total = service.getWeeklyReportsCount(null);
+		}
+		
+		DataTablesResponse resultado = new DataTablesResponse(
+				reports, request.getParameter("sEcho"), total, totalFiltrados);
+		
+		return resultado;
 	}
 }

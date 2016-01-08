@@ -284,6 +284,32 @@ public class SummaryReportService {
 		return msg;
 	}
 
+
+	public List<SummaryReport> getWeeklyReportsPaginatedAndFiltered(int inicio, int cantidadResultados,
+			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
+		
+		return summaryReportDao.getReportsPaginatedAndFiltered(inicio, cantidadResultados, 
+				filtro, campoOrdenamiento, direccionOrdenamiento, false);
+	}
+	
+	
+	public List<SummaryReport> getMonthlyReportsPaginatedAndFiltered(int inicio, int cantidadResultados,
+			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
+		
+		return summaryReportDao.getReportsPaginatedAndFiltered(inicio, cantidadResultados, 
+				filtro, campoOrdenamiento, direccionOrdenamiento, true);
+	}
+
+
+	public long getWeeklyReportsCount(String filtro) {
+		return summaryReportDao.getReportsCount(filtro, false);
+	}
+	
+	
+	public long getMonthlyReportsCount(String filtro) {
+		return summaryReportDao.getReportsCount(filtro, true);
+	}
+
 	
 
 }

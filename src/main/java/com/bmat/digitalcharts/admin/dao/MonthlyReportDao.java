@@ -62,4 +62,19 @@ public class MonthlyReportDao extends SummaryReportDao {
 		
 	}
 
+	@Override
+	protected String getListQuery() {
+		return "SELECT e from MonthlyReport e " + getCondition();
+	}
+
+	@Override
+	protected String getListCountQuery() {
+		return "select count(e) from MonthlyReport e " + getCondition();
+	}
+	
+	private String getCondition() {
+		return "where e.enabled = true AND (e.year = :filtroInt OR e.month = :filtroInt "
+				+ "OR e.country.name like :filtro OR e.right.name like :filtro) ";
+	}
+
 }

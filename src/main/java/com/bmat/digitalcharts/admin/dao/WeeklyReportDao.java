@@ -49,4 +49,19 @@ public class WeeklyReportDao extends SummaryReportDao {
 		return null;
 	}
 
+	@Override
+	protected String getListQuery() {
+		return "SELECT e from WeeklyReport e " + getCondition();
+	}
+
+	private String getCondition() {
+		return "where e.enabled = true AND (e.year = :filtroInt OR e.weekFrom = :filtroInt "
+				+ "OR e.country.name like :filtro OR e.right.name like :filtro) ";
+	}
+
+	@Override
+	protected String getListCountQuery() {
+		return "select count(e) from WeeklyReport e " + getCondition();
+	}
+
 }

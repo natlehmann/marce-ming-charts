@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.bmat.digitalcharts.admin.model.Country;
 import com.bmat.digitalcharts.admin.model.RestSource;
@@ -75,6 +77,78 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 		}
 		
 		return null;
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManager")
+	public List<SummaryReport> getAllPaginatedAndFiltered(int inicio, int cantidadResultados,
+			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
+		
+		if (StringUtils.isEmpty(filtro)) {
+			return super.getAllPaginated(
+					inicio, cantidadResultados, campoOrdenamiento, direccionOrdenamiento);
+			
+		} else {
+			
+			Session session = getSessionFactory().getCurrentSession();
+			
+			String query = getListQuery();
+			
+			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
+				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
+			}
+			
+			Integer filtroInt = null;
+			try {
+				filtroInt = Integer.parseInt(filtro);
+				
+			} catch (NumberFormatException e) {
+				// ignorada
+			}
+			
+			return session.createQuery(query)
+					.setParameter("filtroInt", filtroInt)
+					.setParameter("filtro", "%" + filtro + "%")
+					.setFirstResult(inicio)
+					.setMaxResults(cantidadResultados).list();
+			
+		}
+	}
+
+	protected abstract String getListQuery();
+	
+	protected abstract String getListCountQuery();
+
+
+	@Transactional(value="transactionManager")
+	public Long getCount(String filtro) {
+		
+		if (StringUtils.isEmpty(filtro)) {
+			return super.getCount();
+			
+		} else {
+			
+			Session session = getSessionFactory().getCurrentSession();
+			
+			String query = getListCountQuery();
+			
+			Integer filtroInt = null;
+			try {
+				filtroInt = Integer.parseInt(filtro);
+				
+			} catch (NumberFormatException e) {
+				// ignorada
+			}
+			
+			Long resultado = (Long) session.createQuery(query)
+					.setParameter("filtroInt", filtroInt)
+					.setParameter("filtro", "%" + filtro + "%")
+					.uniqueResult();
+			
+			return resultado != null ? resultado.longValue() : 0;
+		}
 	}
 
 

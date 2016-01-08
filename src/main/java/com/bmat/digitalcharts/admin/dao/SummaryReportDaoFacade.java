@@ -129,4 +129,32 @@ public class SummaryReportDaoFacade {
 			weeklyReportDao.save(report);
 		}		
 	}
+
+
+
+	public List<SummaryReport> getReportsPaginatedAndFiltered(int inicio,
+			int cantidadResultados, String filtro, String campoOrdenamiento,
+			String direccionOrdenamiento, boolean isMonthly) {
+		
+		if (isMonthly) {
+			return monthlyReportDao.getAllPaginatedAndFiltered(inicio, cantidadResultados, 
+					filtro, campoOrdenamiento, direccionOrdenamiento);
+			
+		} else {
+			return weeklyReportDao.getAllPaginatedAndFiltered(inicio, cantidadResultados, 
+					filtro, campoOrdenamiento, direccionOrdenamiento);
+		}
+	}
+
+
+
+	public long getReportsCount(String filtro, boolean isMonthly) {
+		
+		if (isMonthly) {
+			return monthlyReportDao.getCount(filtro);
+			
+		} else {
+			return weeklyReportDao.getCount(filtro);
+		}
+	}
 }
