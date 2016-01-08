@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bmat.digitalcharts.admin.dao.CountryDao;
+import com.bmat.digitalcharts.admin.dao.MonthlyReportDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.dao.SummaryReportDaoFacade;
+import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
 import com.bmat.digitalcharts.admin.model.RestSource;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
@@ -35,6 +37,12 @@ public class SummaryReportService {
 	
 	@Autowired
 	private SummaryReportDaoFacade summaryReportDao;
+	
+	@Autowired
+	private WeeklyReportDao weeklyReportDao;
+	
+	@Autowired
+	private MonthlyReportDao monthlyReportDao;
 	
 	@Transactional
 	public SummaryReport getSummaryReport(Long countryId, Integer year, 
@@ -308,6 +316,11 @@ public class SummaryReportService {
 	
 	public long getMonthlyReportsCount(String filtro) {
 		return summaryReportDao.getReportsCount(filtro, true);
+	}
+
+
+	public void deleteWeeklyReport(Long id) {
+		weeklyReportDao.delete(id);		
 	}
 
 	

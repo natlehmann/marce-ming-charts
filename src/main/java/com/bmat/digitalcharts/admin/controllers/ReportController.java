@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -241,5 +242,21 @@ public class ReportController {
 				reports, request.getParameter("sEcho"), total, totalFiltrados);
 		
 		return resultado;
+	}
+	
+	
+	@RequestMapping(value="/weekly/delete", method={RequestMethod.POST})
+	public ModelAndView deleteWeeklyReport(@RequestParam("id") Long id, ModelMap model) {
+		
+		try {
+			service.deleteWeeklyReport(id);
+			model.addAttribute("msg", "El reporte semanal se ha eliminado con éxito.");
+			
+		} catch (Exception e) {
+			log.error("Error al eliminar reporte semanal.", e);
+			model.addAttribute("msg", "No se ha podido eliminar el reporte semanal. " 
+					+ "Si el problema persiste consulte al administrador del sistema.");
+		}
+		return initReportFilters(model);
 	}
 }

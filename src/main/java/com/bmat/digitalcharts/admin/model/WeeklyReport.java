@@ -52,9 +52,9 @@ public class WeeklyReport extends SummaryReport {
 		case 3:
 			return "country.name";
 		case 4:
-			return "right.name";
+			return null;
 		case 5:
-			return "filteredBySource.name";
+			return null;
 		default:
 			return null;
 		}
@@ -71,9 +71,16 @@ public class WeeklyReport extends SummaryReport {
 		resultado.add(this.getCountry().getName());
 		resultado.add(this.getRight().getName());
 		resultado.add(this.getFilteredBySource() != null ? this.getFilteredBySource().getName() : "");
-		resultado.add(super.getLinkEliminar());
+		resultado.add(getLinkEliminar());
 		
 		return resultado;
+	}
+	
+	
+	@Override
+	public String getLinkEliminar() {
+		return "<a onclick='confirmDeleteWeeklyReport(" + this.getId() 
+				+ ")' class='eliminar-link' title='Eliminar'></a>";
 	}
 
 }

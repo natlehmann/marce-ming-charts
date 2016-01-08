@@ -7,6 +7,7 @@ $(document).ready(function() {
         "sPaginationType": "full_numbers",
         "oLanguage": {
             "sUrl": $("#contexto").val() + "js/datatables_ES.txt"
-        }
+        },
+        "columnDefs": [ { "targets": 4, "orderable": false },  { "targets": 5, "orderable": false } ]
     } );
 } );

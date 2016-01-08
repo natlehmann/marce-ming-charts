@@ -48,4 +48,11 @@ public class MonthlyReport extends SummaryReport {
 		
 		this.items.add((MonthlyReportItem) item);
 	}
+	
+	
+	@Override
+	public String getLinkEliminar() {
+		return "<a onclick='confirmDeleteMonthlyReport(" + this.getId() 
+				+ ")' class='eliminar-link' title='Eliminar'></a>";
+	}
 }

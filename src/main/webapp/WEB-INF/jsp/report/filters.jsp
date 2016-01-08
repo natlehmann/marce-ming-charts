@@ -170,10 +170,11 @@
 				
 			</div>
 			
+			<br/>
+			<br/>
+			<jsp:include page="/WEB-INF/jsp/report/weekly_report_list.jsp"/>
 		</div>
 		
-		<br/>
-		<jsp:include page="/WEB-INF/jsp/report/weekly_report_list.jsp"/>
 		
 		<br/>
 		<br/>

@@ -113,3 +113,18 @@ function enableSaveButton() {
 	});
 	
 }
+
+
+function confirmDeleteWeeklyReport(id) {
+	
+	$("#dialog-eliminar-id").val(id);
+	$("#dialog-eliminar form").attr("action", $("#contexto").val() + "report/weekly/delete");
+	$("#dialog-eliminar").dialog("open");
+}
+
+function confirmDeleteMonthlyReport(id) {
+	
+	$("#dialog-eliminar-id").val(id);
+	$("#dialog-eliminar form").attr("action", $("#contexto").val() + "report/monthly/delete");
+	$("#dialog-eliminar").dialog("open");
+}

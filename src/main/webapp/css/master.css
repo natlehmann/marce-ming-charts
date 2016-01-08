@@ -1153,3 +1153,18 @@ a.ver-usuarios-link {
     margin-right: 30px;
     font-weight: 18px;
 }
+
+#crear_reporte #adminInt {
+	width: 100%;
+}
+
+#crear_reporte #busca {
+	margin-left: 0px;
+}
+
+
+table.dataTable thead th:last-child div.DataTables_sort_wrapper span,
+#crear_reporte table.dataTable thead th:nth-child(5) div.DataTables_sort_wrapper span,
+#crear_reporte table.dataTable thead th:nth-child(6) div.DataTables_sort_wrapper span {
+	display: none;
+}
