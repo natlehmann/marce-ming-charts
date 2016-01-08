@@ -40,7 +40,7 @@
         	<div class="top">
             	<div id="logo">
             		<a href='<c:url value="/home"/>'>
-	            		<img src='<c:url value="/images/logo.jpg"/>' width="355" height="55" />
+	            		<img src='<c:url value="/images/bmat.jpg"/>' />
             		</a>
             	</div>
             	

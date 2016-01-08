@@ -30,10 +30,10 @@
 }
 
 #logout {     
-	float: right;
+	position: absolute;
     font-size: 11px;
-    margin-top: -100px;
-    padding-right: 15px;
+    bottom: 20px;
+    right: 25px;
 }
    
 #logoutResaltado {
