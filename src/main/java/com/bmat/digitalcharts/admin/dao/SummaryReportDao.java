@@ -86,18 +86,26 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 	public List<SummaryReport> getAllPaginatedAndFiltered(int inicio, int cantidadResultados,
 			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
 		
+		Session session = getSessionFactory().getCurrentSession();
+		
+		Query query = null;
+		
 		if (StringUtils.isEmpty(filtro)) {
-			return super.getAllPaginated(
-					inicio, cantidadResultados, campoOrdenamiento, direccionOrdenamiento);
+			
+			String queryStr = "from " + this.getEntityName() + " where enabled = true";
+			
+			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
+				queryStr += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
+			}
+			
+			query = session.createQuery(queryStr);
 			
 		} else {
 			
-			Session session = getSessionFactory().getCurrentSession();
-			
-			String query = getListQuery();
+			String queryStr = getListQuery();
 			
 			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
-				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
+				queryStr += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
 			}
 			
 			Integer filtroInt = null;
@@ -108,13 +116,13 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 				// ignorada
 			}
 			
-			return session.createQuery(query)
+			query = session.createQuery(queryStr)
 					.setParameter("filtroInt", filtroInt)
-					.setParameter("filtro", "%" + filtro + "%")
-					.setFirstResult(inicio)
-					.setMaxResults(cantidadResultados).list();
-			
+					.setParameter("filtro", "%" + filtro + "%");
 		}
+		
+		return query.setFirstResult(inicio)
+				.setMaxResults(cantidadResultados).list();
 	}
 
 	protected abstract String getListQuery();
@@ -125,14 +133,19 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 	@Transactional(value="transactionManager")
 	public Long getCount(String filtro) {
 		
-		if (StringUtils.isEmpty(filtro)) {
-			return super.getCount();
+		Session session = getSessionFactory().getCurrentSession();
+		
+		Query query = null;
+
+		if (StringUtils.isEmpty(filtro)) {			
+			
+			String queryStr = "select count(e) from " + this.getEntityName() + " e where e.enabled = true";
+			
+			query = session.createQuery(queryStr);
 			
 		} else {
 			
-			Session session = getSessionFactory().getCurrentSession();
-			
-			String query = getListCountQuery();
+			String queryStr = getListCountQuery();
 			
 			Integer filtroInt = null;
 			try {
@@ -142,13 +155,15 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 				// ignorada
 			}
 			
-			Long resultado = (Long) session.createQuery(query)
+			query = session.createQuery(queryStr)
 					.setParameter("filtroInt", filtroInt)
-					.setParameter("filtro", "%" + filtro + "%")
-					.uniqueResult();
+					.setParameter("filtro", "%" + filtro + "%");
 			
-			return resultado != null ? resultado.longValue() : 0;
 		}
+		
+		Long resultado = (Long) query.uniqueResult();
+		
+		return resultado != null ? resultado.longValue() : 0;
 	}
 
 
