@@ -17,7 +17,7 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String redirectHome() {
-		return "redirect:/home";
+		return "redirect:/report/filters";
 	}
 	
 	

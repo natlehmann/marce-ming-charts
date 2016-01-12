@@ -5,8 +5,9 @@
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
-
-[ESTA ES LA HOME - FALTA IMPLEMENTAR]
+<h2>
+Por favor seleccione una opción del menu.
+</h2>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
