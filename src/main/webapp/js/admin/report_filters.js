@@ -1,6 +1,14 @@
 $(document).ready(function() {
 	initDisabledSection();
 	selectedPeriod = $("#isMonthlyReport").val() == "true" ? "month" : "week";
+	
+	$("#dialog-report-exists").dialog({
+		resizable : false,
+		width : 350,
+		modal : true,
+		autoOpen : false
+	});
+	
 } );
 
 var selectedPeriod;
@@ -89,9 +97,24 @@ function validateForm(element) {
 	}
 }
 
-function saveReport(element) {
-	$("#form").attr("action", $("#form_action").val() );
+function checkReportExistence(element) {
+	
 	$("#action").val( $(element).val() );
+	
+	$.get( $("#check_existence_url").val(), $("#form").serialize(), function(data) {
+		if (data != "") {
+			
+			$("#dialog-report-exists .message").html(data);
+			$("#dialog-report-exists").dialog("open");
+			
+		} else {
+			saveReport();
+		}
+	});
+}
+
+function saveReport() {
+	$("#form").attr("action", $("#form_action").val() );
 	$("#form").submit();
 }
 

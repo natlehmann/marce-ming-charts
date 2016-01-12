@@ -48,10 +48,6 @@ public class SummaryReportService {
 	public SummaryReport getSummaryReport(Long countryId, Integer year, 
 			Integer weekFrom, Integer weekTo, Integer month, Long rightId, Long sourceId) {
 		
-		if (weekTo == null) {
-			weekTo = weekFrom;
-		}
-				
 		SummaryReport report = buildSummaryReport(
 				weekFrom, weekTo, month, year, rightId, countryId, sourceId);		
 		
@@ -216,6 +212,10 @@ public class SummaryReportService {
 	private SummaryReport buildSummaryReport(Integer weekFrom, Integer weekTo,
 			Integer month, Integer year, Long rightId, Long countryId, Long sourceId) {
 		
+		if (weekTo == null) {
+			weekTo = weekFrom;
+		}
+		
 		SummaryReport report = new WeeklyReport();
 		if (month != null) {
 			report = new MonthlyReport();
@@ -290,6 +290,15 @@ public class SummaryReportService {
 		}
 		
 		return msg;
+	}
+	
+	
+	public SummaryReport getExistingReport(Long countryId, Integer year, 
+			Integer weekFrom, Integer weekTo, Integer month, Long rightId, Long sourceId) {
+		
+		SummaryReport report = buildSummaryReport(weekFrom, weekTo, 
+				month, year, rightId, countryId, sourceId);
+		return summaryReportDao.getEnabledReport(report);
 	}
 
 

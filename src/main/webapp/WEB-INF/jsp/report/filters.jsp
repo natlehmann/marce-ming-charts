@@ -14,6 +14,8 @@
 	
 	<input type="hidden" id="form_action" value='<c:url value="/report/create"/>' />
 	<input type="hidden" id="enable_save_url" value='<c:url value="/report/isReady"/>' />
+	<input type="hidden" id="check_existence_url" value='<c:url value="/report/exists"/>' />
+	
 	<input type="hidden" id="isMonthlyReport" value="${selectedIsMonthly}" />
 
 	<form method="post" id="form">
@@ -189,7 +191,7 @@
 			</div>
 			
 			<div>
-				<input type="button" value="<%= ReportController.SAVE_ACTION %>" onclick="saveReport(this)"
+				<input type="button" value="<%= ReportController.SAVE_ACTION %>" onclick="checkReportExistence(this)"
 					disabled="disabled" id="save_button"/>
 					
 				<input type="button" value="Cancelar" onclick="clearSelection()"/>
@@ -197,6 +199,20 @@
 		</div>
 		
 	</form>
+	
+	
+	
+	<div id="dialog-report-exists" style="display:none;" title="Confirmación">
+			<p>
+				<span class="message">
+				</span>
+			</p>
+			
+			<div class="ui-dialog-buttonpane">
+				<input type="button" value="Aceptar" onclick="saveReport()" />
+				<button type="button" onclick="$('#dialog-report-exists').dialog('close');">Cancelar</button>
+			</div>
+	</div>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

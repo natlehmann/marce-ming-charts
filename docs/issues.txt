@@ -28,7 +28,5 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 
 
-Ver por que los listados estan trayendo los reportes deshabilitados cuando no deberian
-Cambiar logo por el de CHART Digital Bmat
 Si el reporte ya existe, que avise antes de confirmarlo
 

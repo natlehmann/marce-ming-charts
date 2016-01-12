@@ -303,4 +303,30 @@ public class ReportController {
 		}
 		return initReportFilters(model);
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/exists")
+	public String checkIfReportExists(@RequestParam("country") Long countryId, 
+			@RequestParam("year") Integer year,
+			@RequestParam(value="weekFrom", required=false, defaultValue="") Integer weekFrom,
+			@RequestParam(value="weekTo", required=false, defaultValue="") Integer weekTo,
+			@RequestParam(value="month", required=false, defaultValue="") Integer month,
+			@RequestParam("right") Long rightId,
+			@RequestParam(value="source", required=false, defaultValue="") Long sourceId,
+			@RequestParam("action") String action,
+			ModelMap model, HttpSession session) {
+		
+		SummaryReport report = service.getExistingReport(
+				countryId, year, weekFrom, weekTo, month, rightId, sourceId);
+		
+		if (report == null) {
+			return "";
+			
+		} else {
+			return "Ya existe un reporte correspondiente al mismo período (ID: " + report.getId() 
+					+ "). ¿Está seguro que desea reemplazarlo?";
+		}
+		
+	}
 }
