@@ -21,9 +21,9 @@ $(document).ready(function() {
         "columnDefs": [
                        { "orderable": false, "targets": 4 }
                      ],
-        "oSearch" : {"sSearch": $("#current_song_name").val()},
-        
-        "fnDrawCallback" : searchCallback
+        "oSearch" : {"sSearch": $("#current_song_name").val()},        
+        "fnDrawCallback" : searchCallback,
+        "aaSorting": [[ 1, "asc" ]]
     } );
     
     setTimeout(function (){
