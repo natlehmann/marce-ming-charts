@@ -7,7 +7,8 @@ $(document).ready(function() {
         "sPaginationType": "full_numbers",
         "oLanguage": {
             "sUrl": $("#contexto").val() + "js/datatables_ES.txt"
-        }
+        },
+        "aaSorting": [[ 1, "asc" ]]
     } );
     
     setTimeout(function (){
