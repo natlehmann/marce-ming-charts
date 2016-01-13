@@ -27,6 +27,33 @@ Se quiere poder crear nuevos artistas/canciones ? Y eliminarlos? O es solo edici
 
 
 
+CAMBIOS
 
-Si el reporte ya existe, que avise antes de confirmarlo
+Tanto en Artista, track  y  Canciones. no buscar mientras voy escribiendo, podrás poner un boton de buscar. así no esta todo el tiempo buscando.
+- Pantalla Artistas.
+	Ordenar la pantalla por default por nombre de artista y no por ID.
+	Agregaria un boton mas que seria para fundir dos Artistas. Seria como dar fundir, y me va a permitir buscar quien lo reemplazar, luego de seleccionarlo, debe cambiar todos los ID del artista viejo y reemplazarlo por el nuevo en todas las tablas. Obviamente el ID viejo se deletea luego.
+
+- Pantalla Canciones.
+
+	Ordenar por canción.
+	Sacar el ID de la visualización
+	Agregar boton fundir, idem procedimiento que artista, pero con las canciones.
+	Agregar un boton que se visualice y permita editor y cambiar la cia disquera. (Fonogramas)
+			
+			ISRC
+			Nombre del Album (Si lo tuviera)
+			Compania disquera.
+
+	Cuando hacemos el reporte, en el nombre de la canción siempre debemos utilizar el campo ¨Nombre de Canción, lo mismo con la Cia disquera que este asociada a ese ISRC/ Nombre de álbum.
+
+	Darme la posibilidad de cambiar la Compania disquera en cada uno de los ISRC.
+
+	OJO cuando hagas el el boton de Fonogramas y visualice lo relacionado, no traigas todos los ID de tracks, porque si no es interminable.
+
+- Pantalla Track
+
+	Ordenar por Nombre de Cancion, no por ¨Nombre de Canción¨
+	Sacar los ID de las transacciones de TRACKs. el ID de canción déjalo.
+	Tratar de no mostrar todas las transacciones de los tracks, solo las distintas.
 

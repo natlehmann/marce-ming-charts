@@ -26,4 +26,8 @@ $(document).ready(function() {
         "fnDrawCallback" : searchCallback
     } );
     
+    setTimeout(function (){
+    	table.fnFilterOnEnter();
+    }, 3000);
+    
 } );
