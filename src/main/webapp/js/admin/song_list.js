@@ -12,18 +12,17 @@ $(document).ready(function() {
         },
         "bAutoWidth" : false,
         "aoColumns": [
-                      {"sWidth" : "10%"},
                       {"sWidth" : "30%"},
-                      {"sWidth" : "25%" },
-                      {"sWidth" : "25%" },
+                      {"sWidth" : "30%" },
+                      {"sWidth" : "30%" },
                       {"sWidth" : "10%" }
                     ],
         "columnDefs": [
-                       { "orderable": false, "targets": 4 }
+                       { "orderable": false, "targets": 3 }
                      ],
         "oSearch" : {"sSearch": $("#current_song_name").val()},        
         "fnDrawCallback" : searchCallback,
-        "aaSorting": [[ 1, "asc" ]]
+        "aaSorting": [[ 0, "asc" ]]
     } );
     
     setTimeout(function (){

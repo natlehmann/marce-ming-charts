@@ -61,12 +61,10 @@ public class Song extends AbstractEntity {
 		switch(indiceColumna) {
 		
 		case 0:
-			return "id";
-		case 1:
 			return "name";
-		case 2:
+		case 1:
 			return "performer.name";
-		case 3:
+		case 2:
 			return "composers";
 		default:
 			return null;
@@ -77,7 +75,6 @@ public class Song extends AbstractEntity {
 	public List<String> getCamposAsList() {
 		
 		List<String> resultado = new LinkedList<>();
-		resultado.add(String.valueOf(this.getId()));
 		resultado.add(this.name);
 		resultado.add(this.performer != null ? this.performer.getName() : "");
 		resultado.add(this.composers);
