@@ -45,7 +45,6 @@
 			<table class="datatable">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Nombre</th>
 						<th>Artista</th>
 						<th>Compositor</th>
