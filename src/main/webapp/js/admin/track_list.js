@@ -10,14 +10,17 @@ $(document).ready(function() {
         },
         "bAutoWidth" : false,
         "aoColumns": [
-                      {"sWidth" : "8%"},
                       {"sWidth" : "25%"},
                       {"sWidth" : "12%"},
                       {"sWidth" : "8%"},
-                      {"sWidth" : "20%" },
+                      {"sWidth" : "28%" },
                       {"sWidth" : "20%" },
                       {"sWidth" : "7%" }
-                    ]
+                    ],
+        "columnDefs": [
+                       { "orderable": false, "targets": 5 }
+                     ],
+         "aaSorting": [[ 3, "asc" ]]
     } );
     
     setTimeout(function (){

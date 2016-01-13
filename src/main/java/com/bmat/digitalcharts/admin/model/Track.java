@@ -75,16 +75,14 @@ public class Track extends AbstractEntity {
 		switch(indiceColumna) {
 		
 		case 0:
-			return "id";
-		case 1:
 			return "name";
-		case 2:
+		case 1:
 			return "isrc";
-		case 3:
+		case 2:
 			return "song.id";
-		case 4:
+		case 3:
 			return "song.name";
-		case 5:
+		case 4:
 			return "performer.name";
 		default:
 			return null;
@@ -95,7 +93,6 @@ public class Track extends AbstractEntity {
 	public List<String> getCamposAsList() {
 		
 		List<String> resultado = new LinkedList<>();
-		resultado.add(String.valueOf(this.getId()));
 		resultado.add(this.name);
 		resultado.add(this.isrc);
 		resultado.add(String.valueOf(this.song.getId()));

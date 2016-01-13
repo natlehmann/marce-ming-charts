@@ -31,16 +31,18 @@ CAMBIOS
 Tanto en Artista, track  y  Canciones. no buscar mientras voy escribiendo, podrás poner un boton de buscar. así no esta todo el tiempo buscando.
 Artistas: Ordenar la pantalla por default por nombre de artista y no por ID.
 Canciones:	Ordenar por canción.
+Canciones:	Sacar el ID de la visualización
+Tracks:	Ordenar por Nombre de Cancion, no por ¨Nombre de Canción¨
+Tracks:	Sacar los ID de las transacciones de TRACKs. el ID de canción déjalo.
+
+
 
 - Pantalla Artistas.
 	Agregaria un boton mas que seria para fundir dos Artistas. Seria como dar fundir, y me va a permitir buscar quien lo reemplazar, luego de seleccionarlo, debe cambiar todos los ID del artista viejo y reemplazarlo por el nuevo en todas las tablas. Obviamente el ID viejo se deletea luego.
 
 - Pantalla Canciones.
-
-	Sacar el ID de la visualización
 	Agregar boton fundir, idem procedimiento que artista, pero con las canciones.
 	Agregar un boton que se visualice y permita editor y cambiar la cia disquera. (Fonogramas)
-			
 			ISRC
 			Nombre del Album (Si lo tuviera)
 			Compania disquera.
@@ -53,7 +55,5 @@ Canciones:	Ordenar por canción.
 
 - Pantalla Track
 
-	Ordenar por Nombre de Cancion, no por ¨Nombre de Canción¨
-	Sacar los ID de las transacciones de TRACKs. el ID de canción déjalo.
 	Tratar de no mostrar todas las transacciones de los tracks, solo las distintas.
 
