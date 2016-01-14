@@ -25,7 +25,7 @@
 	completamente reemplazado por el seleccionado.</h5>
 	
 
-	<form action="accept" method="POST">
+	<form action='<c:url value="/admin/performer/accept_merge"/>' method="POST">
 	
 		<input type="hidden" id="from" name="from" value="performer_merge"/>
 		<input type="hidden" id="current_performer_name" value="${performer.name}"/>

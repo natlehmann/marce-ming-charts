@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+     
+<hibernate-mapping>
+ 
+    <sql-query name="Merge_Performer_PerformerAKA">
+        <![CDATA[UPDATE PerformerAKA SET performerId = :newId WHERE performerId = :oldId]]>
+    </sql-query>
+    
+    <sql-query name="Merge_Performer_ChartDetail">
+        <![CDATA[UPDATE ChartDetail SET performerId = :newId WHERE performerId = :oldId]]>
+    </sql-query>
+    
+    <sql-query name="Merge_Performer_TopChartDetail">
+        <![CDATA[UPDATE TopChartDetail SET performerId = :newId WHERE performerId = :oldId]]>
+    </sql-query>
+    
+    <sql-query name="Merge_Performer_Song">
+        <![CDATA[UPDATE Song SET performerId = :newId WHERE performerId = :oldId]]>
+    </sql-query>
+    
+    <sql-query name="Merge_Performer_Track">
+        <![CDATA[UPDATE Track SET performerId = :newId WHERE performerId = :oldId]]>
+    </sql-query>
+
+</hibernate-mapping>

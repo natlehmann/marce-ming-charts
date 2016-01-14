@@ -91,6 +91,11 @@
 				hibernate.dialect=org.hibernate.dialect.MySQLDialect
 			</value>
 		</property>
+		<property name="mappingResources">
+	      <list>
+	        <value>queries.hbm.xml</value>
+	      </list>
+	    </property>
 	</bean>
 
 	<!-- Hibernate Transaction Manager -->

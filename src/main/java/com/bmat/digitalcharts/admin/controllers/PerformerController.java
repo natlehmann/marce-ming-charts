@@ -134,4 +134,24 @@ public class PerformerController {
 		
 		return "admin/performer_merge";
 	}
+	
+	
+	@RequestMapping(value="/accept_merge", method={RequestMethod.POST})
+	public String acceptMerge(@RequestParam("currentId") Long currentId, 
+			@RequestParam("newPerformerId") Long newId, ModelMap model) {
+		
+		try {
+			dao.merge(currentId, newId);
+			model.addAttribute("msg", "El artista de ID " + currentId 
+					+ " se ha fusionado con el de ID " + newId);
+			
+		} catch (Exception e) {
+			log.error("Se produjo un error realizando la fusión de los artistas.", e);
+			model.addAttribute("msg", "Se produjo un error realizando la fusión de los artistas. "
+					+ "Si el problema persiste consulte al administrador del sistema.");
+		}
+		
+		return list(model);
+		
+	}
 }

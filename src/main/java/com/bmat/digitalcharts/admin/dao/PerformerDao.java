@@ -82,4 +82,33 @@ public class PerformerDao extends AbstractEntityDao<Performer> {
 				.setParameter("name", "%" + performerName + "%").list();
 	}
 
+	@Transactional(value="transactionManager")
+	public void merge(Long currentId, Long newId) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.getNamedQuery("Merge_Performer_PerformerAKA")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		session.getNamedQuery("Merge_Performer_ChartDetail")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		session.getNamedQuery("Merge_Performer_TopChartDetail")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		session.getNamedQuery("Merge_Performer_Song")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		session.getNamedQuery("Merge_Performer_Track")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		super.delete(currentId);
+		
+	}
+
 }
