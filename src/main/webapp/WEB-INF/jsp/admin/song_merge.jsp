@@ -4,32 +4,36 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp">
-	<jsp:param value="performer" name="itemMenuSeleccionado"/>
+	<jsp:param value="song" name="itemMenuSeleccionado"/>
 </jsp:include>
 
-<script type="text/javascript" src='<c:url value="/js/admin/performer_list.js" />' ></script>
+<script type="text/javascript" src='<c:url value="/js/admin/song_list.js" />' ></script>
+<script type="text/javascript" src='<c:url value="/js/admin/song_admin.js" />' ></script>
 
 <div id="adminInt" class="editar-track">
 
-	<h1>FUNDIR ARTISTAS</h1>
+	<h1>FUNDIR CANCIONES</h1>
 	
 	<div class="campo-no-editable">
-		Performer ID: ${performer.id}
+		Canción ID: ${song.id}
 	</div>
 	<div class="campo-no-editable">
-		NOMBRE: ${performer.name}
+		NOMBRE: ${song.name}
+	</div>
+	<div class="campo-no-editable">
+		COMPOSITORES: ${song.composers}
 	</div>
 	
-	<h3>Seleccione el artista con el cual se fusionará el artista actual.</h3>
-	<h5>ATENCIÓN: Una vez finalizada esta operación, el artista de id ${performer.id} será
-	completamente reemplazado por el seleccionado.</h5>
+	<h3>Seleccione la canción con la cual se fusionará la canción actual.</h3>
+	<h5>ATENCIÓN: Una vez finalizada esta operación, la canción de id ${song.id} será
+	completamente reemplazada por la seleccionada.</h5>
 	
 
-	<form action='<c:url value="/admin/performer/accept_merge"/>' method="POST">
+	<form action='<c:url value="/admin/song/accept_merge"/>' method="POST">
 	
-		<input type="hidden" id="from" name="from" value="performer_merge"/>
-		<input type="hidden" id="current_performer_name" value="${performer.name}"/>
-		<input type="hidden" name="currentId" value="${performer.id}"/>
+		<input type="hidden" id="from" name="from" value="song_merge"/>
+		<input type="hidden" id="current_song_name" value="${song.name}"/>
+		<input type="hidden" name="currentId" value="${song.id}"/>
 			
 		
 		<div class="Grid">
@@ -37,8 +41,9 @@
 			<table class="datatable">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Nombre</th>
+						<th>Artista</th>
+						<th>Compositor</th>
 						<th>Seleccionar</th>
 					</tr>
 				</thead>

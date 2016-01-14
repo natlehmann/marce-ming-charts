@@ -121,5 +121,34 @@ public class SongController {
 		return prepareForm(song, model);
 	}
 
+	
+	@RequestMapping("/merge")
+	public String merge(@RequestParam("id") Long id, ModelMap model) {
+		
+		Song song = dao.search(id);
+		model.addAttribute("song", song);
+		
+		return "admin/song_merge";
+	}
+	
+	
+	@RequestMapping(value="/accept_merge", method={RequestMethod.POST})
+	public String acceptMerge(@RequestParam("currentId") Long currentId, 
+			@RequestParam("song.id") Long newId, ModelMap model) {
+		
+		try {
+			dao.merge(currentId, newId);
+			model.addAttribute("msg", "La canción de ID " + currentId 
+					+ " se ha fusionado con la de ID " + newId);
+			
+		} catch (Exception e) {
+			log.error("Se produjo un error realizando la fusión de las canciones.", e);
+			model.addAttribute("msg", "Se produjo un error realizando la fusión de las canciones. "
+					+ "Si el problema persiste consulte al administrador del sistema.");
+		}
+		
+		return list(model);
+		
+	}
 
 }

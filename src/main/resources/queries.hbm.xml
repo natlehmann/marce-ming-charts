@@ -23,5 +23,21 @@
     <sql-query name="Merge_Performer_Track">
         <![CDATA[UPDATE Track SET performerId = :newId WHERE performerId = :oldId]]>
     </sql-query>
+    
+    <sql-query name="Merge_Song_ChartDetail">
+        <![CDATA[UPDATE ChartDetail SET songId = :newId WHERE songId = :oldId]]>
+    </sql-query>
+    
+    <sql-query name="Merge_Song_TopChartDetail">
+        <![CDATA[UPDATE TopChartDetail SET songId = :newId WHERE songId = :oldId]]>
+    </sql-query>
+    
+    <sql-query name="Merge_Song_SongAKA">
+        <![CDATA[UPDATE SongAKA SET songId = :newId WHERE songId = :oldId]]>
+    </sql-query>
+    
+    <sql-query name="Merge_Song_Track">
+        <![CDATA[UPDATE Track SET songId = :newId WHERE songId = :oldId]]>
+    </sql-query>
 
 </hibernate-mapping>

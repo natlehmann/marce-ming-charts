@@ -72,5 +72,31 @@ public class SongDao extends AbstractEntityDao<Song> {
 			return resultado != null ? resultado.longValue() : 0;
 		}
 	}
+	
+	
+	@Transactional(value="transactionManager")
+	public void merge(Long currentId, Long newId) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.getNamedQuery("Merge_Song_ChartDetail")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		session.getNamedQuery("Merge_Song_TopChartDetail")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		session.getNamedQuery("Merge_Song_SongAKA")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		session.getNamedQuery("Merge_Song_Track")
+			.setParameter("newId", newId)
+			.setParameter("oldId", currentId).executeUpdate();
+		
+		super.delete(currentId);
+		
+	}
 
 }

@@ -78,7 +78,7 @@ public class Song extends AbstractEntity {
 		resultado.add(this.name);
 		resultado.add(this.performer != null ? this.performer.getName() : "");
 		resultado.add(this.composers);
-		resultado.add(super.getLinkModificar());
+		resultado.add(super.getLinkModificar() + super.getLinkMerge());
 		
 		return resultado;
 	}
