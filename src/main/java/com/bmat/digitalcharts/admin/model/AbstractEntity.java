@@ -105,11 +105,6 @@ public class AbstractEntity implements Serializable, Listable {
 	}
 	
 	@Transient
-	public String getLinksModificarDuplicarEliminar() {
-		return this.getLinkModificar() + this.getLinkDuplicar() + this.getLinkEliminar();
-	}
-	
-	@Transient
 	public String getLinkModificar() {
 		return "<a href='update?id=" + this.id + "' class='modificar-link' title='Modificar'></a> ";
 	}
@@ -120,8 +115,8 @@ public class AbstractEntity implements Serializable, Listable {
 	}
 	
 	@Transient
-	public String getLinkDuplicar() {
-		return "<a href='duplicar?id=" + this.id + "' class='duplicar-link' title='Duplicar'></a> ";
+	public String getLinkMerge() {
+		return "<a href='merge?id=" + this.id + "' class='duplicar-link' title='Fundir'></a> ";
 	}
 	
 	@Transient
@@ -145,5 +140,11 @@ public class AbstractEntity implements Serializable, Listable {
 
         return false;
     }
+
+	@Override
+	@Transient
+	public List<String> getFieldsForUniqueSelection() {
+		return new LinkedList<String>();
+	}
 	
 }

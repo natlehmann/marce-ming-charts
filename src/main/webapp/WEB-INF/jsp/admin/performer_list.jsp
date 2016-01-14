@@ -8,6 +8,8 @@
 
 <script type="text/javascript" src='<c:url value="/js/admin/performer_list.js" />' ></script>
 
+<input type="hidden" id="from" value="performer_list"/>
+
 <c:if test="${msg != null}">
 	<div class="msg">${msg}</div>
 </c:if>

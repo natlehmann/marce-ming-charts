@@ -36,8 +36,18 @@ public class Performer extends AbstractEntity {
 		List<String> resultado = new LinkedList<>();
 		resultado.add(String.valueOf(this.getId()));
 		resultado.add(this.name);
-		resultado.add(super.getLinkModificar());
+		resultado.add(super.getLinkModificar() + super.getLinkMerge());
 		
+		return resultado;
+	}
+	
+	@Transient
+	public List<String> getFieldsForUniqueSelection() {
+		
+		List<String> resultado = getCamposAsList();
+		resultado.remove(resultado.size() - 1);
+		
+		resultado.add("<input type='radio' name='newPerformerId' value='" + this.getId() + "'/><br>");
 		return resultado;
 	}
 

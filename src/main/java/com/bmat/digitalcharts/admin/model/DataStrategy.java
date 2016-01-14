@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface DataStrategy {
 	
-	List<String> getData(Object object);
+	List<String> getData(Listable listable);
 
 }

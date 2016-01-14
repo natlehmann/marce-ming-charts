@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
 import com.bmat.digitalcharts.admin.dao.PerformerDao;
 import com.bmat.digitalcharts.admin.dao.SongDao;
-import com.bmat.digitalcharts.admin.model.DataStrategy;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
+import com.bmat.digitalcharts.admin.model.FromPageDataStrategy;
 import com.bmat.digitalcharts.admin.model.Performer;
 import com.bmat.digitalcharts.admin.model.Song;
 
@@ -70,7 +70,8 @@ public class SongController {
 		}
 		
 		DataTablesResponse resultado = new DataTablesResponse(
-				songs, request.getParameter("sEcho"), total, totalFiltrados, new SongDataStrategy(from));
+				songs, request.getParameter("sEcho"), total, totalFiltrados, 
+				new FromPageDataStrategy(from, "song_list"));
 		
 		return resultado;
 	}
@@ -120,26 +121,5 @@ public class SongController {
 		return prepareForm(song, model);
 	}
 
-	
-	public class SongDataStrategy implements DataStrategy {
-		
-		private String from;
-		
-		public SongDataStrategy(String from) {
-			this.from = from;
-		}
-
-		@Override
-		public List<String> getData(Object object) {
-			
-			if (from.equalsIgnoreCase("song_list")) {
-				return ((Song)object).getCamposAsList();
-				
-			} else {
-				return ((Song)object).getFieldsForUniqueSelection();
-			}
-		}
-		
-	}
 
 }

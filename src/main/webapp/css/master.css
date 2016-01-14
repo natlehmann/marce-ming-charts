@@ -1150,11 +1150,11 @@ a.ver-usuarios-link {
     padding-top: 10px;
 }
 
-.editar-track h3 {
+.editar-track h3,
+.editar-track h5 {
 	color: #666;
 	margin-left: 30px;
     margin-right: 30px;
-    font-weight: 18px;
 }
 
 #crear_reporte #adminInt {

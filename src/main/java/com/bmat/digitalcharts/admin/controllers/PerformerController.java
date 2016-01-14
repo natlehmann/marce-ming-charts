@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
 import com.bmat.digitalcharts.admin.dao.PerformerDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
+import com.bmat.digitalcharts.admin.model.FromPageDataStrategy;
 import com.bmat.digitalcharts.admin.model.Performer;
 
 
@@ -48,7 +49,7 @@ public class PerformerController {
 	
 	@ResponseBody
 	@RequestMapping("/list_ajax")
-	public DataTablesResponse list(HttpServletRequest request) {
+	public DataTablesResponse list(HttpServletRequest request, @RequestParam("from")String from) {
 		
 		
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
@@ -73,7 +74,8 @@ public class PerformerController {
 		}
 		
 		DataTablesResponse resultado = new DataTablesResponse(
-				performers, request.getParameter("sEcho"), total, totalFiltrados);
+				performers, request.getParameter("sEcho"), total, totalFiltrados,
+				new FromPageDataStrategy(from, "performer_list"));
 		
 		return resultado;
 	}
@@ -121,5 +123,15 @@ public class PerformerController {
 		
 		return dao.getPerformersLikeName(performerName);
 		
+	}
+	
+	
+	@RequestMapping("/merge")
+	public String merge(@RequestParam("id") Long id, ModelMap model) {
+		
+		Performer performer = dao.search(id);
+		model.addAttribute("performer", performer);
+		
+		return "admin/performer_merge";
 	}
 }
