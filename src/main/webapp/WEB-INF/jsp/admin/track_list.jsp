@@ -12,7 +12,7 @@
 	<div class="msg">${msg}</div>
 </c:if>
 
-<div id="adminInt">
+<div id="adminInt" class="tracks">
 
 	<h1>TRACKS</h1>
 	
@@ -26,6 +26,7 @@
 					<th>Id canción</th>
 					<th>Nombre canción</th>
 					<th>Artista</th>
+					<th>Compañía</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>

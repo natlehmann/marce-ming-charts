@@ -84,6 +84,8 @@ public class Track extends AbstractEntity {
 			return "song.name";
 		case 4:
 			return "performer.name";
+		case 5:
+			return "release.labelCompany.name";
 		default:
 			return null;
 		}
@@ -98,6 +100,8 @@ public class Track extends AbstractEntity {
 		resultado.add(String.valueOf(this.song.getId()));
 		resultado.add(this.song.getName());
 		resultado.add(this.performer != null ? this.performer.getName() : "");
+		resultado.add(release != null && release.getLabelCompany() != null ? 
+				release.getLabelCompany().getName() : ""); 
 		resultado.add(super.getLinkModificar());
 		
 		return resultado;

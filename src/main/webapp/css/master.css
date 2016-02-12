@@ -1178,3 +1178,7 @@ table.dataTable thead th:last-child div.DataTables_sort_wrapper span,
 	width: 250px;
 	height: auto;
 }
+
+.tracks#adminInt {
+	width: 90%;
+}

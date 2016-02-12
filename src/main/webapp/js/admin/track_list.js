@@ -10,15 +10,16 @@ $(document).ready(function() {
         },
         "bAutoWidth" : false,
         "aoColumns": [
-                      {"sWidth" : "25%"},
+                      {"sWidth" : "20%"},
                       {"sWidth" : "12%"},
                       {"sWidth" : "8%"},
-                      {"sWidth" : "28%" },
-                      {"sWidth" : "20%" },
+                      {"sWidth" : "18%" },
+                      {"sWidth" : "18%" },
+                      {"sWidth" : "17%" },
                       {"sWidth" : "7%" }
                     ],
         "columnDefs": [
-                       { "orderable": false, "targets": 5 }
+                       { "orderable": false, "targets": 6 }
                      ],
          "aaSorting": [[ 3, "asc" ]]
     } );

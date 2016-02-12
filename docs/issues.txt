@@ -56,4 +56,21 @@ FALTA
 - Pantalla Track
 
 	Tratar de no mostrar todas las transacciones de los tracks, solo las distintas.
+	
+	
+-------------------------------------------
+
+LISTO:
+- Agrupar filas en Tracks
+
+FALTA:
+- Licensor = compañía / LabelCompany = Album
+Verificar que esté bien en el reporte. 
+En listado de Tracks se debe mostrar compañia y no nombre de album (agregar otra columna y poner ISRC como title del nombre)
+
+- Poder cambiar la compañia de todos los tracks agrupados seleccionando de un combo con busqueda.
+Verificar que no se alteren los reportes ya guardados.
+
+- En reporte agregar columna que totalice todos los reportes anteriores guardados para cada fila
+con iguales criterios de busqueda (todos excepto periodo)
 
