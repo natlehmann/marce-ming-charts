@@ -15,12 +15,24 @@ public class Release extends AbstractEntity {
 	@JoinColumn(name="labelCompanyId")
 	private LabelCompany labelCompany;
 	
+	@ManyToOne
+	@JoinColumn(name="licensorId")
+	private Licensor licensor;
+	
 	public LabelCompany getLabelCompany() {
 		return labelCompany;
 	}
 	
 	public void setLabelCompany(LabelCompany labelCompany) {
 		this.labelCompany = labelCompany;
+	}
+	
+	public Licensor getLicensor() {
+		return licensor;
+	}
+	
+	public void setLicensor(Licensor licensor) {
+		this.licensor = licensor;
 	}
 
 }

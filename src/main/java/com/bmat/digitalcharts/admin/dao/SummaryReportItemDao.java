@@ -33,8 +33,8 @@ public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryRepo
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ").append(getEntityName() )
 				.append("(u.track.song.id, u.track.song.name, u.track.performer.id, u.track.performer.name, ")
-				.append("sum(u.units) as currentAmount, u.track.release.labelCompany.id, ")
-				.append("u.track.release.labelCompany.name) ")
+				.append("sum(u.units) as currentAmount, u.track.release.licensor.id, ")
+				.append("u.track.release.licensor.name) ")
 				.append("FROM Usage u " )
 				.append("WHERE u.chartDate between :dateFrom and :dateTo ")
 				.append("and u.right.id = :rightId ")
