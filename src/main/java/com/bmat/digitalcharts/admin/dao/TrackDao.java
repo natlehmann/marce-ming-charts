@@ -41,6 +41,7 @@ public class TrackDao extends AbstractEntityDao<Track> {
 		if (!StringUtils.isEmpty(filtro)) {
 			queryStr += "where t.name like :filtro OR t.isrc like :filtro "
 					+ "OR t.song.name like :filtro OR t.performer.name like :filtro "
+					+ "OR t.release.licensor.name like :filtro "
 					+ "OR t.release.labelCompany.name like :filtro ";
 		}
 		
@@ -69,14 +70,16 @@ public class TrackDao extends AbstractEntityDao<Track> {
 
 
 		String queryStr = "select count(1) FROM ("
-				+ "select 1 from Track t, Song s, Performer p, BMATDigitalChartsDB.Release r, LabelCompany l "
+				+ "select 1 from Track t, Song s, Performer p, BMATDigitalChartsDB.Release r, "
+				+ "LabelCompany l, Licensor ls "
 				+ "WHERE t.songId = s.id AND t.performerId = p.id "
-				+ "AND t.releaseId = r.id AND r.labelCompanyId = l.id ";
+				+ "AND t.releaseId = r.id AND r.labelCompanyId = l.id "
+				+ "AND r.licensorId = ls.id ";
 		
 		if (!StringUtils.isEmpty(filtro)) {
 			queryStr += "AND (t.name like :filtro OR t.isrc like :filtro "
 					+ "OR s.name like :filtro OR p.name like :filtro "
-					+ "OR l.name like :filtro) ";
+					+ "OR l.name like :filtro OR ls.name like :filtro) ";
 		}
 		
 		queryStr += "group by t.isrc, t.releaseId, t.performerId, t.songId) as tmp";

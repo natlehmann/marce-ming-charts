@@ -22,11 +22,11 @@
 			<thead>
 				<tr>
 					<th>Nombre</th>
-					<th>ISRC</th>
 					<th>Id canción</th>
 					<th>Nombre canción</th>
 					<th>Artista</th>
 					<th>Compañía</th>
+					<th>Album</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>

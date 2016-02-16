@@ -95,11 +95,12 @@ public class Track extends AbstractEntity {
 	public List<String> getCamposAsList() {
 		
 		List<String> resultado = new LinkedList<>();
-		resultado.add(this.name);
-		resultado.add(this.isrc);
+		resultado.add("<span title='ISRC = " + this.isrc + "'>" + this.name + "</span>");
 		resultado.add(String.valueOf(this.song.getId()));
 		resultado.add(this.song.getName());
 		resultado.add(this.performer != null ? this.performer.getName() : "");
+		resultado.add(release != null && release.getLicensor() != null ? 
+				release.getLicensor().getName() : ""); 
 		resultado.add(release != null && release.getLabelCompany() != null ? 
 				release.getLabelCompany().getName() : ""); 
 		resultado.add(super.getLinkModificar());
