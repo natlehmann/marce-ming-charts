@@ -43,9 +43,9 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	
 	private Long previousAmount;
 	
-	private Long labelCompanyId;
+	private Long licensorId;
 	
-	private String labelCompanyName;
+	private String licensorName;
 	
 	private Integer weeksInRanking;
 	
@@ -58,16 +58,16 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	
 
 	public SummaryReportItem(Long songId, String songName, Long performerId,
-			String performerName, Long currentAmount, Long labelCompanyId,
-			String labelCompanyName) {
+			String performerName, Long currentAmount, Long licensorId,
+			String licensorName) {
 		super();
 		this.songId = songId;
 		this.songName = songName;
 		this.performerId = performerId;
 		this.performerName = performerName;
 		this.currentAmount = currentAmount;
-		this.labelCompanyId = labelCompanyId;
-		this.labelCompanyName = labelCompanyName;
+		this.licensorId = licensorId;
+		this.licensorName = licensorName;
 	}
 
 	public Integer getCurrentPosition() {
@@ -142,20 +142,20 @@ public abstract class SummaryReportItem extends AbstractEntity {
 		this.previousAmount = previousAmount;
 	}
 
-	public Long getLabelCompanyId() {
-		return labelCompanyId;
+	public Long getLicensorId() {
+		return licensorId;
 	}
 
-	public void setLabelCompanyId(Long labelCompanyId) {
-		this.labelCompanyId = labelCompanyId;
+	public void setLicensorId(Long licensorId) {
+		this.licensorId = licensorId;
 	}
-
-	public String getLabelCompanyName() {
-		return labelCompanyName;
+	
+	public String getLicensorName() {
+		return licensorName;
 	}
-
-	public void setLabelCompanyName(String labelCompanyName) {
-		this.labelCompanyName = labelCompanyName;
+	
+	public void setLicensorName(String licensorName) {
+		this.licensorName = licensorName;
 	}
 	
 	public Integer getWeeksInRanking() {

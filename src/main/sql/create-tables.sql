@@ -55,8 +55,8 @@ create table MonthlyReportItem(
 	previousAmount BIGINT,
 	weeksInRanking int,
 	bestPosition int,
-	labelCompanyId BIGINT,
-	labelCompanyName varchar(255),
+	licensorId BIGINT,
+	licensorName varchar(255),
 	amountBySource BIGINT,
 	FOREIGN KEY (monthlyReport_id) REFERENCES MonthlyReport(id)
 )  ENGINE=InnoDB;
@@ -95,8 +95,8 @@ create table WeeklyReportItem(
 	previousAmount BIGINT,
 	weeksInRanking int,
 	bestPosition int,
-	labelCompanyId BIGINT,
-	labelCompanyName varchar(255),
+	licensorId BIGINT,
+	licensorName varchar(255),
 	amountBySource BIGINT,
 	FOREIGN KEY (weeklyReport_id) REFERENCES WeeklyReport(id)
 )  ENGINE=InnoDB;

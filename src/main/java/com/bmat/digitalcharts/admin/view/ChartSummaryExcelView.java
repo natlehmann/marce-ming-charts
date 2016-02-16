@@ -243,7 +243,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
-				return new HSSFRichTextString(item.getLabelCompanyName());
+				return new HSSFRichTextString(item.getLicensorName());
 			}
 			
 			@Override
