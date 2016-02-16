@@ -7,6 +7,7 @@
 	<jsp:param value="track" name="itemMenuSeleccionado"/>
 </jsp:include>
 
+<script type="text/javascript" src='<c:url value="/js/admin/track_edit.js" />' ></script>
 
 <div id="adminInt">
 
@@ -24,10 +25,9 @@
 		<div class="campo">
 			<form:label path="release.labelCompany.name">Album</form:label>
 			<form:errors path="release.labelCompany.name" cssClass="error"/>
-			
-			<form:select path="release.labelCompany.id">
-				<form:options items="${labelCompanies}" itemLabel="name" itemValue="id"/>
-			</form:select>
+			<form:hidden path="release.labelCompany.id" id="labelCompanyId"/>
+			<input type="text" id="labelCompanyAutocomplete" name="labelCompanyName" value="${labelCompanyName}"
+				oninput="cleanLabelCompanySelection()" />
 		</div>
 		
 		

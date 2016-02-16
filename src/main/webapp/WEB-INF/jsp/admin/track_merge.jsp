@@ -8,7 +8,7 @@
 </jsp:include>
 
 <script type="text/javascript" src='<c:url value="/js/admin/song_list.js" />' ></script>
-<script type="text/javascript" src='<c:url value="/js/admin/track_edit.js" />' ></script>
+<script type="text/javascript" src='<c:url value="/js/admin/track_merge.js" />' ></script>
 
 <input type="hidden" id="from" value="track_edit"/>
 <input type="hidden" id="current_song_name" value="${track.name}"/>

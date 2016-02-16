@@ -154,7 +154,7 @@ public class TrackController {
 	private String prepareFormForEdit(Track track, ModelMap model) {
 		
 		model.addAttribute("track", track);
-		model.addAttribute("labelCompanies", labelCompanyDao.getAll());
+		model.addAttribute("labelCompanyName", track.getRelease().getLabelCompany().getName());
 		model.addAttribute("licensors", licensorDao.getAll());
 		
 		return "admin/track_edit";
@@ -165,6 +165,10 @@ public class TrackController {
 	@Transactional
 	public String acceptUpdate(@Valid Track track, 
 			BindingResult result, ModelMap model){
+		
+		if (track.getRelease().getLabelCompany().getId() == null) {
+			result.rejectValue("release.labelCompany.name", "required", "Debe seleccionar un valor");
+		}
 		
 		if (!result.hasErrors()) {
 			
@@ -196,6 +200,16 @@ public class TrackController {
 		}
 		
 		return prepareFormForEdit(track, model);
+	}
+	
+	
+	@RequestMapping("/findLabelCompanyByName")
+	@ResponseBody
+	public List<LabelCompany> findLabelCompanyByName(
+			@RequestParam("labelCompanyName")String labelCompanyName) {
+		
+		return labelCompanyDao.getLikeName(labelCompanyName);
+		
 	}
 
 }
