@@ -67,7 +67,6 @@ LISTO:
 
 FALTA:
 - 
-Probar si se modifica la cancion para todos los tracks agrupados
 - Poder cambiar la compañia de todos los tracks agrupados seleccionando de un combo con busqueda.
 Verificar que no se alteren los reportes ya guardados.
 

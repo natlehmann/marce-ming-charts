@@ -116,7 +116,12 @@ public class AbstractEntity implements Serializable, Listable {
 	
 	@Transient
 	public String getLinkMerge() {
-		return "<a href='merge?id=" + this.id + "' class='duplicar-link' title='Fundir'></a> ";
+		return getLinkMerge("Fundir");
+	}
+	
+	@Transient
+	public String getLinkMerge(String title) {
+		return "<a href='merge?id=" + this.id + "' class='duplicar-link' title='" + title + "'></a> ";
 	}
 	
 	@Transient

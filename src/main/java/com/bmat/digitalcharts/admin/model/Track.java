@@ -103,7 +103,7 @@ public class Track extends AbstractEntity {
 				release.getLicensor().getName() : ""); 
 		resultado.add(release != null && release.getLabelCompany() != null ? 
 				release.getLabelCompany().getName() : ""); 
-		resultado.add(getLinkModificar() + super.getLinkMerge());
+		resultado.add(getLinkModificar() + super.getLinkMerge("Asociar a otra canción"));
 		
 		return resultado;
 	}
