@@ -20,9 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
+import com.bmat.digitalcharts.admin.dao.LabelCompanyDao;
+import com.bmat.digitalcharts.admin.dao.LicensorDao;
 import com.bmat.digitalcharts.admin.dao.SongDao;
 import com.bmat.digitalcharts.admin.dao.TrackDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
+import com.bmat.digitalcharts.admin.model.LabelCompany;
+import com.bmat.digitalcharts.admin.model.Licensor;
 import com.bmat.digitalcharts.admin.model.Performer;
 import com.bmat.digitalcharts.admin.model.Song;
 import com.bmat.digitalcharts.admin.model.Track;
@@ -39,6 +43,12 @@ public class TrackController {
 	
 	@Autowired
 	private SongDao songDao;
+	
+	@Autowired
+	private LabelCompanyDao labelCompanyDao;
+	
+	@Autowired
+	private LicensorDao licensorDao;
 	
 	
 	@RequestMapping("/list")
@@ -79,7 +89,7 @@ public class TrackController {
 	}
 	
 	@RequestMapping("/merge")
-	public String update(@RequestParam("id") Long id, ModelMap model) {
+	public String merge(@RequestParam("id") Long id, ModelMap model) {
 		
 		Track track = dao.search(id);
 		return prepareForm(track, model);
@@ -88,12 +98,12 @@ public class TrackController {
 	private String prepareForm(Track track, ModelMap model) {
 		
 		model.addAttribute("track", track);
-		return "admin/track_edit";
+		return "admin/track_merge";
 	}
 	
 	@RequestMapping(value="/accept", method={RequestMethod.POST})
 	@Transactional
-	public String acceptUpdate(@Valid Track track, 
+	public String acceptMerge(@Valid Track track, 
 			BindingResult result, ModelMap model){
 		
 		if (!result.hasErrors()) {
@@ -132,6 +142,60 @@ public class TrackController {
 		
 		return prepareForm(track, model);
 	}
+	
+	
+	@RequestMapping("/update")
+	public String update(@RequestParam("id") Long id, ModelMap model) {
+		
+		Track track = dao.search(id);
+		return prepareFormForEdit(track, model);
+	}
+	
+	private String prepareFormForEdit(Track track, ModelMap model) {
+		
+		model.addAttribute("track", track);
+		model.addAttribute("labelCompanies", labelCompanyDao.getAll());
+		model.addAttribute("licensors", licensorDao.getAll());
+		
+		return "admin/track_edit";
+	}
 
+	
+	@RequestMapping(value="/acceptEdition", method={RequestMethod.POST})
+	@Transactional
+	public String acceptUpdate(@Valid Track track, 
+			BindingResult result, ModelMap model){
+		
+		if (!result.hasErrors()) {
+			
+			try {
+				
+				LabelCompany labelCompany = labelCompanyDao.search(
+						track.getRelease().getLabelCompany().getId());
+
+				Licensor licensor = licensorDao.search(track.getRelease().getLicensor().getId());
+				
+				List<Track> similarTracks = dao.getSimilarTracks(track.getId());
+				
+				for (Track everyTrack : similarTracks) {
+					
+					everyTrack.getRelease().setLabelCompany(labelCompany);
+					everyTrack.getRelease().setLicensor(licensor);
+					dao.save(everyTrack);
+				}
+				
+				model.addAttribute("msg", "El track se ha guardado con éxito.");
+				
+			} catch (Exception e) {
+				log.error("Se produjo un error guardando el track.", e);
+				model.addAttribute("msg", "Se produjo un error guardando el track. "
+						+ "Si el problema persiste consulte al administrador del sistema.");
+			}
+			
+			return list(model);
+		}
+		
+		return prepareFormForEdit(track, model);
+	}
 
 }
