@@ -25,6 +25,7 @@
 		<div class="campo">
 			<form:label path="release.labelCompany.name">Album</form:label>
 			<form:errors path="release.labelCompany.name" cssClass="error"/>
+			
 			<form:hidden path="release.labelCompany.id" id="labelCompanyId"/>
 			<input type="text" id="labelCompanyAutocomplete" name="labelCompanyName" value="${labelCompanyName}"
 				oninput="cleanLabelCompanySelection()" />
@@ -35,9 +36,9 @@
 			<form:label path="release.licensor.name">Compañía</form:label>
 			<form:errors path="release.licensor.name" cssClass="error"/>
 			
-			<form:select path="release.licensor.id">
-				<form:options items="${licensors}" itemLabel="name" itemValue="id"/>
-			</form:select>
+			<form:hidden path="release.licensor.id" id="licensorId"/>
+			<input type="text" id="licensorAutocomplete" name="licensorName" value="${licensorName}"
+				oninput="cleanLicensorSelection()" />
 		</div>
 		
 		<div class="acciones">

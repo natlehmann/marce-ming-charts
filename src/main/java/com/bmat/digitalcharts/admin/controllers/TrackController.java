@@ -154,8 +154,19 @@ public class TrackController {
 	private String prepareFormForEdit(Track track, ModelMap model) {
 		
 		model.addAttribute("track", track);
-		model.addAttribute("labelCompanyName", track.getRelease().getLabelCompany().getName());
-		model.addAttribute("licensors", licensorDao.getAll());
+		
+		if (track.getRelease().getLabelCompany().getId() != null) {
+			
+			LabelCompany labelCompany = labelCompanyDao.search(
+					track.getRelease().getLabelCompany().getId());
+			model.addAttribute("labelCompanyName", labelCompany.getName());
+		}
+		
+		if (track.getRelease().getLicensor().getId() != null) {
+			
+			Licensor licensor = licensorDao.search(track.getRelease().getLicensor().getId());			
+			model.addAttribute("licensorName", licensor.getName());
+		}
 		
 		return "admin/track_edit";
 	}
@@ -168,6 +179,10 @@ public class TrackController {
 		
 		if (track.getRelease().getLabelCompany().getId() == null) {
 			result.rejectValue("release.labelCompany.name", "required", "Debe seleccionar un valor");
+		}
+		
+		if (track.getRelease().getLicensor().getId() == null) {
+			result.rejectValue("release.licensor.name", "required", "Debe seleccionar un valor");
 		}
 		
 		if (!result.hasErrors()) {
@@ -209,6 +224,16 @@ public class TrackController {
 			@RequestParam("labelCompanyName")String labelCompanyName) {
 		
 		return labelCompanyDao.getLikeName(labelCompanyName);
+		
+	}
+	
+	
+	@RequestMapping("/findLicensorByName")
+	@ResponseBody
+	public List<Licensor> findLicensorByName(
+			@RequestParam("licensorName")String licensorName) {
+		
+		return licensorDao.getLikeName(licensorName);
 		
 	}
 
