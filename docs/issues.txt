@@ -63,11 +63,11 @@ FALTA
 LISTO:
 - Agrupar filas en Tracks
 -Licensor = compañía / LabelCompany = Album: Verificar que esté bien en el reporte. Lo tuve que cambiar
+- En listado de Tracks se debe mostrar compañia y no nombre de album (agregar otra columna y poner ISRC como title del nombre)
 
 FALTA:
 - 
-En listado de Tracks se debe mostrar compañia y no nombre de album (agregar otra columna y poner ISRC como title del nombre)
-
+Probar si se modifica la cancion para todos los tracks agrupados
 - Poder cambiar la compañia de todos los tracks agrupados seleccionando de un combo con busqueda.
 Verificar que no se alteren los reportes ya guardados.
 

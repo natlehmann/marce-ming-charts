@@ -103,7 +103,7 @@ public class Track extends AbstractEntity {
 				release.getLicensor().getName() : ""); 
 		resultado.add(release != null && release.getLabelCompany() != null ? 
 				release.getLabelCompany().getName() : ""); 
-		resultado.add(super.getLinkModificar());
+		resultado.add(getLinkModificar() + super.getLinkMerge());
 		
 		return resultado;
 	}

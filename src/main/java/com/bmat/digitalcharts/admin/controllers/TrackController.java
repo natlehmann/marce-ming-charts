@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import com.bmat.digitalcharts.admin.controllers.Utils.Params;
 import com.bmat.digitalcharts.admin.dao.SongDao;
 import com.bmat.digitalcharts.admin.dao.TrackDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
+import com.bmat.digitalcharts.admin.model.Performer;
 import com.bmat.digitalcharts.admin.model.Song;
 import com.bmat.digitalcharts.admin.model.Track;
 
@@ -76,7 +78,7 @@ public class TrackController {
 		return resultado;
 	}
 	
-	@RequestMapping("/update")
+	@RequestMapping("/merge")
 	public String update(@RequestParam("id") Long id, ModelMap model) {
 		
 		Track track = dao.search(id);
@@ -90,18 +92,33 @@ public class TrackController {
 	}
 	
 	@RequestMapping(value="/accept", method={RequestMethod.POST})
+	@Transactional
 	public String acceptUpdate(@Valid Track track, 
 			BindingResult result, ModelMap model){
 		
 		if (!result.hasErrors()) {
 			
 			try {
+				
+				List<Track> similarTracks = dao.getSimilarTracks(track.getId());
+				
+				Performer performer = null;
+				
 				if (track.getSong() != null && track.getSong().getId() != null) {
 					Song song = songDao.search(track.getSong().getId());
-					track.setPerformer(song.getPerformer());
+					performer = song.getPerformer();
 				}
 				
-				dao.save(track);
+				for (Track everyTrack : similarTracks) {
+					
+					if (performer != null) {
+						everyTrack.setPerformer(performer);
+					}
+					
+					everyTrack.setSong(track.getSong());
+					dao.save(everyTrack);
+				}
+				
 				model.addAttribute("msg", "El track se ha guardado con éxito.");
 				
 			} catch (Exception e) {

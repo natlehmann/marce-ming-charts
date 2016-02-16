@@ -95,4 +95,22 @@ public class TrackDao extends AbstractEntityDao<Track> {
 		return resultado != null ? resultado.longValue() : 0;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManager")
+	public List<Track> getSimilarTracks(Long id) {
+		
+		Track track = search(id);
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		return session.createQuery("SELECT t FROM Track t WHERE t.isrc = :isrc "
+				+ "AND t.release.id = :releaseId AND t.song.id = :songId "
+				+ "AND t.performer.id = :performerId")
+				.setParameter("isrc", track.getIsrc())
+				.setParameter("releaseId", track.getRelease().getId())
+				.setParameter("songId", track.getSong().getId())
+				.setParameter("performerId", track.getPerformer().getId())
+				.list();
+	}
+
 }
