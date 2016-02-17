@@ -318,6 +318,25 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			@Override
 			public boolean shouldShow(SummaryReport report) {
 				return report.getFilteredBySource() != null;
+			}			
+		},
+		
+		AGGREGATE_UNITS {
+
+			@Override
+			public String getHeader(SummaryReport report) {
+				return "ACUMULADO";
+			}
+
+			@Override
+			public RichTextString getValue(SummaryReportItem item) {
+				return new HSSFRichTextString(item.getAggregateUnits() != null ?
+						item.getAggregateUnits().toPlainString() : "-");
+			}
+
+			@Override
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
 			}
 			
 		};
@@ -452,6 +471,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		excelSheet.setColumnWidth(9, excelSheet.getColumnWidth(0) * 2);
 		excelSheet.setColumnWidth(10, excelSheet.getColumnWidth(0) * 5);
 		excelSheet.setColumnWidth(12, excelSheet.getColumnWidth(0) * 2);
+		excelSheet.setColumnWidth(13, excelSheet.getColumnWidth(0) * 2);
 	}
 
 

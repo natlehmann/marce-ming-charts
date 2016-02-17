@@ -58,6 +58,7 @@ create table MonthlyReportItem(
 	licensorId BIGINT,
 	licensorName varchar(255),
 	amountBySource BIGINT,
+	aggregateUnits DECIMAL(65,0) UNSIGNED,
 	FOREIGN KEY (monthlyReport_id) REFERENCES MonthlyReport(id)
 )  ENGINE=InnoDB;
 
@@ -98,6 +99,7 @@ create table WeeklyReportItem(
 	licensorId BIGINT,
 	licensorName varchar(255),
 	amountBySource BIGINT,
+	aggregateUnits DECIMAL(65,0) UNSIGNED,
 	FOREIGN KEY (weeklyReport_id) REFERENCES WeeklyReport(id)
 )  ENGINE=InnoDB;
 

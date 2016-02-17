@@ -26,4 +26,9 @@ public class WeeklyReportItemDao extends SummaryReportItemDao {
 		return sessionFactory;
 	}
 
+	@Override
+	protected String getReportName() {
+		return "weeklyReport";
+	}
+
 }

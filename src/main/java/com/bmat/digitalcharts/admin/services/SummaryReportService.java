@@ -1,5 +1,6 @@
 package com.bmat.digitalcharts.admin.services;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -127,6 +128,8 @@ public class SummaryReportService {
 			item.setCurrentPosition(currentPosition++);
 			item.setReport(report);
 			
+			setAggregateUnits(item, report);
+			
 			setPreviousReportInfo(previousReport, reportBeforePrevious, item);
 			
 			if (reportBeforePrevious != null) {
@@ -141,6 +144,14 @@ public class SummaryReportService {
 		return items;
 	}
 
+
+
+	private void setAggregateUnits(SummaryReportItem item, SummaryReport report) {
+		
+		BigDecimal aggregate = summaryReportDao.getAggregateUnits(report, item);
+		item.setAggregateUnits(aggregate);
+		
+	}
 
 
 	void setPreviousReportInfo(SummaryReport previousReport, SummaryReport reportBeforePrevious,

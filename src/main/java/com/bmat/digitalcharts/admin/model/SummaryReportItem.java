@@ -1,5 +1,6 @@
 package com.bmat.digitalcharts.admin.model;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Comparator;
 import java.util.Locale;
@@ -52,6 +53,9 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	private Integer bestPosition;
 	
 	private Long amountBySource;
+	
+	private BigDecimal aggregateUnits;
+	
 	
 	public SummaryReportItem(){}
 	
@@ -180,6 +184,14 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	
 	public void setAmountBySource(Long amountBySource) {
 		this.amountBySource = amountBySource;
+	}
+	
+	public BigDecimal getAggregateUnits() {
+		return aggregateUnits;
+	}
+	
+	public void setAggregateUnits(BigDecimal aggregateUnits) {
+		this.aggregateUnits = aggregateUnits;
 	}
 
 	@Transient

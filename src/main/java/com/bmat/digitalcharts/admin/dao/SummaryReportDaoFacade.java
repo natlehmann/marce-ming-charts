@@ -1,5 +1,6 @@
 package com.bmat.digitalcharts.admin.dao;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -155,6 +156,28 @@ public class SummaryReportDaoFacade {
 			
 		} else {
 			return weeklyReportDao.getCount(filtro);
+		}
+	}
+
+
+
+	public BigDecimal getAggregateUnits(SummaryReport report, SummaryReportItem item) {
+		
+		if (report.isMonthly()) {
+			return monthlyReportItemDao.getAggregateUnits(
+					report.getCountry(), report.getRight(), 
+					report.getDateFrom(), 
+					report.getFilteredBySource(),
+					item.getSongId(),
+					item.getPerformerId());
+			
+		} else {
+			return weeklyReportItemDao.getAggregateUnits(
+					report.getCountry(), report.getRight(), 
+					report.getDateFrom(), 
+					report.getFilteredBySource(),
+					item.getSongId(),
+					item.getPerformerId());
 		}
 	}
 }
