@@ -96,16 +96,17 @@ public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryRepo
 				.append("AND r.enabled = true ")
 				.append("AND r.country_id = :countryId ")
 				.append("AND r.right_id = :rightId ")
-				.append("AND r.dateFrom <= :dateFrom ")
+				.append("AND r.dateFrom < :dateFrom ")
 				.append("AND i.songId = :songId ")
 				.append("AND i.performerId = :performerId ");
 		
-		if (filteredBySource != null) {
-			queryStr.append("AND r.filteredBySource_id = :sourceId ");
-		
-		} else {
+//		if (filteredBySource != null) {
+//			queryStr.append("AND r.filteredBySource_id = :sourceId ");
+//		
+//		} else {
 			queryStr.append("AND r.filteredBySource_id IS NULL ");
-		}
+			// se anula por consistencia con el calculo del reporte anterior (getBaseReport)
+//		}
 		
 		SQLQuery query = getSessionFactory().getCurrentSession().createSQLQuery(queryStr.toString());
 		
@@ -115,9 +116,9 @@ public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryRepo
 			.setParameter("songId", songId)
 			.setParameter("performerId", performerId);
 		
-		if (filteredBySource != null) {
-			query.setParameter("sourceId", filteredBySource.getId());
-		}
+//		if (filteredBySource != null) {
+//			query.setParameter("sourceId", filteredBySource.getId());
+//		}
 		
 		query.addScalar("result", BigDecimalType.INSTANCE);
 		
