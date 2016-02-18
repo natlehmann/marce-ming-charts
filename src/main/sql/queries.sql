@@ -19,6 +19,7 @@ order by currentAmount desc;
 
 SELECT * from WeeklyReportItem i, WeeklyReport r
 where i.weeklyReport_id = r.id
+AND r.enabled = true
 AND r.country_id = 1
 AND r.right_id = 1
 AND r.dateFrom < {ts'2016-12-25 00:00:00.0'}
@@ -28,6 +29,15 @@ group by r.country_id, r.right_id, i.songId, i.performerId
 
 
 
+SELECT sum(i.currentAmount) from MonthlyReportItem i, MonthlyReport r
+where i.monthlyReport_id = r.id
+AND r.enabled = true
+AND r.country_id = 1
+AND r.right_id = 4
+AND r.dateFrom <= {ts'2016-12-25 00:00:00.0'}
+AND i.songId = 2484
+AND i.performerId = 281
+AND r.filteredBySource_id IS NULL
 
 
 

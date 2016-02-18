@@ -270,6 +270,26 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			}
 		},
 		
+		AGGREGATE_UNITS {
+
+			@Override
+			public String getHeader(SummaryReport report) {
+				return "Acumulado";
+			}
+
+			@Override
+			public RichTextString getValue(SummaryReportItem item) {
+				return new HSSFRichTextString(item.getAggregateUnits() != null ?
+						numberFormat.format(item.getAggregateUnits()) : "-");
+			}
+
+			@Override
+			public CellStyle getStyle(ChartStyleManager styleManager) {
+				return styleManager.getCenterCellStyle();
+			}
+			
+		},
+		
 		AMOUNT_BY_SOURCE {
 
 			@Override
@@ -281,7 +301,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			@Override
 			public RichTextString getValue(SummaryReportItem item) {
 				return new HSSFRichTextString(item.getAmountBySource() != null ?
-						String.valueOf(item.getAmountBySource()) : "-");
+						numberFormat.format(item.getAmountBySource()) : "-");
 			}
 
 			@Override
@@ -319,26 +339,6 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 			public boolean shouldShow(SummaryReport report) {
 				return report.getFilteredBySource() != null;
 			}			
-		},
-		
-		AGGREGATE_UNITS {
-
-			@Override
-			public String getHeader(SummaryReport report) {
-				return "ACUMULADO";
-			}
-
-			@Override
-			public RichTextString getValue(SummaryReportItem item) {
-				return new HSSFRichTextString(item.getAggregateUnits() != null ?
-						item.getAggregateUnits().toPlainString() : "-");
-			}
-
-			@Override
-			public CellStyle getStyle(ChartStyleManager styleManager) {
-				return styleManager.getCenterCellStyle();
-			}
-			
 		};
 		
 		
@@ -469,9 +469,11 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		excelSheet.setColumnWidth(7, excelSheet.getColumnWidth(0) * 2);
 		excelSheet.setColumnWidth(8, excelSheet.getColumnWidth(0) * 2);
 		excelSheet.setColumnWidth(9, excelSheet.getColumnWidth(0) * 2);
+		
 		excelSheet.setColumnWidth(10, excelSheet.getColumnWidth(0) * 5);
-		excelSheet.setColumnWidth(12, excelSheet.getColumnWidth(0) * 2);
+		excelSheet.setColumnWidth(12, excelSheet.getColumnWidth(0) * 3);
 		excelSheet.setColumnWidth(13, excelSheet.getColumnWidth(0) * 2);
+		excelSheet.setColumnWidth(14, excelSheet.getColumnWidth(0) * 2);
 	}
 
 

@@ -149,7 +149,17 @@ public class SummaryReportService {
 	private void setAggregateUnits(SummaryReportItem item, SummaryReport report) {
 		
 		BigDecimal aggregate = summaryReportDao.getAggregateUnits(report, item);
-		item.setAggregateUnits(aggregate);
+		
+		if (aggregate == null) {
+			item.setAggregateUnits(new BigDecimal(0));
+			
+		} else {			
+			item.setAggregateUnits(aggregate);
+		}
+		
+		// se debe agregar la cantidad actual de unidades porque todavia no fue guardada
+		// y no se recupera con la query
+		item.setAggregateUnits(item.getAggregateUnits().add(new BigDecimal(item.getCurrentAmount())));
 		
 	}
 
