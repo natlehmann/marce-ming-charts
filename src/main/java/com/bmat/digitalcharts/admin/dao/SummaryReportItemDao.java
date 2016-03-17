@@ -53,7 +53,7 @@ public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryRepo
 			buffer.append("AND u.track.song.id IN (:songsIds) ");
 		}
 		
-		buffer.append("group by u.track.song.id ");
+		buffer.append("group by u.track.song.id, u.track.performer.id ");
 		
 		if (songsIds != null && !songsIds.isEmpty()) {
 			buffer.append("ORDER BY u.track.song.id ");
