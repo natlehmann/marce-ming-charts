@@ -15,6 +15,8 @@ public class Right extends AbstractEntity {
 	@NotBlank @NotNull
 	private String name;
 	
+	private String code;
+	
 	public Right(){}
 	
 	public Right(Long id, String name) {
@@ -31,6 +33,14 @@ public class Right extends AbstractEntity {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	@Override

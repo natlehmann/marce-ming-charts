@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
+import com.bmat.digitalcharts.admin.view.ReportViewUtils.Extension;
 
 public class ChartSummaryExcelView extends AbstractExcelView {
 	
@@ -365,8 +366,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		
 		SummaryReport report = (SummaryReport) model.get("summaryReport");
 		
-		String reportName = "reporte-" + report.getRight().getName() + "-Sem" 
-					+ report.getWeekFrom() + "a" + report.getWeekTo() + ".xls";
+		String reportName = ReportViewUtils.getReportName(report, Extension.XLS);
 		
         response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + "\"");
         

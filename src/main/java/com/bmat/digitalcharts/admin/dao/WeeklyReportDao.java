@@ -2,11 +2,13 @@ package com.bmat.digitalcharts.admin.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
 
 @Repository
@@ -64,4 +66,16 @@ public class WeeklyReportDao extends SummaryReportDao {
 		return "select count(e) from WeeklyReport e " + getCondition();
 	}
 
+	
+	// TODO: CAMBIAR ESTO	
+	@Override
+	@Transactional
+	public SummaryReport search(Long id) {
+		// TODO Auto-generated method stub
+		 
+		Session session = getSessionFactory().getCurrentSession();
+		SummaryReport  report = (WeeklyReport) session.get(WeeklyReport.class, id);
+		report.getItems().size();
+		return report;
+	}
 }

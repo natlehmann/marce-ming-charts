@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import com.bmat.digitalcharts.admin.controllers.Utils.Params;
 import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
+import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
 import com.bmat.digitalcharts.admin.model.Month;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
@@ -55,6 +57,9 @@ public class ReportController {
 	
 	@Autowired
 	private RestSourceDao restSourceDao;
+	
+	@Autowired
+	private WeeklyReportDao weeklyReportDao;
 	
 	
 	@RequestMapping("/filters")
@@ -328,5 +333,16 @@ public class ReportController {
 					+ "). ¿Está seguro que desea reemplazarlo?";
 		}
 		
+	}
+	
+	
+	
+	@Transactional
+	@RequestMapping(value="/csv")
+	public ModelAndView getWeeklyCsvReport(@RequestParam("id") Long id, ModelMap model) {
+		
+		SummaryReport report = weeklyReportDao.search(id);
+		model.put("summaryReport", report);
+		return new ModelAndView("chartSummaryCsvView", model);
 	}
 }

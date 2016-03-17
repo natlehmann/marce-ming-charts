@@ -71,12 +71,17 @@ public class WeeklyReport extends SummaryReport {
 		resultado.add(this.getCountry().getName());
 		resultado.add(this.getRight().getName());
 		resultado.add(this.getFilteredBySource() != null ? this.getFilteredBySource().getName() : "");
-		resultado.add(getLinkEliminar());
+		resultado.add(getLinkEliminar() + getLinkCsvReport());
 		
 		return resultado;
 	}
 	
 	
+	private String getLinkCsvReport() {
+		return "<a href='csv?id=" + this.getId() + "' class='reporte-link' title='CSV'>XXXX</a> ";
+	}
+
+
 	@Override
 	public String getLinkEliminar() {
 		return "<a onclick='confirmDeleteWeeklyReport(" + this.getId() 
