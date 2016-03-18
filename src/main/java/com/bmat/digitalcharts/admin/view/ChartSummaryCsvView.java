@@ -34,7 +34,7 @@ public class ChartSummaryCsvView extends AbstractView {
 	    	writer.write(",");
 	    	writer.write(report.getRight().getCode());
 	    	writer.write(",");
-	    	writer.write("______");
+	    	writer.write(item.getBmatSourceUri());
 	    	writer.write(",");
 	    	writer.write(String.valueOf(item.getCurrentAmount()));
 	    	writer.newLine();

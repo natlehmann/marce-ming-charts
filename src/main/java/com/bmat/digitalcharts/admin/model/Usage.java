@@ -18,6 +18,9 @@ public class Usage extends AbstractEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date chartDate;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date startDate;
+	
 	private Long units;
 	
 	@ManyToOne
@@ -44,6 +47,14 @@ public class Usage extends AbstractEntity {
 		this.chartDate = chartDate;
 	}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+	
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	
 	public Long getUnits() {
 		return units;
 	}

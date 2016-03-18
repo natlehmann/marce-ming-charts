@@ -17,11 +17,15 @@ import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.dao.SummaryReportDaoFacade;
 import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
+import com.bmat.digitalcharts.admin.model.BmatSourceUriException;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
+import com.bmat.digitalcharts.admin.model.NoBmatSourceDefinedException;
+import com.bmat.digitalcharts.admin.model.NoBmatSourceUri;
 import com.bmat.digitalcharts.admin.model.RestSource;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 import com.bmat.digitalcharts.admin.model.SummaryReportItem.SongIdComparator;
+import com.bmat.digitalcharts.admin.model.TooManyBmatSourceUris;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
 
 @Service
@@ -44,6 +48,8 @@ public class SummaryReportService {
 	
 	@Autowired
 	private MonthlyReportDao monthlyReportDao;
+	
+	private RestSource bmatSource;
 	
 	@Transactional
 	public SummaryReport getSummaryReport(Long countryId, Integer year, 
@@ -356,6 +362,50 @@ public class SummaryReportService {
 
 	public void deleteMonthlyReport(Long id) {
 		monthlyReportDao.delete(id);		
+	}
+
+
+	public SummaryReport getWeeklyCsvReport(Long id) throws BmatSourceUriException {
+		
+		if (bmatSource == null) {
+			bmatSource = restSourceDao.getByName("BMatTopTracks");
+			
+			if (bmatSource == null) {
+				throw new NoBmatSourceDefinedException();
+			}
+		}
+		
+		SummaryReport report = weeklyReportDao.getWithItems(id);
+		
+		StringBuffer buffer = new StringBuffer();
+		
+		for (SummaryReportItem item : report.getItems()) {
+			
+			try {
+				List<String> sourceUris = weeklyReportDao.getBmatSourceUri(
+						report, item, bmatSource.getId());
+				
+				if (sourceUris.isEmpty()) {
+					throw new NoBmatSourceUri(item);
+				}
+				
+				if (sourceUris.size() > 1) {
+					throw new TooManyBmatSourceUris(item);
+				}
+				
+				item.setBmatSourceUri(sourceUris.get(0));
+				
+			} catch (BmatSourceUriException e) {
+				buffer.append(e.getMessage()).append("<br/>");
+			}
+		}
+		
+		
+		if (!buffer.toString().equals("")) {
+			throw new BmatSourceUriException(buffer.toString());
+		}
+		
+		return report;
 	}
 
 	

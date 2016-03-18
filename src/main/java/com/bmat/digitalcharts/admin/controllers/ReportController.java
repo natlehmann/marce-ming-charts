@@ -27,6 +27,7 @@ import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
+import com.bmat.digitalcharts.admin.model.BmatSourceUriException;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
 import com.bmat.digitalcharts.admin.model.Month;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
@@ -341,8 +342,17 @@ public class ReportController {
 	@RequestMapping(value="/csv")
 	public ModelAndView getWeeklyCsvReport(@RequestParam("id") Long id, ModelMap model) {
 		
-		SummaryReport report = weeklyReportDao.search(id);
-		model.put("summaryReport", report);
+		SummaryReport report = null;
+		
+		try {
+			report = service.getWeeklyCsvReport(id);
+			model.put("summaryReport", report);
+			
+		} catch (BmatSourceUriException e) {
+			model.addAttribute("msg",e.getMessage());
+			return initReportFilters(model);
+		}
+		
 		return new ModelAndView("chartSummaryCsvView", model);
 	}
 }

@@ -2,13 +2,16 @@ package com.bmat.digitalcharts.admin.dao;
 
 import java.util.List;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bmat.digitalcharts.admin.model.SummaryReport;
+import com.bmat.digitalcharts.admin.model.SummaryReportItem;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
 
 @Repository
@@ -67,15 +70,35 @@ public class WeeklyReportDao extends SummaryReportDao {
 	}
 
 	
-	// TODO: CAMBIAR ESTO	
-	@Override
 	@Transactional
-	public SummaryReport search(Long id) {
-		// TODO Auto-generated method stub
+	public SummaryReport getWithItems(Long id) {
 		 
-		Session session = getSessionFactory().getCurrentSession();
-		SummaryReport  report = (WeeklyReport) session.get(WeeklyReport.class, id);
-		report.getItems().size();
+		SummaryReport report = super.search(id);
+		if (report != null) {
+			report.getItems().size();
+		}
+		
 		return report;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<String> getBmatSourceUri(SummaryReport report,
+			SummaryReportItem item, Long sourceId) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		SQLQuery query = (SQLQuery) session.getNamedQuery("Get_SourceUris");
+		
+		query.setParameter("dateFrom", report.getDateFrom());
+		query.setParameter("dateTo", report.getDateTo());
+		query.setParameter("rightId", report.getRight().getId());
+		query.setParameter("countryId", report.getCountry().getId());
+		query.setParameter("songId", item.getSongId());
+		query.setParameter("performerId", item.getPerformerId());
+		query.setParameter("sourceId", sourceId);
+		query.addScalar("sourceuri", StringType.INSTANCE);
+		
+		return query.list();
+		
 	}
 }

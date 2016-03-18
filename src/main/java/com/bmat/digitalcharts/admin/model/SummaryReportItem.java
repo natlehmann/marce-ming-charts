@@ -56,6 +56,9 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	
 	private BigDecimal aggregateUnits;
 	
+	@Transient
+	private String bmatSourceUri;
+	
 	
 	public SummaryReportItem(){}
 	
@@ -192,6 +195,14 @@ public abstract class SummaryReportItem extends AbstractEntity {
 	
 	public void setAggregateUnits(BigDecimal aggregateUnits) {
 		this.aggregateUnits = aggregateUnits;
+	}
+	
+	public void setBmatSourceUri(String bmatSourceUri) {
+		this.bmatSourceUri = bmatSourceUri;
+	}
+	
+	public String getBmatSourceUri() {
+		return bmatSourceUri;
 	}
 
 	@Transient
