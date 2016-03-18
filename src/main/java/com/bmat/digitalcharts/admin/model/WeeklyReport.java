@@ -78,7 +78,7 @@ public class WeeklyReport extends SummaryReport {
 	
 	
 	private String getLinkCsvReport() {
-		return "<a href='csv?id=" + this.getId() + "' class='reporte-link' title='CSV'>XXXX</a> ";
+		return "<a href='csv?id=" + this.getId() + "' class='reporte-link' title='generar reporte CSV'>CSV</a> ";
 	}
 
 

@@ -2,6 +2,18 @@
 	color: #ccc;
 }
 
+a,
+a:visited,
+a:link,
+a:active {
+	text-decoration: none;
+	color: #ff2727;
+}
+
+a:hover {
+	color: #666;
+}
+
 
 /*--------------------------------------tipografias--------------------------------------*/
 @charset "utf-8";
