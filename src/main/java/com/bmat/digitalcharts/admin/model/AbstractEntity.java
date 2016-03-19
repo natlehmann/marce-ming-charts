@@ -151,5 +151,11 @@ public class AbstractEntity implements Serializable, Listable {
 	public List<String> getFieldsForUniqueSelection() {
 		return new LinkedList<String>();
 	}
+
+	@Override
+	@Transient
+	public List<String> getFieldsForTrackEdition() {
+		return new LinkedList<String>();
+	}
 	
 }

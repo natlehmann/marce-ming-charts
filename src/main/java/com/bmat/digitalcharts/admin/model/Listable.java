@@ -8,4 +8,6 @@ public interface Listable {
 
 	List<String> getFieldsForUniqueSelection();
 
+	List<String> getFieldsForTrackEdition();
+
 }

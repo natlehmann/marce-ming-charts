@@ -75,7 +75,7 @@ public class PerformerController {
 		
 		DataTablesResponse resultado = new DataTablesResponse(
 				performers, request.getParameter("sEcho"), total, totalFiltrados,
-				new FromPageDataStrategy(from, "performer_list"));
+				new FromPageDataStrategy(from, Utils.PERFORMER_LIST));
 		
 		return resultado;
 	}

@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.bmat.digitalcharts.admin.controllers.Utils;
+
 @Entity
 public class Song extends AbstractEntity {
 	
@@ -56,7 +58,7 @@ public class Song extends AbstractEntity {
 	}
 	
 	@Transient
-	public static String getOrderingField(int indiceColumna) {
+	public static String getOrderingField(int indiceColumna, String from) {
 		
 		switch(indiceColumna) {
 		
@@ -65,7 +67,12 @@ public class Song extends AbstractEntity {
 		case 1:
 			return "performer.name";
 		case 2:
-			return "composers";
+			if (from.equals(Utils.TRACK_LIST)) {
+				return "id";
+				
+			} else {
+				return "composers";
+			}
 		default:
 			return null;
 		}
@@ -90,6 +97,21 @@ public class Song extends AbstractEntity {
 		resultado.remove(resultado.size() - 1);
 		
 		resultado.add("<input type='radio' name='song.id' value='" + this.getId() + "'/><br>");
+		return resultado;
+	}
+	
+	
+	@Override
+	@Transient
+	public List<String> getFieldsForTrackEdition() {
+		
+		List<String> resultado = new LinkedList<>();
+		resultado.add(this.name);
+		resultado.add(this.performer != null ? this.performer.getName() : "");
+		resultado.add(String.valueOf(this.getId()));
+		resultado.add("<a href='updateTracks?id=" + this.getId() 
+				+ "' class='modificar-link' title='Modificar Tracks'></a> ");
+		
 		return resultado;
 	}
 	

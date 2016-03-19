@@ -13,6 +13,10 @@ import org.springframework.util.StringUtils;
 
 public class Utils {
 
+	public static final String TRACK_LIST = "TRACK_LIST";
+	public static final String SONG_LIST = "SONG_LIST";
+	public static final String PERFORMER_LIST = "PERFORMER_LIST";
+
 	private static Log log = LogFactory.getLog(Utils.class);
 	
 	private static NumberFormat formateadorNumeros;

@@ -51,7 +51,7 @@ public class SongController {
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
 		
 		String campoOrdenamiento = Song.getOrderingField( 
-				Utils.getInt(request.getParameter("iSortCol_0"), 0) );
+				Utils.getInt(request.getParameter("iSortCol_0"), 0), from);
 		
 		
 		List<Song> songs = dao.getAllPaginatedAndFiltered(
@@ -71,7 +71,7 @@ public class SongController {
 		
 		DataTablesResponse resultado = new DataTablesResponse(
 				songs, request.getParameter("sEcho"), total, totalFiltrados, 
-				new FromPageDataStrategy(from, "song_list"));
+				new FromPageDataStrategy(from, Utils.SONG_LIST));
 		
 		return resultado;
 	}

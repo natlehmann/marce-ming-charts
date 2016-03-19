@@ -1,3 +1,4 @@
+<%@page import="com.bmat.digitalcharts.admin.controllers.Utils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -9,7 +10,7 @@
 <script type="text/javascript" src='<c:url value="/js/admin/song_list.js" />' ></script>
 <script type="text/javascript" src='<c:url value="/js/admin/song_admin.js" />' ></script>
 
-<input type="hidden" id="from" value="song_list"/>
+<input type="hidden" id="from" value="<%= Utils.SONG_LIST %>"/>
 
 <c:if test="${msg != null}">
 	<div class="msg">${msg}</div>

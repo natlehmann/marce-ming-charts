@@ -2,6 +2,8 @@ package com.bmat.digitalcharts.admin.model;
 
 import java.util.List;
 
+import com.bmat.digitalcharts.admin.controllers.Utils;
+
 public class FromPageDataStrategy implements DataStrategy {
 	
 	private String from;
@@ -24,7 +26,13 @@ public class FromPageDataStrategy implements DataStrategy {
 			return listable.getCamposAsList();
 			
 		} else {
-			return listable.getFieldsForUniqueSelection();
+			
+			if (from.equalsIgnoreCase(Utils.TRACK_LIST)) {
+				return listable.getFieldsForTrackEdition();
+				
+			} else {
+				return listable.getFieldsForUniqueSelection();
+			}
 		}
 	}
 
