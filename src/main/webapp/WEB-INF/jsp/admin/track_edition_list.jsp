@@ -42,7 +42,17 @@
 		</table>
 		
 	</div>
+	
+	<div class="col-30">
+		<div id="buscaBot">
+			<a href='<c:url value="/admin/track/list"/>' class="classname">
+				VOLVER
+			</a>
+		</div>
+	</div>
 </div>
+
+
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

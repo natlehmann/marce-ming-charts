@@ -14,6 +14,10 @@ a:hover {
 	color: #ff2727;
 }
 
+.col-30 {
+	width: 30%;
+	float: left;
+}
 
 /*--------------------------------------tipografias--------------------------------------*/
 @charset "utf-8";
@@ -308,6 +312,13 @@ h2 {
     padding-top: 11px;
     text-align: center;
     width: 100%;
+}
+
+#buscaBot a,
+#buscaBot a:visited,
+#buscaBot a:link,
+#buscaBot a:active {
+	color: white;
 }
 
 #buscaBot img {

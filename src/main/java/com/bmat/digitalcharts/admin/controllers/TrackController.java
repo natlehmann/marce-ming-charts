@@ -147,7 +147,7 @@ public class TrackController {
 						+ "Si el problema persiste consulte al administrador del sistema.");
 			}
 			
-			return list(model);
+			return updateTracks(track.getSong().getId(), model);
 		}
 		
 		return prepareForm(track, model);
@@ -221,7 +221,7 @@ public class TrackController {
 						+ "Si el problema persiste consulte al administrador del sistema.");
 			}
 			
-			return list(model);
+			return updateTracks(track.getSong().getId(), model);
 		}
 		
 		return prepareFormForEdit(track, model);
