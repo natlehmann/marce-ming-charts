@@ -32,17 +32,17 @@ public class TrackDao extends AbstractEntityDao<Track> {
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
 	public List<Track> getAllPaginatedAndFiltered(int inicio, int cantidadResultados,
-			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
+			String filtro, String campoOrdenamiento, String direccionOrdenamiento, Long songId) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryStr = "SELECT t FROM Track t ";
+		String queryStr = "SELECT t FROM Track t where t.song.id = :songId ";
 		
 		if (!StringUtils.isEmpty(filtro)) {
-			queryStr += "where t.name like :filtro OR t.isrc like :filtro "
+			queryStr += "AND (t.name like :filtro OR t.isrc like :filtro "
 					+ "OR t.song.name like :filtro OR t.performer.name like :filtro "
 					+ "OR t.release.licensor.name like :filtro "
-					+ "OR t.release.labelCompany.name like :filtro ";
+					+ "OR t.release.labelCompany.name like :filtro) ";
 		}
 		
 		queryStr += "GROUP BY t.isrc, t.release.id, t.performer.id, t.song.id ";
@@ -54,6 +54,8 @@ public class TrackDao extends AbstractEntityDao<Track> {
 		
 		Query query = session.createQuery(queryStr);
 		
+		query.setParameter("songId", songId);
+		
 		if (!StringUtils.isEmpty(filtro)) {
 			query.setParameter("filtro", "%" + filtro + "%");
 		}
@@ -64,7 +66,7 @@ public class TrackDao extends AbstractEntityDao<Track> {
 	}
 
 	@Transactional(value="transactionManager")
-	public Long getCount(String filtro) {
+	public Long getCount(String filtro, Long songId) {
 		
 		Session session = sessionFactory.getCurrentSession();
 
@@ -72,7 +74,8 @@ public class TrackDao extends AbstractEntityDao<Track> {
 		String queryStr = "select count(1) FROM ("
 				+ "select 1 from Track t, Song s, Performer p, BMATDigitalChartsDB.Release r, "
 				+ "LabelCompany l, Licensor ls "
-				+ "WHERE t.songId = s.id AND t.performerId = p.id "
+				+ "WHERE t.songId = :songId "
+				+ "AND t.songId = s.id AND t.performerId = p.id "
 				+ "AND t.releaseId = r.id AND r.labelCompanyId = l.id "
 				+ "AND r.licensorId = ls.id ";
 		
@@ -85,6 +88,8 @@ public class TrackDao extends AbstractEntityDao<Track> {
 		queryStr += "group by t.isrc, t.releaseId, t.performerId, t.songId) as tmp";
 		
 		Query query = session.createSQLQuery(queryStr);
+		
+		query.setParameter("songId", songId);
 		
 		if (!StringUtils.isEmpty(filtro)) {
 			query.setParameter("filtro", "%" + filtro + "%");

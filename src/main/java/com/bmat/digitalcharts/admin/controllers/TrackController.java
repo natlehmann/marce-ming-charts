@@ -56,9 +56,18 @@ public class TrackController {
 		return "admin/track_list";
 	}
 	
+	@RequestMapping("/updateTracks")
+	public String updateTracks(@RequestParam("id") Long id, ModelMap model) {
+		
+		Song song = songDao.search(id);
+		model.addAttribute("song", song);
+		
+		return "admin/track_edition_list";
+	}
+	
 	@ResponseBody
 	@RequestMapping("/list_ajax")
-	public DataTablesResponse list(HttpServletRequest request) {
+	public DataTablesResponse list(HttpServletRequest request, @RequestParam("songId") Long songId) {
 		
 		
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
@@ -72,14 +81,15 @@ public class TrackController {
 				(int)params.get(Params.CANTIDAD_RESULTADOS),
 				(String)params.get(Params.FILTRO),
 				campoOrdenamiento,
-				(String)params.get(Params.DIRECCION_ORDENAMIENTO));
+				(String)params.get(Params.DIRECCION_ORDENAMIENTO),
+				songId);
 		
 		long totalFiltrados = dao.getCount(
-				(String)params.get(Params.FILTRO));
+				(String)params.get(Params.FILTRO), songId);
 		
 		long total = totalFiltrados;
 		if (!StringUtils.isEmpty((String)params.get(Params.FILTRO))) {
-			total = dao.getCount(null);
+			total = dao.getCount(null, songId);
 		}
 		
 		DataTablesResponse resultado = new DataTablesResponse(

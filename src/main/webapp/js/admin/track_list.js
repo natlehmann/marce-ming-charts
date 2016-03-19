@@ -2,7 +2,7 @@ $(document).ready(function() {
     var list = $('.datatable').dataTable( {
         "bProcessing": true,
         "bServerSide": true,
-        "sAjaxSource": $("#contexto").val() + "admin/track/list_ajax",
+        "sAjaxSource": $("#contexto").val() + "admin/track/list_ajax?songId=" + $("#songId").val(),
         "bJQueryUI": true,
         "sPaginationType": "full_numbers",
         "oLanguage": {
@@ -10,18 +10,16 @@ $(document).ready(function() {
         },
         "bAutoWidth" : false,
         "aoColumns": [
+                      {"sWidth" : "26%"},
+                      {"sWidth" : "26%" },
+                      {"sWidth" : "20%" },
                       {"sWidth" : "20%"},
-                      {"sWidth" : "8%"},
-                      {"sWidth" : "18%" },
-                      {"sWidth" : "18%" },
-                      {"sWidth" : "17%" },
-                      {"sWidth" : "12%"},
-                      {"sWidth" : "7%" }
+                      {"sWidth" : "8%" }
                     ],
         "columnDefs": [
-                       { "orderable": false, "targets": 6 }
+                       { "orderable": false, "targets": 4 }
                      ],
-         "aaSorting": [[ 2, "asc" ]]
+         "aaSorting": [[ 1, "asc" ]]
     } );
     
     setTimeout(function (){
