@@ -35,6 +35,7 @@ import com.bmat.digitalcharts.admin.model.Month;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
+import com.bmat.digitalcharts.admin.services.SendMailService;
 import com.bmat.digitalcharts.admin.services.SummaryReportService;
 
 @Controller
@@ -51,6 +52,9 @@ public class ReportController {
 	
 	@Autowired
 	private SummaryReportService service;
+	
+	@Autowired
+	private SendMailService sendMailService;
 	
 	@Autowired
 	private CountryDao countryDao;
@@ -364,18 +368,17 @@ public class ReportController {
 	@RequestMapping("/sendEmails")
 	public ModelAndView sendEmailsToRestSources(@RequestParam("id") Long id, ModelMap model){
 		
-//		SummaryReport report = service.getReport(id);
-//		
-//		List<EmailAddress> emails = emailAddressDao.getAll();
-//		
-//		for (EmailAddress email : emails) {
-//			
-//			SummaryReport report = service.getSummaryReport(
-//					countryId, year, weekFrom, weekTo, month, rightId, sourceId);
-//			
-//		}
+		// TODO: REEMPLAZAR ESTO!!! TIENE QUE BUSCAR LOS 2 TIPOS DE REPORTES
+		SummaryReport report = weeklyReportDao.search(id);
 		
-		return null;
+		List<EmailAddress> emails = emailAddressDao.getAll();
+		
+		sendMailService.sendReportsToDCPs(report, emails);
+		
+		model.addAttribute("msg", "Se están procesando los reportes para su envío. "
+				+ "Verifique que se hayan archivado correctamente en algunos minutos.");
+		
+		return initReportFilters(model);
 		
 	}
 }

@@ -19,6 +19,14 @@
 				<db.user></db.user>
 				<db.password></db.password>
 				
+				<smtp.hostname></smtp.hostname>
+				<smtp.username></smtp.username>
+				<smtp.password></smtp.password>
+				<smtp.port>25</smtp.port>
+				<smtp.socket.factory></smtp.socket.factory>
+				<mail.debug>false</mail.debug>
+				<mail.from>mmingrone@bmat.com</mail.from>
+				
 			</properties>
 		</profile>
 	</profiles>
