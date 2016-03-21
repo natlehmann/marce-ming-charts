@@ -6,7 +6,7 @@
 		
 		
 		<div id="dialog-eliminar" style="display:none;" title="Confirmación">
-			<form action="eliminar" method="post">
+			<form action="delete" method="post">
 				
 				<input type="hidden" name="id" id="dialog-eliminar-id" value="" />
 				

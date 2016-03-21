@@ -1201,3 +1201,15 @@ table.dataTable thead th:last-child div.DataTables_sort_wrapper span,
 	width: 250px;
 	height: auto;
 }
+
+.email .dropdown, 
+.email .dropdown-no-img {
+	margin-top: 0px;
+	width: 35%;
+}
+
+.email .campo:last-child label {
+	display: inline-block;
+    padding-top: 15px;
+    vertical-align: top;
+}

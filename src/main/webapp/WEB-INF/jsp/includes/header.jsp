@@ -83,6 +83,14 @@
            				GENERAR REPORTE
            			</a>
            		</div>
+           		
+           		<div class="item-menu">
+           			<a href='<c:url value="/admin/email/list"/>' 
+           				class='<%= itemMenuSeleccionado.equals("email") ? "activo" : "" %>'>
+           				EMAILS
+           			</a>
+           		</div>
+           		
            		</div>
             		
 			</div>

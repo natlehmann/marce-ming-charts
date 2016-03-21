@@ -3,16 +3,9 @@
 
 <script type="text/javascript" src='<c:url value="/js/admin.js" />' ></script>
 
-<div class="admin-menu">
-	<ul>
-		<li><a href='<c:url value="/admin/fechaDestacada/listar" />'>Fechas destacadas</a></li>
-	</ul>
-</div>
-
-
 
 <div id="dialog-eliminar" style="display:none;" title="Confirmación">
-	<form action="eliminar" method="post">
+	<form action="delete" method="post">
 		
 		<input type="hidden" name="id" id="dialog-eliminar-id" value="" />
 		
