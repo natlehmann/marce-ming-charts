@@ -138,4 +138,9 @@ public class EmailAddressController {
 	}
 
 	
+	@RequestMapping("/getAll")
+	@ResponseBody
+	public List<EmailAddress> getAll() {
+		return dao.getAll();
+	}
 }

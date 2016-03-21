@@ -53,7 +53,7 @@ public class MonthlyReport extends SummaryReport {
 	
 	@Override
 	public String getLinkEliminar() {
-		return "<a onclick='confirmDeleteMonthlyReport(" + this.getId() 
+		return "<a onclick='confirmSendMail(" + this.getId() 
 				+ ")' class='eliminar-link' title='Eliminar'></a>";
 	}
 	
@@ -94,7 +94,13 @@ public class MonthlyReport extends SummaryReport {
 		resultado.add(this.getCountry().getName());
 		resultado.add(this.getRight().getName());
 		resultado.add(this.getFilteredBySource() != null ? this.getFilteredBySource().getName() : "");
-		resultado.add(getLinkEliminar());
+		
+		if (this.getFilteredBySource() == null) {
+			resultado.add(getLinkSendMail() + getLinkEliminar());
+		
+		} else {
+			resultado.add(getLinkEliminar());
+		}
 		
 		return resultado;
 	}

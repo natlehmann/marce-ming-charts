@@ -9,6 +9,14 @@ $(document).ready(function() {
 		autoOpen : false
 	});
 	
+	
+	$("#dialog-show-email-addresses").dialog({
+		resizable : false,
+		width : 350,
+		modal : true,
+		autoOpen : false
+	});
+	
 } );
 
 var selectedPeriod;
@@ -150,4 +158,21 @@ function confirmDeleteMonthlyReport(id) {
 	$("#dialog-eliminar-id").val(id);
 	$("#dialog-eliminar form").attr("action", $("#contexto").val() + "report/monthly/delete");
 	$("#dialog-eliminar").dialog("open");
+}
+
+function confirmSendMail(id) {
+	
+	$("#dialog-show-email-addresses-id").val(id);
+	$('#rest-sources-emails').html("");
+	
+	$.getJSON( $("#get_email_addresses_url").val() , function(data) {
+		$.each(data, function(index, element) {
+	        $('#rest-sources-emails').append($('<li>', {
+	            text: element.restSource.name + " : " + element.email
+	        }));
+	    });
+		
+		$("#dialog-show-email-addresses").dialog("open");
+	});
+	
 }

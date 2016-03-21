@@ -15,6 +15,30 @@
 	<input type="hidden" id="form_action" value='<c:url value="/report/create"/>' />
 	<input type="hidden" id="enable_save_url" value='<c:url value="/report/isReady"/>' />
 	<input type="hidden" id="check_existence_url" value='<c:url value="/report/exists"/>' />
+	<input type="hidden" id="get_email_addresses_url" value='<c:url value="/admin/email/getAll"/>' />
+	
+	
+	<div id="dialog-show-email-addresses" style="display:none;" title="Confirmación">
+		<form action="sendEmails" method="post">
+			
+			<input type="hidden" name="id" id="dialog-show-email-addresses-id" value="" />
+			
+			<p>
+				<span id="dialog-show-email-addresses-mensaje">
+					¿Está seguro que desea enviar los reportes correspondientes a los siguientes DCPs?
+				</span>
+				
+				<ul id="rest-sources-emails">
+				</ul>
+			</p>
+			
+			<div class="ui-dialog-buttonpane">
+				<input type="submit" value="Aceptar" />
+				<button type="button" onclick="$('#dialog-show-email-addresses').dialog('close');">Cancelar</button>
+			</div>
+		</form>
+	</div>
+		
 	
 	<input type="hidden" id="isMonthlyReport" value="${selectedIsMonthly}" />
 

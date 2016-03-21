@@ -71,10 +71,19 @@ public class WeeklyReport extends SummaryReport {
 		resultado.add(this.getCountry().getName());
 		resultado.add(this.getRight().getName());
 		resultado.add(this.getFilteredBySource() != null ? this.getFilteredBySource().getName() : "");
-		resultado.add(getLinkEliminar() + getLinkCsvReport());
+		
+		if (this.getFilteredBySource() == null) {
+			resultado.add(getLinkCsvReport() + getLinkSendMail() + getLinkEliminar());
+		
+		} else {
+			resultado.add(getLinkCsvReport() + getLinkEliminar());
+		}
+		
+		
 		
 		return resultado;
 	}
+	
 	
 	
 	private String getLinkCsvReport() {
