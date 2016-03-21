@@ -24,11 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
 import com.bmat.digitalcharts.admin.dao.CountryDao;
+import com.bmat.digitalcharts.admin.dao.EmailAddressDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
 import com.bmat.digitalcharts.admin.model.BmatSourceUriException;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
+import com.bmat.digitalcharts.admin.model.EmailAddress;
 import com.bmat.digitalcharts.admin.model.Month;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
@@ -61,6 +63,9 @@ public class ReportController {
 	
 	@Autowired
 	private WeeklyReportDao weeklyReportDao;
+	
+	@Autowired
+	private EmailAddressDao emailAddressDao;
 	
 	
 	@RequestMapping("/filters")
@@ -354,5 +359,23 @@ public class ReportController {
 		}
 		
 		return new ModelAndView("chartSummaryCsvView", model);
+	}
+	
+	@RequestMapping("/sendEmails")
+	public ModelAndView sendEmailsToRestSources(@RequestParam("id") Long id, ModelMap model){
+		
+//		SummaryReport report = service.getReport(id);
+//		
+//		List<EmailAddress> emails = emailAddressDao.getAll();
+//		
+//		for (EmailAddress email : emails) {
+//			
+//			SummaryReport report = service.getSummaryReport(
+//					countryId, year, weekFrom, weekTo, month, rightId, sourceId);
+//			
+//		}
+		
+		return null;
+		
 	}
 }
