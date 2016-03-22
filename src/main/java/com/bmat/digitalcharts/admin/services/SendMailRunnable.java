@@ -54,6 +54,8 @@ public class SendMailRunnable implements Runnable {
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
+	private boolean running;
+	
 	
 	
 	@Override
@@ -65,6 +67,7 @@ public class SendMailRunnable implements Runnable {
 		
 		
 		try {
+			running = true;
 			configureMimeMessage();
 			
 			
@@ -113,6 +116,9 @@ public class SendMailRunnable implements Runnable {
 			
 		} catch (MessagingException e) {
 			log.error("Error en la configuración del envio del reporte", e);
+		
+		} finally {
+			running = false;
 		}
 		
 	}
@@ -161,6 +167,10 @@ public class SendMailRunnable implements Runnable {
 	
 	public void setReport(SummaryReport report) {
 		this.report = report;
+	}
+	
+	public boolean isRunning() {
+		return running;
 	}
 
 }

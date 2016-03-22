@@ -22,10 +22,18 @@ public class SendMailService {
 	
 	public void sendReportsToDCPs(SummaryReport report, List<EmailAddress> recipients) {
 		
-		sendMailRunnable.setReport(report);
-		sendMailRunnable.setRecipients(recipients);
-		
-		taskExecutor.execute(sendMailRunnable);
+		if ( !sendMailRunnable.isRunning() ) {
+			
+			sendMailRunnable.setReport(report);
+			sendMailRunnable.setRecipients(recipients);
+			
+			taskExecutor.execute(sendMailRunnable);
+			
+		} else {
+			throw new IllegalStateException(
+					"No es posible ejecutar el envío de mails en este momento porque ya está en ejecución. "
+					+ "Por favor intente nuevamente más tarde.");
+		}
 		
 	}
 

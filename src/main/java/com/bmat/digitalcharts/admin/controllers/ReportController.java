@@ -391,10 +391,15 @@ public class ReportController {
 		
 		List<EmailAddress> emails = emailAddressDao.getAll();
 		
-		sendMailService.sendReportsToDCPs(report, emails);
-		
-		model.addAttribute("msg", "Se están procesando los reportes para su envío. "
-				+ "Verifique que se hayan archivado correctamente en algunos minutos.");
+		try {
+			sendMailService.sendReportsToDCPs(report, emails);
+			
+			model.addAttribute("msg", "Se están procesando los reportes para su envío. "
+					+ "Verifique que se hayan archivado correctamente en algunos minutos.");
+			
+		} catch (IllegalStateException e) {
+			model.addAttribute("msg", e.getMessage());
+		}
 		
 		return initReportFilters(model);
 		
