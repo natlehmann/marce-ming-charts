@@ -1,5 +1,6 @@
 package com.bmat.digitalcharts.admin.services;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -10,14 +11,20 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.bmat.digitalcharts.admin.model.EmailAddress;
 import com.bmat.digitalcharts.admin.model.SummaryReport;
+import com.bmat.digitalcharts.admin.view.ChartSummaryExcelView;
+import com.bmat.digitalcharts.admin.view.ReportViewUtils;
+import com.bmat.digitalcharts.admin.view.ReportViewUtils.Extension;
 
 @Component
 public class SendMailRunnable implements Runnable {
@@ -32,6 +39,14 @@ public class SendMailRunnable implements Runnable {
 	
 	@Autowired
 	protected MimeMessage mimeMessage;
+	
+	@Autowired
+	private SummaryReportService summaryReportService;
+	
+	@Value("${mail.to.dcps.content.message}")
+	private String CONTENT_MESSAGE;
+	
+	private ChartSummaryExcelView excelView = new ChartSummaryExcelView();
 	
 	private SummaryReport report;
 	
@@ -52,18 +67,41 @@ public class SendMailRunnable implements Runnable {
 		try {
 			configureMimeMessage();
 			
+			
 			int contador = 0;
 			for (EmailAddress recipient : recipients) {
 				
 				log.info("Enviando reporte a DCP " + recipient.getRestSource().getName());
 				
 				try {
+					log.info("Inicia busqueda y armado del reporte");
+					SummaryReport filteredReport = summaryReportService.getSummaryReport(
+							report.getCountry().getId(), report.getYear(), report.getWeekFrom(), 
+							report.getWeekTo(), report.getMonth(), report.getRight().getId(), 
+							recipient.getRestSource().getId());
 					
-					armarMailParaUsuario(mimeMessage, recipient.getEmail());
+					String reportName = ReportViewUtils.getReportName(filteredReport, Extension.XLS);
 					
+					log.info("Inicia armado del Excel");
+					
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					excelView.buildExcelDocument(workbook, filteredReport);
+					
+					ByteArrayOutputStream os = new ByteArrayOutputStream();
+					workbook.write(os);
+					os.close();
+					
+					log.info("Configuracion del mail");					
+					armarMailParaUsuario(mimeMessage, recipient.getEmail(), os.toByteArray(), reportName);
+					
+					log.info("Enviando mail");
 					javaMailSender.send(mimeMessage);
 					
+					log.info("Guardando reporte");
+					summaryReportService.saveReport(filteredReport);
 					contador++;
+					
+					log.info("Fin del proceso para " + recipient.getRestSource().getName());
 					
 				} catch (Exception e) {
 					log.error("Error al enviar mail a " + recipient.getEmail(), e);
@@ -94,14 +132,16 @@ public class SendMailRunnable implements Runnable {
 
 
 	public MimeMessageHelper armarMailParaUsuario(MimeMessage mimeMessage,
-			String email) 
+			String email, byte[] byteArray, String reportName) 
 			throws MessagingException {
 		
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);					
 		
-		helper.setText("hola");
+		helper.setText(CONTENT_MESSAGE);
 
 		helper.setTo(new InternetAddress(email));
+		
+		helper.addAttachment(reportName, new ByteArrayResource(byteArray), "application/vnd.ms-excel");
 		
 		return helper;
 	}

@@ -358,6 +358,18 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 	}
 	
 	
+	public void buildExcelDocument(HSSFWorkbook workbook, SummaryReport report)
+			throws Exception {
+		
+		this.styleManager = new ChartStyleManager(workbook);
+		
+		HSSFSheet excelSheet = workbook.createSheet(report.getRight().getName());
+		excelSheet.setDefaultColumnWidth(7);         
+		setExcelHeader(excelSheet, workbook, report);
+		
+		setExcelRows(workbook, excelSheet, report);
+	}
+	
 
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model,
@@ -370,13 +382,7 @@ public class ChartSummaryExcelView extends AbstractExcelView {
 		
         response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + "\"");
         
-        this.styleManager = new ChartStyleManager(workbook);
-		
-		HSSFSheet excelSheet = workbook.createSheet(report.getRight().getName());
-		excelSheet.setDefaultColumnWidth(7);         
-		setExcelHeader(excelSheet, workbook, report);
-		
-		setExcelRows(workbook, excelSheet, report);
+        buildExcelDocument(workbook, report);
 		
 	}
 	

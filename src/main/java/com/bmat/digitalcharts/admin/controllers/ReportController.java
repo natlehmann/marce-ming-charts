@@ -369,7 +369,7 @@ public class ReportController {
 	public ModelAndView sendEmailsToRestSources(@RequestParam("id") Long id, ModelMap model){
 		
 		// TODO: REEMPLAZAR ESTO!!! TIENE QUE BUSCAR LOS 2 TIPOS DE REPORTES
-		SummaryReport report = weeklyReportDao.search(id);
+		SummaryReport report = weeklyReportDao.getWithItems(id);
 		
 		List<EmailAddress> emails = emailAddressDao.getAll();
 		
