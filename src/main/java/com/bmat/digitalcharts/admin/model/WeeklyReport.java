@@ -88,7 +88,7 @@ public class WeeklyReport extends SummaryReport {
 	@Transient
 	public String getLinkSendMail() {
 		return "<a onclick='confirmSendMailWeeklyReport(" + this.getId() 
-				+ ")' class='mail-link' title='Enviar mails a DCPs'>Mail</a>";
+				+ ")' class='mail-link' title='Enviar mails a DCPs'></a>";
 	}
 	
 	@Transient

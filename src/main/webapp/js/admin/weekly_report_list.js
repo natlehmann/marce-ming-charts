@@ -11,13 +11,13 @@ $(document).ready(function() {
         "columnDefs": [ { "targets": 4, "orderable": false },  { "targets": 5, "orderable": false } ],
         "bAutoWidth" : false,
         "aoColumns": [
-                      {"sWidth" : "8%"},
-                      {"sWidth" : "15%"},
-                      {"sWidth" : "15%"},
+                      {"sWidth" : "7%"},
+                      {"sWidth" : "10%"},
+                      {"sWidth" : "10%"},
                       {"sWidth" : "15%"},
                       {"sWidth" : "25%" },
-                      {"sWidth" : "15%" },
-                      {"sWidth" : "7%" }
+                      {"sWidth" : "11%" },
+                      {"sWidth" : "22%" }
                     ]
     } );
 } );
