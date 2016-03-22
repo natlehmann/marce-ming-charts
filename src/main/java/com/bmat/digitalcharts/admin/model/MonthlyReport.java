@@ -104,4 +104,10 @@ public class MonthlyReport extends SummaryReport {
 		
 		return resultado;
 	}
+	
+	@Transient
+	public String getLinkSendMail() {
+		return "<a onclick='confirmSendMailMonthlyReport(" + this.getId() 
+				+ ")' class='mail-link' title='Enviar mails a DCPs'>Mail</a>";
+	}
 }

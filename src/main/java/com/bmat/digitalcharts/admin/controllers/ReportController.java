@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
 import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.EmailAddressDao;
+import com.bmat.digitalcharts.admin.dao.MonthlyReportDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.dao.RightDao;
 import com.bmat.digitalcharts.admin.dao.WeeklyReportDao;
@@ -67,6 +68,9 @@ public class ReportController {
 	
 	@Autowired
 	private WeeklyReportDao weeklyReportDao;
+	
+	@Autowired
+	private MonthlyReportDao monthlyReportDao;
 	
 	@Autowired
 	private EmailAddressDao emailAddressDao;
@@ -365,11 +369,25 @@ public class ReportController {
 		return new ModelAndView("chartSummaryCsvView", model);
 	}
 	
-	@RequestMapping("/sendEmails")
-	public ModelAndView sendEmailsToRestSources(@RequestParam("id") Long id, ModelMap model){
+
+	
+	@RequestMapping("/sendMailWeekly")
+	public ModelAndView sendEmailsToRestSourcesWeeklyReport(
+			@RequestParam("id") Long id, ModelMap model){
 		
-		// TODO: REEMPLAZAR ESTO!!! TIENE QUE BUSCAR LOS 2 TIPOS DE REPORTES
 		SummaryReport report = weeklyReportDao.getWithItems(id);
+		return sendEmailsToRestSources(report, model);
+	}
+	
+	@RequestMapping("/sendMailMonthly")
+	public ModelAndView sendEmailsToRestSourcesMonthlyReport(
+			@RequestParam("id") Long id, ModelMap model){
+		
+		SummaryReport report = monthlyReportDao.getWithItems(id);
+		return sendEmailsToRestSources(report, model);
+	}
+	
+	private ModelAndView sendEmailsToRestSources(SummaryReport report, ModelMap model){
 		
 		List<EmailAddress> emails = emailAddressDao.getAll();
 		

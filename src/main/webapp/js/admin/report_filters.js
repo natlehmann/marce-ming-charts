@@ -160,10 +160,20 @@ function confirmDeleteMonthlyReport(id) {
 	$("#dialog-eliminar").dialog("open");
 }
 
-function confirmSendMail(id) {
+function confirmSendMailWeeklyReport(id) {
+	confirmSendMail(id, "sendMailWeekly");
+}
+
+function confirmSendMailMonthlyReport(id) {
+	confirmSendMail(id, "sendMailMonthly");
+}
+
+function confirmSendMail(id, action) {
 	
 	$("#dialog-show-email-addresses-id").val(id);
 	$('#rest-sources-emails').html("");
+	
+	$("#email-addresses-form").attr("action", action);
 	
 	$.getJSON( $("#get_email_addresses_url").val() , function(data) {
 		$.each(data, function(index, element) {

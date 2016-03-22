@@ -19,7 +19,7 @@
 	
 	
 	<div id="dialog-show-email-addresses" style="display:none;" title="Confirmación">
-		<form action="sendEmails" method="post">
+		<form method="post" id="email-addresses-form">
 			
 			<input type="hidden" name="id" id="dialog-show-email-addresses-id" value="" />
 			

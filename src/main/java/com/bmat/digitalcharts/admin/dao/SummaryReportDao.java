@@ -165,6 +165,18 @@ public abstract class SummaryReportDao extends AbstractEntityDao<SummaryReport> 
 		
 		return resultado != null ? resultado.longValue() : 0;
 	}
+	
+	
+	@Transactional
+	public SummaryReport getWithItems(Long id) {
+		 
+		SummaryReport report = this.search(id);
+		if (report != null) {
+			report.getItems().size();
+		}
+		
+		return report;
+	}
 
 
 	protected abstract String getEntityName();

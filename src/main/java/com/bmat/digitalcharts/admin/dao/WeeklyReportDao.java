@@ -68,18 +68,7 @@ public class WeeklyReportDao extends SummaryReportDao {
 	protected String getListCountQuery() {
 		return "select count(e) from WeeklyReport e " + getCondition();
 	}
-
 	
-	@Transactional
-	public SummaryReport getWithItems(Long id) {
-		 
-		SummaryReport report = super.search(id);
-		if (report != null) {
-			report.getItems().size();
-		}
-		
-		return report;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional

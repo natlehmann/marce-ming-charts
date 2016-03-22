@@ -76,7 +76,7 @@ public class WeeklyReport extends SummaryReport {
 			resultado.add(getLinkCsvReport() + getLinkSendMail() + getLinkEliminar());
 		
 		} else {
-			resultado.add(getLinkCsvReport() + getLinkEliminar());
+			resultado.add(getLinkEliminar());
 		}
 		
 		
@@ -85,7 +85,13 @@ public class WeeklyReport extends SummaryReport {
 	}
 	
 	
+	@Transient
+	public String getLinkSendMail() {
+		return "<a onclick='confirmSendMailWeeklyReport(" + this.getId() 
+				+ ")' class='mail-link' title='Enviar mails a DCPs'>Mail</a>";
+	}
 	
+	@Transient
 	private String getLinkCsvReport() {
 		return "<a href='csv?id=" + this.getId() + "' class='reporte-link' title='generar reporte CSV'>CSV</a> ";
 	}

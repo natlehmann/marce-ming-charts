@@ -173,10 +173,4 @@ public abstract class SummaryReport extends AbstractEntity {
 		this.filteredBySource = filteredBySource;
 	}
 	
-	@Transient
-	public String getLinkSendMail() {
-		return "<a onclick='confirmSendMail(" + this.getId() 
-				+ ")' class='mail-link' title='Enviar mails a DCPs'>Mail</a>";
-	}
-	
 }
