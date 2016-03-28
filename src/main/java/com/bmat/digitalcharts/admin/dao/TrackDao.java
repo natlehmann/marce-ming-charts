@@ -108,14 +108,30 @@ public class TrackDao extends AbstractEntityDao<Track> {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		return session.createQuery("SELECT t FROM Track t WHERE t.isrc = :isrc "
-				+ "AND t.release.id = :releaseId AND t.song.id = :songId "
-				+ "AND t.performer.id = :performerId")
-				.setParameter("isrc", track.getIsrc())
-				.setParameter("releaseId", track.getRelease().getId())
-				.setParameter("songId", track.getSong().getId())
-				.setParameter("performerId", track.getPerformer().getId())
-				.list();
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT t FROM Track t WHERE ");
+		
+		if (track.getIsrc() != null) {
+			buffer.append("t.isrc = :isrc ");
+			
+		} else {
+			buffer.append("t.isrc IS NULL ");
+		}
+		
+		buffer.append("AND t.release.id = :releaseId AND t.song.id = :songId ")
+			.append("AND t.performer.id = :performerId");
+		
+		Query query = session.createQuery(buffer.toString());
+		
+		query.setParameter("releaseId", track.getRelease().getId());
+		query.setParameter("songId", track.getSong().getId());
+		query.setParameter("performerId", track.getPerformer().getId());
+		
+		if (track.getIsrc() != null) {
+			query.setParameter("isrc", track.getIsrc());
+		}
+		
+		return query.list();
 	}
 
 }
