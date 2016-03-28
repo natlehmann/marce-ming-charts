@@ -43,15 +43,13 @@
     
     <sql-query name="Get_SourceUris">
     	<![CDATA[
-    		SELECT u.sourceuri
+    		SELECT DISTINCT(u.sourceuri)
 			FROM BMATDigitalChartsDB.Usage u, Track t, Song s, Performer p
 			WHERE u.trackId = t.id
 			AND t.songId = s.id
 			AND t.performerId = p.id
 			
-			AND u.startDate between :dateFrom and :dateTo
 			and u.rightId = :rightId
-			and u.countryId = :countryId
 			and t.songId = :songId
 			and t.performerId = :performerId
 			and u.sourceId = :sourceId

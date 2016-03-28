@@ -78,10 +78,7 @@ public class WeeklyReportDao extends SummaryReportDao {
 		Session session = getSessionFactory().getCurrentSession();
 		SQLQuery query = (SQLQuery) session.getNamedQuery("Get_SourceUris");
 		
-		query.setParameter("dateFrom", report.getDateFrom());
-		query.setParameter("dateTo", report.getDateTo());
 		query.setParameter("rightId", report.getRight().getId());
-		query.setParameter("countryId", report.getCountry().getId());
 		query.setParameter("songId", item.getSongId());
 		query.setParameter("performerId", item.getPerformerId());
 		query.setParameter("sourceId", sourceId);
