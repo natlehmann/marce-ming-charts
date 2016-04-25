@@ -53,7 +53,7 @@ public class MonthlyReport extends SummaryReport {
 	
 	@Override
 	public String getLinkEliminar() {
-		return "<a onclick='confirmSendMail(" + this.getId() 
+		return "<a onclick='confirmDeleteMonthlyReport(" + this.getId() 
 				+ ")' class='eliminar-link' title='Eliminar'></a>";
 	}
 	
@@ -108,6 +108,7 @@ public class MonthlyReport extends SummaryReport {
 	@Transient
 	public String getLinkSendMail() {
 		return "<a onclick='confirmSendMailMonthlyReport(" + this.getId() 
+				+ "," + this.getCountry().getId()
 				+ ")' class='mail-link' title='Enviar mails a DCPs'></a>";
 	}
 }

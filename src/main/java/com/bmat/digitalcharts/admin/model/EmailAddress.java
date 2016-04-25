@@ -24,6 +24,11 @@ public class EmailAddress extends AbstractEntity {
 	@JoinColumn(name="restSourceId")
 	private RestSource restSource;
 	
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name="countryId")
+	private Country country;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -39,6 +44,14 @@ public class EmailAddress extends AbstractEntity {
 	public void setRestSource(RestSource restSource) {
 		this.restSource = restSource;
 	}
+	
+	public Country getCountry() {
+		return country;
+	}
+	
+	public void setCountry(Country country) {
+		this.country = country;
+	}
 
 	@Transient
 	public static String getOrderingField(int indiceColumna) {
@@ -49,6 +62,8 @@ public class EmailAddress extends AbstractEntity {
 			return "email";
 		case 1:
 			return "restSource.name";
+		case 2:
+			return "country.name";
 
 		default:
 			return null;
@@ -61,6 +76,7 @@ public class EmailAddress extends AbstractEntity {
 		List<String> result = new LinkedList<>();
 		result.add(this.email);
 		result.add(this.restSource.getName());
+		result.add(this.country.getName());
 		result.add(getLinksModificarEliminar());
 		
 		return result;

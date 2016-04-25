@@ -160,27 +160,30 @@ function confirmDeleteMonthlyReport(id) {
 	$("#dialog-eliminar").dialog("open");
 }
 
-function confirmSendMailWeeklyReport(id) {
-	confirmSendMail(id, "sendMailWeekly");
+function confirmSendMailWeeklyReport(id, countryId) {
+	confirmSendMail(id, "sendMailWeekly", countryId);
 }
 
-function confirmSendMailMonthlyReport(id) {
-	confirmSendMail(id, "sendMailMonthly");
+function confirmSendMailMonthlyReport(id, countryId) {
+	confirmSendMail(id, "sendMailMonthly", countryId);
 }
 
-function confirmSendMail(id, action) {
+function confirmSendMail(id, action, countryId) {
 	
 	$("#dialog-show-email-addresses-id").val(id);
+	$("#dialog-show-email-addresses-country").val(countryId);
 	$('#rest-sources-emails').html("");
 	
 	$("#email-addresses-form").attr("action", action);
 	
-	$.getJSON( $("#get_email_addresses_url").val() , function(data) {
-		$.each(data, function(index, element) {
-	        $('#rest-sources-emails').append($('<li>', {
-	            text: element.restSource.name + " : " + element.email
-	        }));
-	    });
+	$.getJSON( $("#get_email_addresses_url").val() , 
+			{"countryId": countryId},
+			function(data) {
+				$.each(data, function(index, element) {
+			        $('#rest-sources-emails').append($('<li>', {
+			            text: element.restSource.name + " : " + element.email
+			        }));
+			    });
 		
 		$("#dialog-show-email-addresses").dialog("open");
 	});

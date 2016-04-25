@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bmat.digitalcharts.admin.controllers.Utils.Params;
+import com.bmat.digitalcharts.admin.dao.CountryDao;
 import com.bmat.digitalcharts.admin.dao.EmailAddressDao;
 import com.bmat.digitalcharts.admin.dao.RestSourceDao;
 import com.bmat.digitalcharts.admin.model.DataTablesResponse;
@@ -36,6 +37,9 @@ public class EmailAddressController {
 	
 	@Autowired
 	private RestSourceDao restSourceDao;
+	
+	@Autowired
+	private CountryDao countryDao;
 	
 	
 	@RequestMapping("/list")
@@ -95,6 +99,10 @@ public class EmailAddressController {
 		model.addAttribute("selectedSource", emailAddress != null && emailAddress.getRestSource() != null ?
 				emailAddress.getRestSource().getId() : null);
 		
+		model.addAttribute("countries", countryDao.getAll());
+		model.addAttribute("selectedCountry", emailAddress != null && emailAddress.getCountry() != null ?
+				emailAddress.getCountry().getId() : null);
+		
 		model.addAttribute("emailAddress", emailAddress);
 		return "admin/email_edit";
 	}
@@ -140,7 +148,7 @@ public class EmailAddressController {
 	
 	@RequestMapping("/getAll")
 	@ResponseBody
-	public List<EmailAddress> getAll() {
-		return dao.getAll();
+	public List<EmailAddress> getAll(@RequestParam("countryId" )Long countryId) {
+		return dao.getByCountryId(countryId);
 	}
 }

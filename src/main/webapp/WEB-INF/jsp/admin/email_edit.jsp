@@ -39,6 +39,21 @@
 		</div>
 		
 		
+		<div class="campo">
+			<form:label path="country.id">País</form:label>
+			
+			<div class="dropdown">
+				<select name="country.id" class="dropdown-select">
+					<c:forEach items="${countries}" var="country">
+						<option value="${country.id}" ${country.id eq selectedCountry ? "selected='selected'" : "" }>
+							${country.name}
+						</option>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+		
+		
 		<div class="acciones">
 			<form:button value="Aceptar">Aceptar</form:button>
 			<button type="button" onclick="ir('list')">Cancelar</button>

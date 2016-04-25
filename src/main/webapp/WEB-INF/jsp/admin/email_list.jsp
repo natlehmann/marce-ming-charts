@@ -27,6 +27,7 @@
 				<tr>
 					<th>Email</th>
 					<th>DCP</th>
+					<th>País</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>

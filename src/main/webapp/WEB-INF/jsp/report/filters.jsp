@@ -22,6 +22,7 @@
 		<form method="post" id="email-addresses-form">
 			
 			<input type="hidden" name="id" id="dialog-show-email-addresses-id" value="" />
+			<input type="hidden" name="countryId" id="dialog-show-email-addresses-country" value="" />
 			
 			<p>
 				<span id="dialog-show-email-addresses-mensaje">

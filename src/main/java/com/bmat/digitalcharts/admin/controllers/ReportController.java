@@ -389,7 +389,7 @@ public class ReportController {
 	
 	private ModelAndView sendEmailsToRestSources(SummaryReport report, ModelMap model){
 		
-		List<EmailAddress> emails = emailAddressDao.getAll();
+		List<EmailAddress> emails = emailAddressDao.getByCountryId(report.getCountry().getId());
 		
 		try {
 			sendMailService.sendReportsToDCPs(report, emails);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.bmat.digitalcharts.admin.model.Country;
 import com.bmat.digitalcharts.admin.model.EmailAddress;
 
 @Repository
@@ -70,6 +71,14 @@ public class EmailAddressDao extends AbstractEntityDao<EmailAddress> {
 			
 			return resultado != null ? resultado.longValue() : 0;
 		}
+	}
+
+	@Transactional(value="transactionManager")
+	@SuppressWarnings("unchecked")
+	public List<EmailAddress> getByCountryId(Long countryId) {
+		return sessionFactory.getCurrentSession().createQuery(
+				"SELECT e FROM EmailAddress e WHERE e.country.id = :countryId")
+				.setParameter("countryId", countryId).list();
 	}
 
 }
