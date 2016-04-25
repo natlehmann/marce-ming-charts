@@ -100,8 +100,9 @@ public class SendMailRunnable implements Runnable {
 					log.info("Enviando mail");
 					javaMailSender.send(mimeMessage);
 					
-					log.info("Guardando reporte");
-					summaryReportService.saveReport(filteredReport);
+					log.info("Guardando reporte - anulado");
+//					summaryReportService.saveReport(filteredReport);
+					
 					contador++;
 					
 					log.info("Fin del proceso para " + recipient.getRestSource().getName());

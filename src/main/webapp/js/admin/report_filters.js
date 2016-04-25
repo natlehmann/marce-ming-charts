@@ -174,7 +174,7 @@ function confirmSendMail(id, action, countryId) {
 	$("#dialog-show-email-addresses-country").val(countryId);
 	$('#rest-sources-emails').html("");
 	
-	$("#email-addresses-form").attr("action", action);
+	$("#email-addresses-form").attr("action", $("#contexto").val() + "report/" + action);
 	
 	$.getJSON( $("#get_email_addresses_url").val() , 
 			{"countryId": countryId},
