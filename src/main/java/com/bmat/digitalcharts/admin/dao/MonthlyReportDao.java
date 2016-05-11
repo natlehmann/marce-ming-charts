@@ -41,13 +41,16 @@ public class MonthlyReportDao extends SummaryReportDao {
 	 */
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public MonthlyReport getBaseReport(Integer year, Integer month) {
+	public MonthlyReport getBaseReport(Integer year, Integer month, Long countryId, Long rightId) {
 		
 		List<MonthlyReport> reports = sessionFactory.getCurrentSession().createQuery(
 				"SELECT m FROM MonthlyReport m WHERE m.month = :month AND m.year = :year "
+				+ "AND m.country.id = :countryId AND m.right.id = :rightId "
 				+ "AND m.filteredBySource = null AND m.enabled = true ORDER BY m.id desc")
 				.setParameter("month", month)
 				.setParameter("year", year)
+				.setParameter("countryId", countryId)
+				.setParameter("rightId", rightId)
 				.list();
 		
 		if (reports.size() > 1) {

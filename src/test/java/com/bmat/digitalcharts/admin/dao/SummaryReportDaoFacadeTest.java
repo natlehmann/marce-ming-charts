@@ -5,7 +5,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.bmat.digitalcharts.admin.model.Country;
 import com.bmat.digitalcharts.admin.model.MonthlyReport;
+import com.bmat.digitalcharts.admin.model.Right;
 import com.bmat.digitalcharts.admin.model.WeeklyReport;
 
 public class SummaryReportDaoFacadeTest {
@@ -35,9 +37,11 @@ public class SummaryReportDaoFacadeTest {
 		WeeklyReport report = new WeeklyReport();
 		report.setYear(2015);
 		report.setWeekFrom(3);
+		report.setCountry(new Country(1L));
+		report.setRight(new Right(1L));
 		service.getPreviousReport(report);
 		
-		Mockito.verify(weeklyReportDaoMock).getBaseReport(2015, 2);
+		Mockito.verify(weeklyReportDaoMock).getBaseReport(2015, 2, 1L, 1L);
 		
 	}
 	
@@ -48,9 +52,11 @@ public class SummaryReportDaoFacadeTest {
 		report.setYear(2015);
 		report.setWeekFrom(3);
 		report.setMonth(2);
+		report.setCountry(new Country(1L));
+		report.setRight(new Right(1L));
 		service.getPreviousReport(report);
 		
-		Mockito.verify(monthlyReportDaoMock).getBaseReport(2015, 1);
+		Mockito.verify(monthlyReportDaoMock).getBaseReport(2015, 1, 1L, 1L);
 		
 	}
 	
@@ -61,9 +67,11 @@ public class SummaryReportDaoFacadeTest {
 		WeeklyReport report = new WeeklyReport();
 		report.setYear(2015);
 		report.setWeekFrom(1);
+		report.setCountry(new Country(1L));
+		report.setRight(new Right(1L));
 		service.getPreviousReport(report);
 		
-		Mockito.verify(weeklyReportDaoMock).getBaseReport(2014, 53);
+		Mockito.verify(weeklyReportDaoMock).getBaseReport(2014, 53, 1L, 1L);
 		
 	}
 	
@@ -74,9 +82,11 @@ public class SummaryReportDaoFacadeTest {
 		report.setYear(2015);
 		report.setWeekFrom(3);
 		report.setMonth(1);
+		report.setCountry(new Country(1L));
+		report.setRight(new Right(1L));
 		service.getPreviousReport(report);
 		
-		Mockito.verify(monthlyReportDaoMock).getBaseReport(2014, 12);
+		Mockito.verify(monthlyReportDaoMock).getBaseReport(2014, 12, 1L, 1L);
 		
 	}
 

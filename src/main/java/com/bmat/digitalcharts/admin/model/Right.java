@@ -25,7 +25,9 @@ public class Right extends AbstractEntity {
 		this.name = name;
 	}
 
-
+	public Right(Long id) {
+		this.setId(id);
+	}
 
 	public String getName() {
 		return name;

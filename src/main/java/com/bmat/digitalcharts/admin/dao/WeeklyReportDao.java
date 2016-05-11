@@ -36,14 +36,17 @@ public class WeeklyReportDao extends SummaryReportDao {
 
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public WeeklyReport getBaseReport(Integer year, Integer week) {
+	public WeeklyReport getBaseReport(Integer year, Integer week, Long countryId, Long rightId) {
 		
 		// se busca por menor o igual para permitir que la semana sea 52 o 53
 		List<WeeklyReport> reports = sessionFactory.getCurrentSession().createQuery(
 				"SELECT m FROM WeeklyReport m WHERE m.weekFrom <= :week AND m.year = :year "
+				+ "AND m.country.id = :countryId AND m.right.id = :rightId "
 				+ "AND m.filteredBySource = null AND m.enabled = true ORDER BY m.weekFrom desc, m.id desc")
 				.setParameter("week", week)
 				.setParameter("year", year)
+				.setParameter("countryId", countryId)
+				.setParameter("rightId", rightId)
 				.setMaxResults(2)
 				.list();
 		
