@@ -21,6 +21,7 @@
 		<form:hidden path="name"/>
 		<form:hidden path="performer.id"/>
 		<form:hidden path="song.id"/>
+		<form:hidden path="release.id"/>
 	
 		<div class="campo">
 			<form:label path="release.labelCompany.name">Album</form:label>
