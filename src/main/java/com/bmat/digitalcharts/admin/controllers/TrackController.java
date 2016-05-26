@@ -30,6 +30,7 @@ import com.bmat.digitalcharts.admin.model.Licensor;
 import com.bmat.digitalcharts.admin.model.Performer;
 import com.bmat.digitalcharts.admin.model.Song;
 import com.bmat.digitalcharts.admin.model.Track;
+import com.bmat.digitalcharts.admin.services.TrackService;
 
 
 @Controller
@@ -49,6 +50,9 @@ public class TrackController {
 	
 	@Autowired
 	private LicensorDao licensorDao;
+	
+	@Autowired
+	private TrackService trackService;
 	
 	
 	@RequestMapping("/list")
@@ -199,19 +203,7 @@ public class TrackController {
 			
 			try {
 				
-				LabelCompany labelCompany = labelCompanyDao.search(
-						track.getRelease().getLabelCompany().getId());
-
-				Licensor licensor = licensorDao.search(track.getRelease().getLicensor().getId());
-				
-				List<Track> similarTracks = dao.getSimilarTracks(track.getId());
-				
-				for (Track everyTrack : similarTracks) {
-					
-					everyTrack.getRelease().setLabelCompany(labelCompany);
-					everyTrack.getRelease().setLicensor(licensor);
-					dao.save(everyTrack);
-				}
+				trackService.updateLicensorAndCompany(track);
 				
 				model.addAttribute("msg", "El track se ha guardado con éxito.");
 				

@@ -3,6 +3,7 @@ package com.bmat.digitalcharts.admin.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +22,7 @@ public class Track extends AbstractEntity {
 	@JoinColumn(name="songId")
 	private Song song;
 	
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name="releaseId")
 	private Release release;
 	
