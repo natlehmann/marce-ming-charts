@@ -47,9 +47,7 @@ public class TrackService {
 		newRelease.setLabelCompany(labelCompany);
 		newRelease.setLicensor(licensor);
 		
-		if (newRelease.getId() == null) {
-			newRelease = releaseDao.save(newRelease);
-		}
+		newRelease = releaseDao.save(newRelease);
 		
 		List<Track> similarTracks = trackDao.getSimilarTracks(track.getId());
 		

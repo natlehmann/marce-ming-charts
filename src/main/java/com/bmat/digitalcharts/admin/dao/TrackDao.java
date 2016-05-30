@@ -140,7 +140,7 @@ public class TrackDao extends AbstractEntityDao<Track> {
 		
 		return sessionFactory.getCurrentSession().createQuery(
 				"SELECT t FROM Track t WHERE t.release.id = :releaseId "
-				+ "AND t.song.id != :songId AND t.performer.id != :performerId")
+				+ "AND (t.song.id != :songId OR t.performer.id != :performerId)")
 				
 				.setParameter("releaseId", track.getRelease().getId())
 				.setParameter("songId", track.getSong().getId())
