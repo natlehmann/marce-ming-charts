@@ -7,7 +7,7 @@ AND t.performerId = p.id
 AND t.releaseId = r.id
 AND r.licensorId = l.id
 
-AND u.startDate between {ts'2015-12-01 00:00:00.0'} and {ts'2015-12-31 00:00:00.0'}
+AND u.chartDate between {ts'2015-12-01 00:00:00.0'} and {ts'2015-12-31 00:00:00.0'}
 and u.rightId = 4
 and u.countryId = 2
 group by t.songId, t.performerId
@@ -45,7 +45,7 @@ AND r.filteredBySource_id IS NULL
 SELECT DISTINCT (u.sourceId) 
 FROM BMATDigitalChartsDB.Usage u, Track t
 WHERE u.trackId = t.id
-and u.startDate between {ts'2015-11-06 00:00:00.0'} and {ts'2015-12-10 00:00:00.0'}
+and u.chartDate between {ts'2015-11-06 00:00:00.0'} and {ts'2015-12-10 00:00:00.0'}
 and u.rightId = 1
 and u.countryId = 1
 AND t.songId IN (2486, 1073, 2485, 2487, 2147, 862, 2148, 2483, 2149, 1280, 2150, 2289, 2151, 2152, 931, 1010, 501, 2428, 934, 
@@ -68,7 +68,7 @@ WHERE u.trackId = t.id
 AND t.songId = s.id
 AND t.performerId = p.id
 
---AND u.startDate between {ts'2015-12-01 00:00:00.0'} and {ts'2015-12-31 00:00:00.0'}
+--AND u.chartDate between {ts'2015-12-01 00:00:00.0'} and {ts'2015-12-31 00:00:00.0'}
 and u.rightId = 4
 --and u.countryId = 2
 and t.songId = 100

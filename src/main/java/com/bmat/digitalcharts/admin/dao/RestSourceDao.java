@@ -41,7 +41,7 @@ public class RestSourceDao extends AbstractEntityDao<RestSource> {
 			Date dateTo, Country country, Right right) {
 
 		return sessionFactory.getCurrentSession().createQuery(
-				"SELECT DISTINCT(u.restSource) FROM Usage u WHERE u.startDate between :dateFrom and :dateTo "
+				"SELECT DISTINCT(u.restSource) FROM Usage u WHERE u.chartDate between :dateFrom and :dateTo "
 				+ "and u.right.id = :rightId "
 				+ "and u.country.id = :countryId "
 				+ "AND u.track.song.id IN (:songIds)")

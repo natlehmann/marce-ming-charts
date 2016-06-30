@@ -41,7 +41,7 @@ public abstract class SummaryReportItemDao extends AbstractEntityDao<SummaryRepo
 				.append("sum(u.units) as currentAmount, u.track.release.licensor.id, ")
 				.append("u.track.release.licensor.name) ")
 				.append("FROM Usage u " )
-				.append("WHERE u.startDate between :dateFrom and :dateTo ")
+				.append("WHERE u.chartDate between :dateFrom and :dateTo ")
 				.append("and u.right.id = :rightId ")
 				.append("and u.country.id = :countryId ");
 		
